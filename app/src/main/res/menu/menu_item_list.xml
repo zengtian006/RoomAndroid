@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto">
+    <!-- Search / will display always -->
+    <!-- Help -->
+    <item
+        android:id="@+id/action_filter"
+        android:title="filter"
+        myapp:showAsAction="never" />
+
+    <!-- Check updates -->
+    <item
+        android:id="@+id/action_check_updates"
+        android:title="check update"
+        myapp:showAsAction="never" />
+</menu>

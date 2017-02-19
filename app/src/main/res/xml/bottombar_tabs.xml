@@ -1,0 +1,28 @@
+<tabs>
+    <!--<tab-->
+    <!--id="@+id/tab_favorites"-->
+    <!--icon="@drawable/ic_favorites"-->
+    <!--title="Favorites"-->
+    <!--barColorWhenSelected="#5D4037" />-->
+    <tab
+        icon="@drawable/ic_home_24dp"
+        id="@+id/home_page"
+        title="Room" />
+    <tab
+        icon="@drawable/ic_share_24dp"
+        id="@+id/shopping_cart"
+        title="Shopping Cart" />
+    <tab
+        icon="@drawable/ic_add_24dp"
+        id="@+id/add"
+        title="Add" />
+    <tab
+        icon="@drawable/ic_search_24dp"
+        id="@+id/search"
+        title="Search" />
+    <tab
+        icon="@drawable/ic_account_setting_24dp"
+        id="@+id/my_account"
+        title="Me" />
+</tabs>
+
