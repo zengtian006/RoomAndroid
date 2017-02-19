@@ -3,6 +3,8 @@ package com.tim.room.helper;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -32,6 +34,7 @@ public class ProgressDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Log.v("ProgressDialog", "OnCreate");
     }
@@ -41,6 +44,7 @@ public class ProgressDialog extends Dialog {
         setContentView(R.layout.layout_progress_dialog);
         this.mContext = getContext();
         Log.v("ProgressDialog", "ProgressDialog");
+//
         setCanceledOnTouchOutside(false);
         //set window params
 
