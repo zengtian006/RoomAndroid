@@ -85,7 +85,7 @@ public class ItemViewerActivity extends AppCompatActivity {
             }
         }));
 
-
+        //Find Sub Category
         RESTFulService itemCatesService = RESTFulServiceImp.createService(RESTFulService.class);
         final ProgressDialog dialog = new ProgressDialog(ItemViewerActivity.this);
         dialog.show();
