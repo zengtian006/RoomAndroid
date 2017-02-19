@@ -11,14 +11,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.tim.room.R;
-import com.tim.room.helper.GifImageView;
 
 /**
  * Created by Tim on 18/2/17.
@@ -28,12 +22,13 @@ public class ProgressDialog extends Dialog {
 
     Context mContext;
 
-    private static int default_width = 150;
-    private static int default_height = 150;
+    private static int default_width = 100;
+    private static int default_height = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Log.v("ProgressDialog", "OnCreate");
@@ -48,9 +43,16 @@ public class ProgressDialog extends Dialog {
         setCanceledOnTouchOutside(false);
         //set window params
 
-//        Window window = getWindow();
-//        WindowManager.LayoutParams params = window.getAttributes();
-//
+        Window window = getWindow();
+        DisplayMetrics dm = new DisplayMetrics();
+        window.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = (int) (dm.widthPixels * 0.3);
+        params.height = params.width;
+        params.gravity = Gravity.CENTER;
+
+        window.setAttributes(params);
+
 //        float density = getDensity(context);
 //
 //        params.width = (int) (default_width * density);
@@ -58,12 +60,6 @@ public class ProgressDialog extends Dialog {
 //        params.gravity = Gravity.CENTER;
 //
 //        window.setAttributes(params);
-
-//        GifImageView gifImageView = (GifImageView) findViewById(R.id.gif_img);
-//        gifImageView.setGifImageResource(R.drawable.progress);
-
-//        Glide.with(context).load("https://media.giphy.com/media/l2R0aKwejYr8ycKAg/giphy.gif")
-//                .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
     }
 
     public ProgressDialog(Context context, int themeResId) {

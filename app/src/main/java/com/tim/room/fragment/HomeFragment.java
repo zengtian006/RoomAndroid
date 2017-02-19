@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
                     adapter.setHeaderView(header);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
-                    dialog.dismiss();
+//                    dialog.dismiss();
                 }
             }
         });
