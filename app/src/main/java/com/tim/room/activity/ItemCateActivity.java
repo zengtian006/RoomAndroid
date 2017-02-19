@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.tim.room.MainActivity;
 import com.tim.room.R;
 import com.tim.room.adapter.CateAdapter;
+import com.tim.room.helper.ProgressDialog;
 import com.tim.room.model.Categories;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
@@ -42,6 +43,8 @@ public class ItemCateActivity extends AuthActivity {
         listView = (ListView) findViewById(R.id.lv_cate);
 
         RESTFulService CateService = RESTFulServiceImp.createService(RESTFulService.class);
+        final ProgressDialog dialog = new ProgressDialog(ItemCateActivity.this);
+        dialog.show();
         if (MainActivity.session.getUser().getGender().equals("F")) {
             CateService.findWomenCategories().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Categories>>() {
                 @Override
@@ -51,6 +54,7 @@ public class ItemCateActivity extends AuthActivity {
 
                     adapter = new CateAdapter(mContext, filterdCates);
                     listView.setAdapter(adapter);
+                    dialog.dismiss();
                 }
             });
         } else {
@@ -62,6 +66,7 @@ public class ItemCateActivity extends AuthActivity {
 
                     adapter = new CateAdapter(mContext, filterdCates);
                     listView.setAdapter(adapter);
+                    dialog.dismiss();
                 }
             });
         }
