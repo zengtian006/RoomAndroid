@@ -138,14 +138,10 @@ public class ImageUtils {
      */
 
     public boolean isDeviceSupportCamera() {
-        if (this.context.getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA)) {
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
+        // this device has a camera
+// no camera on this device
+        return this.context.getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA);
     }
 
     /**
@@ -500,10 +496,9 @@ public class ImageUtils {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         String file_name;
         Bitmap bitmap;
-
         switch (requestCode) {
             case 0:
-                if (resultCode == current_activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     Log.i("Camera Selected", "Photo");
                     try {
                         selected_path = null;
@@ -519,7 +514,7 @@ public class ImageUtils {
                 }
                 break;
             case 1:
-                if (resultCode == current_activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     Log.i("Gallery", "Photo");
                     Uri selectedImage = data.getData();
                     try {
@@ -682,7 +677,7 @@ public class ImageUtils {
     // Image Attachment Callback
 
     public interface ImageAttachmentListener {
-        public void image_attachment(int from, String filename, Bitmap file, Uri uri);
+        void image_attachment(int from, String filename, Bitmap file, Uri uri);
     }
 
 }
