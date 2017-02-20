@@ -1,5 +1,6 @@
 package com.tim.room.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +38,9 @@ import com.tim.room.utils.ImageUtils;
 import com.tim.room.utils.UploadImage;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -55,11 +60,11 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     public static String testBucket;
 
 
-    EditText edt_brand, edt_title, edt_cate;
+    EditText edt_brand, edt_title, edt_cate, edt_date;
     TextView tv_cate_id;
     Button btn_color1, btn_color2, btn_color3;
-
-
+    private int mYear, mMonth, mDay;
+    SimpleDateFormat sdf;
     ImageUtils imageutils;
     public static ImageView imageAdd;
     private Bitmap bitmap;
@@ -81,7 +86,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         findView();
         setView();
         setListener();
-        imageutils.imagepicker(1);
+        sdf = new SimpleDateFormat("yyyy-MMM-dd");
     }
 
     private void configurOSS() {
@@ -110,6 +115,9 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         imageAdd.setLayoutParams(params);
         edt_cate.setFocusable(false);
         edt_cate.setClickable(true);
+        edt_date.setFocusable(false);
+        edt_date.setClickable(true);
+
     }
 
     private void findView() {
@@ -121,6 +129,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         btn_color1 = (Button) findViewById(R.id.btn_color1);
         btn_color2 = (Button) findViewById(R.id.btn_color2);
         btn_color3 = (Button) findViewById(R.id.btn_color3);
+        edt_date = (EditText) findViewById(R.id.edt_date);
     }
 
     private void setListener() {
@@ -138,6 +147,26 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 //                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             }
         });
+
+        edt_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+                new DatePickerDialog(AddItemActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        Date date = setDateFormat(year, month, day);
+                        edt_date.setTag(date);
+                        edt_date.setText(date.toString());
+                    }
+
+                }, mYear, mMonth, mDay).show();
+            }
+        });
+
         btn_color1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,6 +210,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     itemObject.setUser(session.getUser());
                     itemObject.setBrand(edt_brand.getText().toString());
                     itemObject.setTitle(edt_title.getText().toString());
+                    itemObject.setDate((java.sql.Date) edt_date.getTag());
                     itemObject.setImageName(uploadObject);
                     itemObject.setCateId(Integer.valueOf(tv_cate_id.getText().toString()));
                     addItemService.addItem(itemObject).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
@@ -210,7 +240,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 
     private Boolean checkUpload() {
         Boolean result = true;
-        if (imageAdd.getTag() == null || edt_brand.getText().toString().trim().isEmpty() || edt_title.getText().toString().trim().isEmpty() || tv_cate_id.getText().toString().trim().isEmpty()) {
+        if (imageAdd.getTag() == null || edt_brand.getText().toString().trim().isEmpty() || edt_title.getText().toString().trim().isEmpty() || tv_cate_id.getText().toString().trim().isEmpty() || edt_date.getText().toString().trim().isEmpty()) {
             result = false;
         }
         return result;
@@ -256,6 +286,15 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         String path = Environment.getExternalStorageDirectory() + File.separator + "RoomImages" + File.separator;
         String file_path = imageutils.createImage(file, filename, path, false);
         imageAdd.setTag(file_path);
+    }
+
+    private Date setDateFormat(int year, int monthOfYear, int dayOfMonth) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, monthOfYear);
+        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        java.sql.Date sqlDate = new java.sql.Date(cal.getTime().getTime());
+        return sqlDate;
     }
     //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {

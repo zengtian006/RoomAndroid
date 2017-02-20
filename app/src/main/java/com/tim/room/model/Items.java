@@ -1,5 +1,6 @@
 package com.tim.room.model;
 
+import java.sql.Date;
 import java.util.UUID;
 
 // Generated 2017-2-10 15:27:36 by Hibernate Tools 4.3.1
@@ -9,7 +10,7 @@ import java.util.UUID;
  */
 public class Items implements java.io.Serializable {
     private UUID id;
-//    private UUID userId;
+    //    private UUID userId;
     private String brand;
     private String title;
     private String imageName;
@@ -17,7 +18,7 @@ public class Items implements java.io.Serializable {
     private Character status;
     private Integer cateId;
     private User user;
-
+    private Date date;
 
     public Items() {
     }
@@ -31,6 +32,14 @@ public class Items implements java.io.Serializable {
         this.imageName = imageName;
         this.remark = remark;
         this.status = status;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public User getUser() {
