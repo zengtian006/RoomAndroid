@@ -33,7 +33,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ph_add_image2" />
+                    android:src="@drawable/ph_add_image" />
             </LinearLayout>
 
             <LinearLayout
