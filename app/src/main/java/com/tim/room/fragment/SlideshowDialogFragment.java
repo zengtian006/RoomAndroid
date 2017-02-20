@@ -14,13 +14,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
+import com.tim.room.model.Items;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
 
 public class SlideshowDialogFragment extends DialogFragment {
     private String TAG = SlideshowDialogFragment.class.getSimpleName();
-    private ArrayList<String> images;
+    private List<Items> items;
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate;
@@ -37,10 +40,10 @@ public class SlideshowDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_image_slider, container, false);
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         lblCount = (TextView) v.findViewById(R.id.lbl_count);
-//        lblTitle = (TextView) v.findViewById(R.id.title);
+        lblTitle = (TextView) v.findViewById(R.id.title);
 //        lblDate = (TextView) v.findViewById(R.id.date);
 
-        images = (ArrayList<String>) getArguments().getSerializable("images");
+        items = (List<Items>) getArguments().getSerializable("items");
         selectedPosition = getArguments().getInt("position");
 
         myViewPagerAdapter = new MyViewPagerAdapter();
@@ -77,10 +80,11 @@ public class SlideshowDialogFragment extends DialogFragment {
     };
 
     private void displayMetaInfo(int position) {
-        lblCount.setText((position + 1) + " of " + images.size());
+        lblCount.setText((position + 1) + " of " + items.size());
 
-        String image = images.get(position);
-//        lblTitle.setText(image.getName());
+        Items item = items.get(position);
+        String image = IMG_BASE_URL + item.getUserId().toString() + "/" + item.getImageName();
+        lblTitle.setText(item.getTitle());
 //        lblDate.setText(image.getTimestamp());
     }
 
@@ -106,7 +110,8 @@ public class SlideshowDialogFragment extends DialogFragment {
 
             ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
 
-            String image = images.get(position);
+            Items item = items.get(position);
+            String image = IMG_BASE_URL + item.getUserId().toString() + "/" + item.getImageName();
 
             Glide.with(getActivity()).load(image)
                     .thumbnail(0.5f)
@@ -121,7 +126,7 @@ public class SlideshowDialogFragment extends DialogFragment {
 
         @Override
         public int getCount() {
-            return images.size();
+            return items.size();
         }
 
         @Override

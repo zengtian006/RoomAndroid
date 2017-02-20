@@ -12,8 +12,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
+import com.tim.room.model.Items;
 
 import java.util.List;
+
+import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
 /**
  * Created by Lincoln on 31/03/16.
@@ -21,7 +24,7 @@ import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
 
-    private List<String> images;
+    private List<Items> items;
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -34,9 +37,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
 
-    public GalleryAdapter(Context context, List<String> images) {
+    public GalleryAdapter(Context context, List<Items> items) {
         mContext = context;
-        this.images = images;
+        this.items = items;
     }
 
     @Override
@@ -49,7 +52,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        String image = images.get(position);
+        Items item = items.get(position);
+        String image = IMG_BASE_URL + item.getUserId().toString() + "/" + item.getImageName();
 
         Glide.with(mContext).load(image)
                 .thumbnail(0.5f)
@@ -60,7 +64,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return items.size();
     }
 
     public interface ClickListener {

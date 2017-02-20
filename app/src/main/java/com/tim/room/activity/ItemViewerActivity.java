@@ -9,37 +9,36 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.tim.room.helper.ProgressDialog;
 import com.tim.room.R;
 import com.tim.room.adapter.CateFilterAdapter;
 import com.tim.room.adapter.GalleryAdapter;
 import com.tim.room.fragment.SlideshowDialogFragment;
 import com.tim.room.helper.ColorPicker;
+import com.tim.room.helper.ProgressDialog;
 import com.tim.room.model.Categories;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.tim.room.MainActivity.session;
-import static com.tim.room.app.AppConfig.IMG_BASE_URL;
-
 public class ItemViewerActivity extends AppCompatActivity {
     private static final String TAG = ItemViewerActivity.class.getSimpleName();
 
-    public static ArrayList<String> images;
+    //    public static ArrayList<String> images;
+    public static List<Items> items;
     public static GalleryAdapter mAdapter;
     Context mContext;
 
@@ -54,12 +53,11 @@ public class ItemViewerActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         final ItemSeries itemSeries = (ItemSeries) bundle.getSerializable("itemList");
-
-        images = new ArrayList<>();
+        items = new ArrayList<Items>();
         for (Items item : itemSeries.getItems()) {
-            images.add(IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName());
+            items.add(item);
         }
-        mAdapter = new GalleryAdapter(getApplicationContext(), images);
+        mAdapter = new GalleryAdapter(getApplicationContext(), items);
         recyclerViewImages = (RecyclerView) findViewById(R.id.recycler_view_images);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerViewImages.setLayoutManager(mLayoutManager);
@@ -69,8 +67,7 @@ public class ItemViewerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Bundle bundle = new Bundle();
-                Log.v(TAG, images.toString());
-                bundle.putSerializable("images", images);
+                bundle.putSerializable("items", (Serializable) items);
                 bundle.putInt("position", position);
 
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

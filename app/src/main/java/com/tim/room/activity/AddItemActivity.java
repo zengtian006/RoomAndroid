@@ -77,11 +77,11 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-
         configurOSS();
         findView();
         setView();
         setListener();
+        imageutils.imagepicker(1);
     }
 
     private void configurOSS() {

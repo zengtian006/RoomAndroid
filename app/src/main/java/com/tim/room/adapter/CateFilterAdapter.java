@@ -2,6 +2,7 @@ package com.tim.room.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import com.tim.room.model.Items;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tim.room.MainActivity.session;
 import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
 /**
@@ -29,7 +29,7 @@ public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.My
 
     private Context mContext;
     private ArrayList<Categories> categories;
-    List<Items> items;
+    List<Items> allItems;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageButton iv_cate_item;
@@ -41,10 +41,15 @@ public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.My
             iv_cate_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ItemViewerActivity.images.clear();
-                    for (Items item : items) {
+                    Log.v("CATEITEMS", "Filtered Items size Before:" + allItems.size());
+                    ItemViewerActivity.items.clear();
+                    Log.v("CATEITEMS", "Filtered Items size:" + allItems.size());
+
+                    for (Items item : allItems) {
                         if (item.getCateId().equals(iv_cate_item.getTag())) {
-                            ItemViewerActivity.images.add(IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName());
+                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+//                            ItemViewerActivity.images.add(IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName());
+                            ItemViewerActivity.items.add(item);
                         }
                     }
                     ItemViewerActivity.mAdapter.notifyDataSetChanged();
@@ -53,10 +58,10 @@ public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.My
         }
     }
 
-    public CateFilterAdapter(Context mContext, ArrayList<Categories> categories, List<Items> items) {
+    public CateFilterAdapter(Context mContext, ArrayList<Categories> categories, List<Items> allItems) {
         this.mContext = mContext;
         this.categories = categories;
-        this.items = items;
+        this.allItems = allItems;
     }
 
     @Override
