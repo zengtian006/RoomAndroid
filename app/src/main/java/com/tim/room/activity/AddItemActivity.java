@@ -178,7 +178,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 
                     RESTFulService addItemService = RESTFulServiceImp.createService(RESTFulService.class);
                     Items itemObject = new Items();
-                    itemObject.setUserId(session.getUser().getId());
+                    itemObject.setUser(session.getUser());
                     itemObject.setBrand(edt_brand.getText().toString());
                     itemObject.setTitle(edt_title.getText().toString());
                     itemObject.setImageName(uploadObject);

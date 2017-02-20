@@ -83,7 +83,7 @@ public class SlideshowDialogFragment extends DialogFragment {
         lblCount.setText((position + 1) + " of " + items.size());
 
         Items item = items.get(position);
-        String image = IMG_BASE_URL + item.getUserId().toString() + "/" + item.getImageName();
+        String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
         lblTitle.setText(item.getTitle());
 //        lblDate.setText(image.getTimestamp());
     }
@@ -111,7 +111,7 @@ public class SlideshowDialogFragment extends DialogFragment {
             ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
 
             Items item = items.get(position);
-            String image = IMG_BASE_URL + item.getUserId().toString() + "/" + item.getImageName();
+            String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
 
             Glide.with(getActivity()).load(image)
                     .thumbnail(0.5f)

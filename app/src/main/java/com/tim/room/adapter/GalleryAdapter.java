@@ -53,7 +53,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Items item = items.get(position);
-        String image = IMG_BASE_URL + item.getUserId().toString() + "/" + item.getImageName();
+        String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
 
         Glide.with(mContext).load(image)
                 .thumbnail(0.5f)

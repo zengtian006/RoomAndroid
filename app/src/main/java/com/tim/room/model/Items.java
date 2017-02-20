@@ -9,26 +9,36 @@ import java.util.UUID;
  */
 public class Items implements java.io.Serializable {
     private UUID id;
-    private UUID userId;
+//    private UUID userId;
     private String brand;
     private String title;
     private String imageName;
     private String remark;
     private Character status;
     private Integer cateId;
+    private User user;
+
 
     public Items() {
     }
 
-    public Items(UUID id, UUID userId, String brand, String title,
+    public Items(UUID id, String brand, String title,
                  String imageName, String remark, Character status) {
         this.id = id;
-        this.userId = userId;
+//        this.userId = userId;
         this.brand = brand;
         this.title = title;
         this.imageName = imageName;
         this.remark = remark;
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getCateId() {
@@ -46,14 +56,14 @@ public class Items implements java.io.Serializable {
     public void setId(UUID id) {
         this.id = id;
     }
-
-    public UUID getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
+//
+//    public UUID getUserId() {
+//        return this.userId;
+//    }
+//
+//    public void setUserId(UUID userId) {
+//        this.userId = userId;
+//    }
 
     public String getBrand() {
         return this.brand;
