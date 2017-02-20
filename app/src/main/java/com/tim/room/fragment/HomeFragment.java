@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tim.room.helper.ProgressDialog;
 import com.tim.room.R;
 import com.tim.room.adapter.ItemSeriesAdapter;
+import com.tim.room.helper.ProgressDialog;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
                     adapter.setHeaderView(header);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
-//                    dialog.dismiss();
+                    dialog.dismiss();
                 }
             }
         });

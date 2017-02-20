@@ -1,11 +1,13 @@
 package com.tim.room.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
@@ -24,14 +26,15 @@ import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 import com.tim.room.R;
 import com.tim.room.helper.ColorPicker;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.utils.ImageUtils;
 import com.tim.room.utils.UploadImage;
+
+import java.io.File;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -39,9 +42,8 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.tim.room.MainActivity.session;
 import static com.tim.room.utils.CommonUtil.containerHeight;
-import static com.tim.room.utils.CompressImage.compressImages;
 
-public class AddItemActivity extends AppCompatActivity {
+public class AddItemActivity extends AppCompatActivity implements ImageUtils.ImageAttachmentListener {
     private final static String TAG = AddItemActivity.class.getSimpleName();
     private final static int INTENT_REQUEST_CATE = 10;
     // 运行sample前需要配置以下字段为有效的值
@@ -51,10 +53,16 @@ public class AddItemActivity extends AppCompatActivity {
     public static String accessKeySecret;
     public static String testBucket;
 
-    public static ImageButton imageBtn;
+
     EditText edt_brand, edt_title, edt_cate;
     TextView tv_cate_id;
     Button btn_color1, btn_color2, btn_color3;
+
+
+    ImageUtils imageutils;
+    public static ImageView imageAdd;
+    private Bitmap bitmap;
+    private String file_name;
 
     private void loadConfiguration() throws PackageManager.NameNotFoundException {
         ApplicationInfo appInfo = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
@@ -95,15 +103,16 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void setView() {
-        ViewGroup.LayoutParams params = imageBtn.getLayoutParams();
-        params.height = containerHeight(this, 3);
-        imageBtn.setLayoutParams(params);
+        imageutils = new ImageUtils(this);
+        ViewGroup.LayoutParams params = imageAdd.getLayoutParams();
+        params.height = containerHeight(this, 2);
+        imageAdd.setLayoutParams(params);
         edt_cate.setFocusable(false);
         edt_cate.setClickable(true);
     }
 
     private void findView() {
-        imageBtn = (ImageButton) findViewById(R.id.btn_add_item_img);
+        imageAdd = (ImageView) findViewById(R.id.add_item_img);
         edt_brand = (EditText) findViewById(R.id.edt_brand);
         edt_title = (EditText) findViewById(R.id.edt_title);
         edt_cate = (EditText) findViewById(R.id.edt_cate);
@@ -114,10 +123,10 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        imageBtn.setOnClickListener(new View.OnClickListener() {
+        imageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.startPickImageActivity(AddItemActivity.this);
+                imageutils.imagepicker(1);
             }
         });
         edt_cate.setOnClickListener(new View.OnClickListener() {
@@ -149,43 +158,6 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {//Pick image result
-                Uri imageUri = CropImage.getPickImageResultUri(this, data);
-
-                Log.v(TAG, "URI: " + imageUri);
-                startCropImageActivity(imageUri);
-            }
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {//Cropped image result
-                final CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                imageBtn.setImageURI(result.getUri());
-                Log.v(TAG, "CROPEDURI: " + result.getUri());
-                final String compressImage = compressImages(result.getUri().getPath(), result.getUri().getPath(), 50);
-                Log.v(TAG, "COMPRESSEDURI: " + compressImage);
-                imageBtn.setTag(compressImage);
-            }
-            if (requestCode == INTENT_REQUEST_CATE) {
-                String cate_name = data.getStringExtra("cate_name");
-                String cate_id = data.getStringExtra("cate_id");
-                edt_cate.setText(cate_name);
-                tv_cate_id.setText(cate_id);
-                Log.v(TAG, "cate_id: " + cate_id);
-            }
-        }
-    }
-
-    private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-//                .setMinCropResultSize(100, 100)
-//                .setMaxCropResultSize(1000, 1000)
-                .start(this);
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_add_item, menu);
@@ -196,7 +168,7 @@ public class AddItemActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_btn_add_item:
-                final String path = imageBtn.getTag().toString();
+                final String path = imageAdd.getTag().toString();
                 final String uploadObject = path.substring(path.lastIndexOf("/") + 1, path.length());
                 final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
 
@@ -238,4 +210,68 @@ public class AddItemActivity extends AppCompatActivity {
         setResult(RESULT_OK);
         super.onBackPressed();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == INTENT_REQUEST_CATE) {
+                String cate_name = data.getStringExtra("cate_name");
+                String cate_id = data.getStringExtra("cate_id");
+                edt_cate.setText(cate_name);
+                tv_cate_id.setText(cate_id);
+                Log.v(TAG, "cate_id: " + cate_id);
+            } else {
+                imageutils.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        imageutils.request_permission_result(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void image_attachment(int from, String filename, Bitmap file, Uri uri) {
+        this.bitmap = file;
+        this.file_name = filename;
+        Log.v(TAG, "bitmap: " + file.toString());
+        Log.v(TAG, "Uri: " + uri.toString());
+        Log.v(TAG, "UriPath: " + uri.getPath());
+        Log.v(TAG, "filename: " + filename.toString());
+        imageAdd.setImageBitmap(file);
+
+        String path = Environment.getExternalStorageDirectory() + File.separator + "RoomImages" + File.separator;
+        String file_path = imageutils.createImage(file, filename, path, false);
+        imageAdd.setTag(file_path);
+    }
+    //    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {//Pick image result
+//                Uri imageUri = CropImage.getPickImageResultUri(this, data);
+//
+//                Log.v(TAG, "URI: " + imageUri);
+//                startCropImageActivity(imageUri);
+//            }
+//            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {//Cropped image result
+//                final CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//                imageBtn.setImageURI(result.getUri());
+//                Log.v(TAG, "CROPEDURI: " + result.getUri());
+//                final String compressImage = compressImages(result.getUri().getPath(), result.getUri().getPath(), 50);
+//                Log.v(TAG, "COMPRESSEDURI: " + compressImage);
+//                imageBtn.setTag(compressImage);
+//            }
+//            if (requestCode == INTENT_REQUEST_CATE) {
+//                String cate_name = data.getStringExtra("cate_name");
+//                String cate_id = data.getStringExtra("cate_id");
+//                edt_cate.setText(cate_name);
+//                tv_cate_id.setText(cate_id);
+//                Log.v(TAG, "cate_id: " + cate_id);
+//            }
+//        }
+//    }
+
 }
