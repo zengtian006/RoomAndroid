@@ -84,7 +84,7 @@ public class SlideshowDialogFragment extends DialogFragment {
 
         Items item = items.get(position);
         String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
-        lblTitle.setText(item.getTitle());
+        lblTitle.setText(item.getUser().getName());
 //        lblDate.setText(image.getTimestamp());
     }
 
