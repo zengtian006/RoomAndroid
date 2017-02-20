@@ -1,7 +1,6 @@
 package com.tim.room.rest;
 
 import com.tim.room.model.Categories;
-import com.tim.room.model.Employee;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.model.User;
@@ -27,9 +26,9 @@ public interface RESTFulService {
     Observable<ResponseBody> getString2();
 
 
-    @Headers("Content-Type: application/json")
-    @POST("getValue/addEmployee")
-    Observable<ResponseBody> addEmployee(@Body Employee em);
+//    @Headers("Content-Type: application/json")
+//    @POST("getValue/addEmployee")
+//    Observable<ResponseBody> addEmployee(@Body Employee em);
 
     @Headers("Content-Type: application/json")
     @POST("login")

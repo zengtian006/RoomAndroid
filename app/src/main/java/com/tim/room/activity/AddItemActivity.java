@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.OSS;
@@ -168,41 +169,51 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_btn_add_item:
-                final String path = imageAdd.getTag().toString();
-                final String uploadObject = path.substring(path.lastIndexOf("/") + 1, path.length());
-                final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
+                if (!checkUpload()) {
+                    Toast.makeText(AddItemActivity.this, "Please check your input", Toast.LENGTH_SHORT).show();
+                } else {
+                    final String path = imageAdd.getTag().toString();
+                    final String uploadObject = path.substring(path.lastIndexOf("/") + 1, path.length());
+                    final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
 
-                RESTFulService addItemService = RESTFulServiceImp.createService(RESTFulService.class);
-                Items itemObject = new Items();
-                itemObject.setUserId(session.getUser().getId());
-                itemObject.setBrand(edt_brand.getText().toString());
-                itemObject.setTitle(edt_title.getText().toString());
-                itemObject.setImageName(uploadObject);
-                itemObject.setCateId(Integer.valueOf(tv_cate_id.getText().toString()));
-                addItemService.addItem(itemObject).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new UploadImage(oss, testBucket, uploadUrl + uploadObject, path).asyncPutObjectFromLocalFile();
-                                }
-                            }).start();
-                        } else {
-                            Log.v(TAG, "ERROR: add item error");
+                    RESTFulService addItemService = RESTFulServiceImp.createService(RESTFulService.class);
+                    Items itemObject = new Items();
+                    itemObject.setUserId(session.getUser().getId());
+                    itemObject.setBrand(edt_brand.getText().toString());
+                    itemObject.setTitle(edt_title.getText().toString());
+                    itemObject.setImageName(uploadObject);
+                    itemObject.setCateId(Integer.valueOf(tv_cate_id.getText().toString()));
+                    addItemService.addItem(itemObject).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            if (aBoolean) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new UploadImage(oss, testBucket, uploadUrl + uploadObject, path).asyncPutObjectFromLocalFile();
+                                    }
+                                }).start();
+                            } else {
+                                Log.v(TAG, "ERROR: add item error");
+                            }
                         }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.v(TAG, "Error message: " + throwable.getMessage());
-                    }
-                });
-
-
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            Log.v(TAG, "Error message: " + throwable.getMessage());
+                        }
+                    });
+                }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Boolean checkUpload() {
+        Boolean result = true;
+        if (imageAdd.getTag() == null || edt_brand.getText().toString().trim().isEmpty() || edt_title.getText().toString().trim().isEmpty() || tv_cate_id.getText().toString().trim().isEmpty()) {
+            result = false;
+        }
+        return result;
     }
 
     @Override
