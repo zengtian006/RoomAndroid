@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.tim.room.R;
 import com.tim.room.adapter.CateFilterAdapter;
@@ -78,7 +79,12 @@ public class ItemViewerActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
-
+                CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox);
+                if (cb.isChecked()) {
+                    cb.setChecked(false);
+                } else {
+                    cb.setChecked(true);
+                }
             }
         }));
 
