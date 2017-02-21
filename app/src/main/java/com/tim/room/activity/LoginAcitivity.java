@@ -31,6 +31,7 @@ public class LoginAcitivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         findView();
         setListener();
     }
@@ -71,5 +72,11 @@ public class LoginAcitivity extends AppCompatActivity {
         btn_login = (Button) findViewById(R.id.btn_login);
         edt_name = (EditText) findViewById(R.id.edt_name);
         edt_password = (EditText) findViewById(R.id.edt_password);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

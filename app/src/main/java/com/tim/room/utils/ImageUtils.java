@@ -498,7 +498,7 @@ public class ImageUtils {
         Bitmap bitmap;
         switch (requestCode) {
             case 0:
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == current_activity.RESULT_OK) {
                     Log.i("Camera Selected", "Photo");
                     try {
                         selected_path = null;
@@ -514,7 +514,7 @@ public class ImageUtils {
                 }
                 break;
             case 1:
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == current_activity.RESULT_OK) {
                     Log.i("Gallery", "Photo");
                     Uri selectedImage = data.getData();
                     try {

@@ -1,10 +1,7 @@
 package com.tim.room.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -19,13 +16,12 @@ import android.widget.TextView;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
-import com.tim.room.utils.ImageUtils;
 
 /**
  * Created by Zeng on 2017/1/3.
  */
 
-public class MyAccountFragment extends Fragment implements ImageUtils.ImageAttachmentListener {
+public class MyAccountFragment extends Fragment {
 
     private static final String TAG = MyAccountFragment.class.getSimpleName();
     Button btn_logout;
@@ -33,7 +29,6 @@ public class MyAccountFragment extends Fragment implements ImageUtils.ImageAttac
     RelativeLayout relativeLayout;
     Context mContext;
     ImageView iv_user;
-    ImageUtils imageutils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,9 +41,8 @@ public class MyAccountFragment extends Fragment implements ImageUtils.ImageAttac
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_myaccount, container, false);
         this.mContext = getContext();
-//        imageutils = new ImageUtils((Activity) rootView.getContext());
         findView(rootView);
-        serView();
+        setView();
         setListener();
         return rootView;
     }
@@ -72,7 +66,7 @@ public class MyAccountFragment extends Fragment implements ImageUtils.ImageAttac
         });
     }
 
-    private void serView() {
+    private void setView() {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) relativeLayout.getLayoutParams();
@@ -97,10 +91,5 @@ public class MyAccountFragment extends Fragment implements ImageUtils.ImageAttac
         relativeLayout = (RelativeLayout) rootView.findViewById(R.id.RelativeLayout1);
         btn_logout = (Button) rootView.findViewById(R.id.btn_logout);
         iv_user = (ImageView) rootView.findViewById(R.id.iv_user);
-    }
-
-    @Override
-    public void image_attachment(int from, String filename, Bitmap file, Uri uri) {
-
     }
 }
