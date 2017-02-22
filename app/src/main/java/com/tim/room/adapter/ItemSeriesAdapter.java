@@ -3,6 +3,8 @@ package com.tim.room.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +15,10 @@ import android.widget.TextView;
 
 import com.tim.room.R;
 import com.tim.room.activity.ItemViewerActivity;
+import com.tim.room.fragment.SlideshowDialogFragment;
 import com.tim.room.model.ItemSeries;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,11 +71,11 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
     }
 
     @Override
-    public void onBindViewHolder(ItemRowHolder itemRowHolder, int i) {
+    public void onBindViewHolder(ItemRowHolder itemRowHolder, final int i) {
         if (getItemViewType(i) == TYPE_HEADER) {
             return;
         }
-        List itemsList = dataList.get(i - 1).getItems();
+        final List itemsList = dataList.get(i - 1).getItems();
         String cate_title = dataList.get(i - 1).getTitle();
         String cate_id = String.valueOf(dataList.get(i - 1).getCate_id());
 
@@ -84,6 +88,23 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
         itemRowHolder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         itemRowHolder.recycler_view_list.setAdapter(itemListDataAdapter);
         itemRowHolder.recycler_view_list.setNestedScrollingEnabled(false);
+        itemRowHolder.recycler_view_list.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(mContext, itemRowHolder.recycler_view_list, new GalleryAdapter.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("items", (Serializable) itemsList);
+                bundle.putInt("position", position);
+
+                FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+                newFragment.setArguments(bundle);
+                newFragment.show(ft, "slideshow");
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
     }
 
     @Override
