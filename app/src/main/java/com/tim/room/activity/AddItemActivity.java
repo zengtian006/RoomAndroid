@@ -39,6 +39,7 @@ import com.tim.room.utils.UploadImage;
 
 import java.io.File;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -159,7 +160,6 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         Date date = setDateFormat(year, month, day);
-                        edt_date.setTag(date);
                         edt_date.setText(date.toString());
                     }
 
@@ -210,7 +210,11 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     itemObject.setUser(session.getUser());
                     itemObject.setBrand(edt_brand.getText().toString());
                     itemObject.setTitle(edt_title.getText().toString());
-                    itemObject.setDate((java.sql.Date) edt_date.getTag());
+                    itemObject.setDate(edt_date.getText().toString());
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String nowDatetime = df.format(Calendar.getInstance().getTime());
+                    itemObject.setCreated(nowDatetime);
+                    itemObject.setGlobal("0");
                     itemObject.setImageName(uploadObject);
                     itemObject.setCateId(Integer.valueOf(tv_cate_id.getText().toString()));
                     addItemService.addItem(itemObject).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {

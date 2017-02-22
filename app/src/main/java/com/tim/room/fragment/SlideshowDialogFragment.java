@@ -20,6 +20,8 @@ import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,7 +37,7 @@ public class SlideshowDialogFragment extends DialogFragment {
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate;
-    private ImageButton btn_globel;
+    private ImageButton btn_global;
     private int selectedPosition = 0;
     RESTFulService updateItemService;
 
@@ -52,7 +54,7 @@ public class SlideshowDialogFragment extends DialogFragment {
         lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) v.findViewById(R.id.title);
         lblDate = (TextView) v.findViewById(R.id.date);
-        btn_globel = (ImageButton) v.findViewById(R.id.btn_global);
+        btn_global = (ImageButton) v.findViewById(R.id.btn_global);
 
         items = (List<Items>) getArguments().getSerializable("items");
         selectedPosition = getArguments().getInt("position");
@@ -93,44 +95,48 @@ public class SlideshowDialogFragment extends DialogFragment {
 
     private void displayMetaInfo(final int position) {
         lblCount.setText((position + 1) + " of " + items.size());
-
         Items item = items.get(position);
         String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
         lblTitle.setText(item.getUser().getName());
-        lblDate.setText("2016-06-06");
-        if (item.getGlobal().equals("1")) {
-            btn_globel.setImageResource(R.drawable.ic_global_checked);
-        } else {
-            btn_globel.setImageResource(R.drawable.ic_global);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            lblDate.setText(formatter.format(formatter.parse(item.getDate())));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        btn_globel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (items.get(position).getGlobal().equals("1")) {
-                  items.get(position).setGlobal("0");
-                  updateItemService.updateItem(items.get(position)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
-                      @Override
-                      public void accept(Boolean aBoolean) throws Exception {
-                          if (aBoolean) {
-                              btn_globel.setImageResource(R.drawable.ic_global);
-                          }
-                      }
-                  });
-                } else {
-                  items.get(position).setGlobal("1");
-                  updateItemService.updateItem(items.get(position)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
-                      @Override
-                      public void accept(Boolean aBoolean) throws Exception {
-                          Log.v(TAG,"result: "+aBoolean);
-                          if (aBoolean) {
-                              btn_globel.setImageResource(R.drawable.ic_global_checked);
-                          }
-                      }
-                  });
-                }
-                myViewPagerAdapter.notifyDataSetChanged();
-                }
-            }
+        if (item.getGlobal().equals("1")) {
+            btn_global.setImageResource(R.drawable.ic_global_checked);
+        } else {
+            btn_global.setImageResource(R.drawable.ic_global);
+        }
+        btn_global.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+                                              if (items.get(position).getGlobal().equals("1")) {
+                                                  items.get(position).setGlobal("0");
+                                                  updateItemService.updateItem(items.get(position)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                                                      @Override
+                                                      public void accept(Boolean aBoolean) throws Exception {
+                                                          if (aBoolean) {
+                                                              btn_global.setImageResource(R.drawable.ic_global);
+                                                          }
+                                                      }
+                                                  });
+                                              } else {
+                                                  items.get(position).setGlobal("1");
+                                                  updateItemService.updateItem(items.get(position)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                                                      @Override
+                                                      public void accept(Boolean aBoolean) throws Exception {
+                                                          Log.v(TAG, "result: " + aBoolean);
+                                                          if (aBoolean) {
+                                                              btn_global.setImageResource(R.drawable.ic_global_checked);
+                                                          }
+                                                      }
+                                                  });
+                                              }
+                                              myViewPagerAdapter.notifyDataSetChanged();
+                                          }
+                                      }
         );
     }
 

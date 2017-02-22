@@ -1,6 +1,5 @@
 package com.tim.room.model;
 
-import java.sql.Date;
 import java.util.UUID;
 
 // Generated 2017-2-10 15:27:36 by Hibernate Tools 4.3.1
@@ -18,8 +17,9 @@ public class Items implements java.io.Serializable {
     private String status;
     private Integer cateId;
     private User user;
-    private Date date;
+    private String date;
     private String global;
+    private String created;
 
     public Items() {
     }
@@ -35,6 +35,14 @@ public class Items implements java.io.Serializable {
         this.status = status;
     }
 
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
     public String getGlobal() {
         return global;
     }
@@ -43,11 +51,11 @@ public class Items implements java.io.Serializable {
         this.global = global;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
