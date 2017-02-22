@@ -57,4 +57,7 @@ public interface RESTFulService {
     @Headers("Content-Type: application/json")
     @POST("updateItem")
     Observable<Boolean> updateItem(@Body Items item);
+
+    @GET("findAllGlobalItems")
+    Observable<List<Items>> findAllGlobalItems();
 }
