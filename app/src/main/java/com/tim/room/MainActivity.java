@@ -19,7 +19,7 @@ import com.tim.room.fragment.AddFragment;
 import com.tim.room.fragment.HomeFragment;
 import com.tim.room.fragment.MyAccountFragment;
 import com.tim.room.fragment.SearchFragment;
-import com.tim.room.fragment.ShareFragment;
+import com.tim.room.fragment.GlobalFragment;
 
 ;
 
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new HomeFragment();
                 break;
             case 1:
-                fragment = new ShareFragment();
+                fragment = new GlobalFragment();
                 break;
             case 2:
                 fragment = new AddFragment();

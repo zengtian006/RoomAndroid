@@ -17,9 +17,9 @@
         id="@+id/add"
         title="Add" />
     <tab
-        icon="@drawable/ic_search_24dp"
+        icon="@drawable/ic_charity_24dp"
         id="@+id/search"
-        title="Search" />
+        title="Charity" />
     <tab
         icon="@drawable/ic_account_setting_24dp"
         id="@+id/my_account"
