@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +17,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
 import com.tim.room.model.Items;
+import com.tim.room.rest.RESTFulService;
+import com.tim.room.rest.RESTFulServiceImp;
 
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
@@ -27,7 +35,9 @@ public class SlideshowDialogFragment extends DialogFragment {
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView lblCount, lblTitle, lblDate;
+    private ImageButton btn_globel;
     private int selectedPosition = 0;
+    RESTFulService updateItemService;
 
     public static SlideshowDialogFragment newInstance() {
         SlideshowDialogFragment f = new SlideshowDialogFragment();
@@ -41,7 +51,8 @@ public class SlideshowDialogFragment extends DialogFragment {
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         lblCount = (TextView) v.findViewById(R.id.lbl_count);
         lblTitle = (TextView) v.findViewById(R.id.title);
-//        lblDate = (TextView) v.findViewById(R.id.date);
+        lblDate = (TextView) v.findViewById(R.id.date);
+        btn_globel = (ImageButton) v.findViewById(R.id.btn_global);
 
         items = (List<Items>) getArguments().getSerializable("items");
         selectedPosition = getArguments().getInt("position");
@@ -52,6 +63,7 @@ public class SlideshowDialogFragment extends DialogFragment {
 
         setCurrentItem(selectedPosition);
 
+        this.updateItemService = RESTFulServiceImp.createService(RESTFulService.class);
         return v;
     }
 
@@ -79,13 +91,47 @@ public class SlideshowDialogFragment extends DialogFragment {
         }
     };
 
-    private void displayMetaInfo(int position) {
+    private void displayMetaInfo(final int position) {
         lblCount.setText((position + 1) + " of " + items.size());
 
         Items item = items.get(position);
         String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
         lblTitle.setText(item.getUser().getName());
-//        lblDate.setText(image.getTimestamp());
+        lblDate.setText("2016-06-06");
+        if (item.getGlobal().equals("1")) {
+            btn_globel.setImageResource(R.drawable.ic_global_checked);
+        } else {
+            btn_globel.setImageResource(R.drawable.ic_global);
+        }
+        btn_globel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (items.get(position).getGlobal().equals("1")) {
+                  items.get(position).setGlobal("0");
+                  updateItemService.updateItem(items.get(position)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                      @Override
+                      public void accept(Boolean aBoolean) throws Exception {
+                          if (aBoolean) {
+                              btn_globel.setImageResource(R.drawable.ic_global);
+                          }
+                      }
+                  });
+                } else {
+                  items.get(position).setGlobal("1");
+                  updateItemService.updateItem(items.get(position)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                      @Override
+                      public void accept(Boolean aBoolean) throws Exception {
+                          Log.v(TAG,"result: "+aBoolean);
+                          if (aBoolean) {
+                              btn_globel.setImageResource(R.drawable.ic_global_checked);
+                          }
+                      }
+                  });
+                }
+                myViewPagerAdapter.notifyDataSetChanged();
+                }
+            }
+        );
     }
 
     @Override
@@ -133,7 +179,6 @@ public class SlideshowDialogFragment extends DialogFragment {
         public boolean isViewFromObject(View view, Object obj) {
             return view == ((View) obj);
         }
-
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {

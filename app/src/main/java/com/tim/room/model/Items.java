@@ -15,16 +15,17 @@ public class Items implements java.io.Serializable {
     private String title;
     private String imageName;
     private String remark;
-    private Character status;
+    private String status;
     private Integer cateId;
     private User user;
     private Date date;
+    private String global;
 
     public Items() {
     }
 
     public Items(UUID id, String brand, String title,
-                 String imageName, String remark, Character status) {
+                 String imageName, String remark, String status) {
         this.id = id;
 //        this.userId = userId;
         this.brand = brand;
@@ -32,6 +33,14 @@ public class Items implements java.io.Serializable {
         this.imageName = imageName;
         this.remark = remark;
         this.status = status;
+    }
+
+    public String getGlobal() {
+        return global;
+    }
+
+    public void setGlobal(String global) {
+        this.global = global;
     }
 
     public Date getDate() {
@@ -106,11 +115,11 @@ public class Items implements java.io.Serializable {
         this.remark = remark;
     }
 
-    public Character getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
-    public void setStatus(Character status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

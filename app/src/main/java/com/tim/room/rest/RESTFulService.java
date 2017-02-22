@@ -54,4 +54,7 @@ public interface RESTFulService {
     @GET("findSubCategoriesById/{cate_id}")
     Observable<ArrayList<Categories>> findSubCategoriesById(@Path("cate_id") Integer cate_id);
 
+    @Headers("Content-Type: application/json")
+    @POST("updateItem")
+    Observable<Boolean> updateItem(@Body Items item);
 }
