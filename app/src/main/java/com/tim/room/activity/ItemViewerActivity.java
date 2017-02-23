@@ -9,13 +9,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 
 import com.tim.room.R;
 import com.tim.room.adapter.CateFilterAdapter;
@@ -44,6 +44,7 @@ public class ItemViewerActivity extends AppCompatActivity {
     public static List<Items> items;
     public static GalleryAdapter mAdapter;
     Context mContext;
+    ItemSeries itemSeries;
 
     RecyclerView recycler_view_cate_list, recyclerViewImages;
 
@@ -58,7 +59,7 @@ public class ItemViewerActivity extends AppCompatActivity {
         recycler_view_cate_list = (RecyclerView) findViewById(R.id.recycler_view_cates);
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        final ItemSeries itemSeries = (ItemSeries) bundle.getSerializable("itemList");
+        itemSeries = (ItemSeries) bundle.getSerializable("itemList");
         items = new ArrayList<Items>();
         for (Items item : itemSeries.getItems()) {
             items.add(item);
@@ -83,13 +84,35 @@ public class ItemViewerActivity extends AppCompatActivity {
                 newFragment.show(ft, "slideshow");
             }
 
+            private static final float SELECTED_SCALE = .8f;
+            private static final float UNSELECTED_SCALE = 1f;
+
             @Override
             public void onLongClick(View view, int position) {
-                CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox);
+                RelativeLayout rl = (RelativeLayout) view.findViewById(R.id.imageSquareLayout);
+                final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox);
                 if (cb.isChecked()) {
-                    cb.setChecked(false);
+                    rl.animate()
+                            .scaleY(UNSELECTED_SCALE)
+                            .scaleX(UNSELECTED_SCALE)
+                            .setDuration(200).withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            cb.setChecked(false);
+                        }
+                    })
+                            .start();
                 } else {
-                    cb.setChecked(true);
+                    rl.animate()
+                            .scaleY(SELECTED_SCALE)
+                            .scaleX(SELECTED_SCALE).withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            cb.setChecked(true);
+                        }
+                    })
+                            .setDuration(200)
+                            .start();
                 }
             }
         }));
@@ -141,9 +164,26 @@ public class ItemViewerActivity extends AppCompatActivity {
                 colorPicker.setRoundColorButton(true).show();
 //                startActivity(new Intent(ItemViewerActivity.this, ItemFilterActivity.class));
                 return true;
-            case R.id.action_check_updates:
-//                RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-//                recyclerViewImages.setLayoutManager(mLayoutManager);
+            case R.id.action_public:
+                items.clear();
+                for (Items singleItem : itemSeries.getItems()) {
+                    if (singleItem.getGlobal().equals("1")) {
+                        Log.v("CATEITEMS", "Filtered Items: " + singleItem.getImageName());
+                        items.add(singleItem);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.action_private:
+                items.clear();
+                for (Items singleItem : itemSeries.getItems()) {
+                    if (singleItem.getGlobal().equals("0")) {
+                        Log.v("CATEITEMS", "Filtered Items: " + singleItem.getImageName());
+                        items.add(singleItem);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

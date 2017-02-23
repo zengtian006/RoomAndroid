@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -38,14 +39,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView thumbnail;
         public RelativeLayout rl;
+        public CheckBox cb;
 
         public MyViewHolder(View view) {
             super(view);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            cb = (CheckBox) view.findViewById(R.id.checkBox);
             rl = (RelativeLayout) view.findViewById(R.id.imageSquareLayout);
+            cb.setVisibility(View.GONE);
         }
     }
-
 
     public GalleryAdapter(Context context, List<Items> items) {
         mContext = context;
@@ -87,12 +90,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
         long animationDelay = PHOTO_ANIMATION_DELAY + viewHolder.getPosition() * 30;
 
-        viewHolder.rl.setScaleY(0);
-        viewHolder.rl.setScaleX(0);
+        viewHolder.rl.setScaleY(0f);
+        viewHolder.rl.setScaleX(0f);
 
         viewHolder.rl.animate()
-                .scaleY(1)
-                .scaleX(1)
+                .scaleY(1f)
+                .scaleX(1f)
                 .setDuration(200)
                 .setInterpolator(INTERPOLATOR)
                 .setStartDelay(animationDelay)
