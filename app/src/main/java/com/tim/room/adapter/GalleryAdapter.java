@@ -7,10 +7,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.tim.room.R;
 import com.tim.room.model.Items;
 
@@ -26,13 +32,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     private List<Items> items;
     private Context mContext;
+    private final static int PHOTO_ANIMATION_DELAY = 600;
+    private final static Interpolator INTERPOLATOR = new DecelerateInterpolator();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView thumbnail;
+        public RelativeLayout rl;
 
         public MyViewHolder(View view) {
             super(view);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            rl = (RelativeLayout) view.findViewById(R.id.imageSquareLayout);
         }
     }
 
@@ -51,15 +61,42 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         Items item = items.get(position);
         String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
 
         Glide.with(mContext).load(image)
                 .thumbnail(0.5f)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL).listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                animatePhoto(holder);
+                return false;
+            }
+        })
                 .into(holder.thumbnail);
+    }
+
+    private void animatePhoto(MyViewHolder viewHolder) {
+
+        long animationDelay = PHOTO_ANIMATION_DELAY + viewHolder.getPosition() * 30;
+
+        viewHolder.rl.setScaleY(0);
+        viewHolder.rl.setScaleX(0);
+
+        viewHolder.rl.animate()
+                .scaleY(1)
+                .scaleX(1)
+                .setDuration(200)
+                .setInterpolator(INTERPOLATOR)
+                .setStartDelay(animationDelay)
+                .start();
     }
 
     @Override

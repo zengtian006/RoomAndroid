@@ -9,9 +9,10 @@
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:padding="8dp"
-        android:src="@drawable/hoodie"
+        android:layout_margin="8dp"
         android:background="@android:color/white"
-        android:layout_margin="8dp" />
+        android:clickable="false"
+        android:padding="8dp"
+        android:src="@drawable/hoodie" />
 
 </RelativeLayout>

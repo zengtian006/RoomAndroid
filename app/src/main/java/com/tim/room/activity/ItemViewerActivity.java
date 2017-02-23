@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -141,7 +142,7 @@ public class ItemViewerActivity extends AppCompatActivity {
 //                startActivity(new Intent(ItemViewerActivity.this, ItemFilterActivity.class));
                 return true;
             case R.id.action_check_updates:
-//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
 //                recyclerViewImages.setLayoutManager(mLayoutManager);
             default:
                 return super.onOptionsItemSelected(item);
