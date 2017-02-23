@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,7 +50,10 @@ public class ItemViewerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_viewer);
+//        overridePendingTransition(R.anim.push_down_in, R.anim.push_up_out);
         this.mContext = getApplicationContext();
+        final ProgressDialog dialog = new ProgressDialog(ItemViewerActivity.this);
+        dialog.show();
         recycler_view_cate_list = (RecyclerView) findViewById(R.id.recycler_view_cates);
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
@@ -64,6 +68,7 @@ public class ItemViewerActivity extends AppCompatActivity {
         recyclerViewImages.setLayoutManager(mLayoutManager);
         recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
         recyclerViewImages.setAdapter(mAdapter);
+        recyclerViewImages.setHasFixedSize(true);
         recyclerViewImages.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(getApplicationContext(), recyclerViewImages, new GalleryAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -90,8 +95,6 @@ public class ItemViewerActivity extends AppCompatActivity {
 
         //Find Sub Category
         RESTFulService itemCatesService = RESTFulServiceImp.createService(RESTFulService.class);
-        final ProgressDialog dialog = new ProgressDialog(ItemViewerActivity.this);
-        dialog.show();
         itemCatesService.findSubCategoriesById(itemSeries.getCate_id()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ArrayList<Categories>>() {
@@ -100,40 +103,25 @@ public class ItemViewerActivity extends AppCompatActivity {
                         CateFilterAdapter cateFilterAdapter = new CateFilterAdapter(mContext, categories, itemSeries.getItems());
                         recycler_view_cate_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                         recycler_view_cate_list.setAdapter(cateFilterAdapter);
+                        recycler_view_cate_list.setHasFixedSize(true);
                         recycler_view_cate_list.setItemAnimator(new DefaultItemAnimator());
+                        cateFilterAdapter.setOnItemClickListener(new CateFilterAdapter.OnRecyclerViewItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, Categories data) {
+                                items.clear();
+
+                                for (Items item : itemSeries.getItems()) {
+                                    if (item.getCateId().equals(data.getId())) {
+                                        Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+                                        items.add(item);
+                                    }
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
                         dialog.dismiss();
                     }
                 });
-//        RESTFulService itemService = RESTFulServiceImp.createService(RESTFulService.class);
-//        itemService.findAllItemsTest(session.getUser().getId().toString()).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<List<Items>>() {
-//                    @Override
-//                    public void accept(List<Items> items) throws Exception {
-//                        images = new ArrayList<>();
-//                        for (Items item : items) {
-//                            String image_path = IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName();
-//                            images.add(image_path);
-//                            Log.v(TAG, image_path);
-//                            images.add("http://www.w3schools.com/css/trolltunga.jpg");
-//                            images.add("http://www.w3schools.com/howto/img_fjords.jpg");
-//                            images.add("http://www.nikon.com.cn/tmp/CN/4016499630/3760176746/3015334490/1054978028/4291728192/3007905606.jpg");
-//                        }
-//
-//                    }
-//                });
-
-//        ImageButton btn_change = (ImageButton) findViewById(R.id.imageButton1);
-//        btn_change.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                images.clear();
-//                images.add("http://www.w3schools.com/css/trolltunga.jpg");
-//                images.add("http://www.w3schools.com/howto/img_fjords.jpg");
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        });
-
     }
 
     @Override
@@ -152,8 +140,17 @@ public class ItemViewerActivity extends AppCompatActivity {
                 colorPicker.setRoundColorButton(true).show();
 //                startActivity(new Intent(ItemViewerActivity.this, ItemFilterActivity.class));
                 return true;
+            case R.id.action_check_updates:
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                recyclerViewImages.setLayoutManager(mLayoutManager);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        overridePendingTransition(R.anim.push_down_in, R.anim.push_up_out);
     }
 }

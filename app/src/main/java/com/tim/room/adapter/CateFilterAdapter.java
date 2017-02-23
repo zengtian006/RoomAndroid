@@ -25,11 +25,27 @@ import static com.tim.room.app.AppConfig.IMG_BASE_URL;
  * Created by Zeng on 2017/2/16.
  */
 
-public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.MyViewHolder> {
+public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.MyViewHolder> implements View.OnClickListener {
 
     private Context mContext;
     private ArrayList<Categories> categories;
     List<Items> allItems;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
+    @Override
+    public void onClick(View view) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(view, (Categories) view.getTag());
+        }
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+    public static interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view, Categories data);
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageButton iv_cate_item;
@@ -38,23 +54,22 @@ public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.My
         public MyViewHolder(View view) {
             super(view);
             iv_cate_item = (ImageButton) view.findViewById(R.id.iv_cate_item);
-            iv_cate_item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.v("CATEITEMS", "Filtered Items size Before:" + allItems.size());
-                    ItemViewerActivity.items.clear();
-                    Log.v("CATEITEMS", "Filtered Items size:" + allItems.size());
-
-                    for (Items item : allItems) {
-                        if (item.getCateId().equals(iv_cate_item.getTag())) {
-                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
-//                            ItemViewerActivity.images.add(IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName());
-                            ItemViewerActivity.items.add(item);
-                        }
-                    }
-                    ItemViewerActivity.mAdapter.notifyDataSetChanged();
-                }
-            });
+//            iv_cate_item.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Log.v("CATEITEMS", "Filtered Items size Before:" + allItems.size());
+//                    ItemViewerActivity.items.clear();
+//                    Log.v("CATEITEMS", "Filtered Items size:" + allItems.size());
+//
+//                    for (Items item : allItems) {
+//                        if (item.getCateId().equals(iv_cate_item.getTag())) {
+//                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+//                            ItemViewerActivity.items.add(item);
+//                        }
+//                    }
+//                    ItemViewerActivity.mAdapter.notifyDataSetChanged();
+//                }
+//            });
         }
     }
 
@@ -68,13 +83,14 @@ public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.My
     public CateFilterAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_cate_imagebutton, parent, false);
-
+        itemView.setOnClickListener(this);
         return new CateFilterAdapter.MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final CateFilterAdapter.MyViewHolder holder, int position) {
         Categories cate = categories.get(position);
+        holder.itemView.setTag(cate);
 
         Glide.with(mContext).load(IMG_BASE_URL + "categories/" + cate.getCateName() + ".png")
                 .thumbnail(0.1f)
