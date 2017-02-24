@@ -129,6 +129,8 @@ public class ItemViewerActivity extends AppCompatActivity {
                 .subscribe(new Consumer<ArrayList<Categories>>() {
                     @Override
                     public void accept(ArrayList<Categories> categories) throws Exception {
+                        Categories topCate = new Categories(0, null, null);
+                        categories.add(0, topCate);
                         CateFilterAdapter cateFilterAdapter = new CateFilterAdapter(mContext, categories, itemSeries.getItems());
                         recycler_view_cate_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                         recycler_view_cate_list.setAdapter(cateFilterAdapter);
@@ -138,11 +140,14 @@ public class ItemViewerActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(View view, Categories data) {
                                 items.clear();
-
-                                for (Items item : itemSeries.getItems()) {
-                                    if (item.getCateId().equals(data.getId())) {
-                                        Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
-                                        items.add(item);
+                                if (data.getId() == 0) { //Show All
+                                    items.addAll(itemSeries.getItems());
+                                } else {
+                                    for (Items item : itemSeries.getItems()) {
+                                        if (item.getCateId().equals(data.getId())) {
+                                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+                                            items.add(item);
+                                        }
                                     }
                                 }
                                 mAdapter.notifyDataSetChanged();

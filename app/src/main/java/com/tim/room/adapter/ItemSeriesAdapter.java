@@ -3,8 +3,6 @@ package com.tim.room.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tim.room.R;
+import com.tim.room.activity.ItemFullScreenViewer;
 import com.tim.room.activity.ItemViewerActivity;
-import com.tim.room.fragment.SlideshowDialogFragment;
 import com.tim.room.model.ItemSeries;
 
 import java.io.Serializable;
@@ -91,14 +89,20 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
         itemRowHolder.recycler_view_list.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(mContext, itemRowHolder.recycler_view_list, new GalleryAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("items", (Serializable) itemsList);
+//                bundle.putInt("position", position);
+//
+//                FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+//                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+//                newFragment.setArguments(bundle);
+//                newFragment.show(ft, "slideshow");
+                Intent intent = new Intent(mContext, ItemFullScreenViewer.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", (Serializable) itemsList);
-                bundle.putInt("position", position);
-
-                FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
-                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
-                newFragment.setArguments(bundle);
-                newFragment.show(ft, "slideshow");
+                bundle.putSerializable("position", position);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
 
             @Override

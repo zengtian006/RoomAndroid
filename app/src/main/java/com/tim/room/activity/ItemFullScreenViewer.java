@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -39,11 +41,16 @@ public class ItemFullScreenViewer extends AppCompatActivity implements CardAdapt
 
         updateItemService = RESTFulServiceImp.createService(RESTFulService.class);
 
-
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         mItems = (List<Items>) bundle.getSerializable("items");
         position = (int) bundle.getSerializable("position");
+
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
         setRecyclerView();
 
     }
@@ -101,5 +108,14 @@ public class ItemFullScreenViewer extends AppCompatActivity implements CardAdapt
     @Override
     public void onProfileClick(View v) {
         Toast.makeText(ItemFullScreenViewer.this, "Profile click", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

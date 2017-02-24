@@ -2,7 +2,6 @@ package com.tim.room.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
-import com.tim.room.activity.ItemViewerActivity;
 import com.tim.room.model.Categories;
 import com.tim.room.model.Items;
 
@@ -91,13 +89,21 @@ public class CateFilterAdapter extends RecyclerView.Adapter<CateFilterAdapter.My
     public void onBindViewHolder(final CateFilterAdapter.MyViewHolder holder, int position) {
         Categories cate = categories.get(position);
         holder.itemView.setTag(cate);
-
-        Glide.with(mContext).load(IMG_BASE_URL + "categories/" + cate.getCateName() + ".png")
-                .thumbnail(0.1f)
-                .fitCenter()
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.iv_cate_item);
+        if (cate.getId() == 0) {
+            Glide.with(mContext).load(R.drawable.closet)
+                    .thumbnail(0.1f)
+                    .fitCenter()
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.iv_cate_item);
+        } else {
+            Glide.with(mContext).load(IMG_BASE_URL + "categories/" + cate.getCateName() + ".png")
+                    .thumbnail(0.1f)
+                    .fitCenter()
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.iv_cate_item);
+        }
         holder.iv_cate_item.setTag(cate.getId());
     }
 
