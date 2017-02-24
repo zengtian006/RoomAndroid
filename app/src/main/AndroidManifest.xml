@@ -63,9 +63,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
-        <activity
             android:name=".activity.AddItemActivity"
             android:label=""
             android:parentActivityName=".MainActivity"
@@ -83,7 +80,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".activity.ItemCateActivity"></activity>
+        <activity android:name=".activity.ItemCateActivity" />
+        <activity
+            android:name=".activity.ItemFullScreenViewer"
+            android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>

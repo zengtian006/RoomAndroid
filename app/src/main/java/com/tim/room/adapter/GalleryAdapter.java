@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -38,14 +38,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView thumbnail;
-        public RelativeLayout rl;
+        public FrameLayout rl;
         public CheckBox cb;
 
         public MyViewHolder(View view) {
             super(view);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             cb = (CheckBox) view.findViewById(R.id.checkBox);
-            rl = (RelativeLayout) view.findViewById(R.id.imageSquareLayout);
+            rl = (FrameLayout) view.findViewById(R.id.imageSquareLayout);
             cb.setVisibility(View.GONE);
         }
     }

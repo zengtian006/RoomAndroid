@@ -3,7 +3,6 @@ package com.tim.room.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,7 +19,6 @@ import android.widget.RelativeLayout;
 import com.tim.room.R;
 import com.tim.room.adapter.CateFilterAdapter;
 import com.tim.room.adapter.GalleryAdapter;
-import com.tim.room.fragment.SlideshowDialogFragment;
 import com.tim.room.helper.ColorPicker;
 import com.tim.room.helper.ProgressDialog;
 import com.tim.room.model.Categories;
@@ -74,14 +72,21 @@ public class ItemViewerActivity extends AppCompatActivity {
         recyclerViewImages.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(getApplicationContext(), recyclerViewImages, new GalleryAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("items", (Serializable) items);
+//                bundle.putInt("position", position);
+//
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+//                newFragment.setArguments(bundle);
+//                newFragment.show(ft, "slideshow");
+
+                Intent intent = new Intent(ItemViewerActivity.this, ItemFullScreenViewer.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", (Serializable) items);
-                bundle.putInt("position", position);
-
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
-                newFragment.setArguments(bundle);
-                newFragment.show(ft, "slideshow");
+                bundle.putSerializable("position", position);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
 
             private static final float SELECTED_SCALE = .8f;

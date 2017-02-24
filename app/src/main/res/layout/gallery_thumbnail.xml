@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.tim.room.helper.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.tim.room.helper.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/imageSquareLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,19 +13,19 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
 
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/tv_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:alpha="0.5"
         android:background="#e0000000"
-        android:textColor="@android:color/white" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" />
-</com.tim.room.helper.SquareLayout>
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="false"
+        android:visibility="gone" />
+</com.tim.room.helper.SquareFrameLayout>
