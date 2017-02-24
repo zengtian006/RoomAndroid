@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.tim.room.R;
@@ -94,7 +95,7 @@ public class ItemViewerActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
-                RelativeLayout rl = (RelativeLayout) view.findViewById(R.id.imageSquareLayout);
+                FrameLayout rl = (FrameLayout) view.findViewById(R.id.imageSquareLayout);
                 final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox);
                 if (cb.isChecked()) {
                     rl.animate()
