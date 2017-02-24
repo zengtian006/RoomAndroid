@@ -96,7 +96,7 @@ public class SlideshowDialogFragment extends DialogFragment {
     private void displayMetaInfo(final int position) {
         lblCount.setText((position + 1) + " of " + items.size());
         Items item = items.get(position);
-        String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
+//        String image = IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName();
         lblTitle.setText(item.getUser().getName());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {

@@ -4,27 +4,27 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 /**
  * Created by Lincoln on 05/04/16.
  */
-class SquareLayout extends RelativeLayout {
+class SquareFrameLayout extends FrameLayout {
 
-    public SquareLayout(Context context) {
+    public SquareFrameLayout(Context context) {
         super(context);
     }
 
-    public SquareLayout(Context context, AttributeSet attrs) {
+    public SquareFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SquareLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SquareFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SquareLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SquareFrameLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
