@@ -1,6 +1,8 @@
 package com.tim.room.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,7 +80,29 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         cellFeedViewHolder.stPublic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onFeedItemClickListener.onPublicClick(itemView, cellFeedViewHolder.getAdapterPosition(), cellFeedViewHolder.stPublic.isChecked());
+                final Boolean isCheck = cellFeedViewHolder.stPublic.isChecked();
+                String message = "";
+                if (isCheck) {
+                    message = "Do you want to set this item as public?";
+                } else {
+                    message = "Do you want to set this item as private?";
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Room");
+                builder.setMessage(message);
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        cellFeedViewHolder.stPublic.setChecked(!isCheck);
+                    }
+                });
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        onFeedItemClickListener.onPublicClick(itemView, cellFeedViewHolder.getAdapterPosition(), cellFeedViewHolder.stPublic.isChecked());
+                    }
+                });
+                builder.show();
             }
         });
 

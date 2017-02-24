@@ -73,6 +73,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements CardAdapt
 
     @Override
     public void onPublicClick(View v, int position, boolean b) {
+
         if (b) {
             mItems.get(position).setGlobal("1");
             updateItemService.updateItem(mItems.get(position)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
@@ -94,9 +95,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements CardAdapt
                     }
                 }
             });
-//            cardAdapter.notifyDataSetChanged();
         }
-
     }
 
     @Override
