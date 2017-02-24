@@ -18,9 +18,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:layout_marginBottom="5dp">
+            android:paddingRight="8dp">
 
             <ImageView
                 android:id="@+id/ivUserProfile"
@@ -37,7 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textOff="private"
+                android:textOn="public" />
         </RelativeLayout>
 
         <com.tim.room.helper.SquareFrameLayout
