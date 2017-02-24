@@ -8,27 +8,27 @@
     tools:context="com.tim.room.activity.ItemFullScreenViewer">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar2" />
+        android:theme="?attr/actionBarTheme" />
 
     <ImageView
         android:id="@+id/blurView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_3"
-        android:scaleType="centerCrop"
-        android:layout_below="@+id/toolbar2" />
+        android:layout_below="@+id/toolbar2"
+        android:background="@drawable/blurbackground_man"
+        android:scaleType="centerCrop" />
 
     <com.tim.room.helper.SpeedRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="30dp"
         android:layout_below="@+id/toolbar2"
+        android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp" />
 
 </RelativeLayout>
