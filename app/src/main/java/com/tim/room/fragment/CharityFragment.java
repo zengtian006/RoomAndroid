@@ -47,6 +47,14 @@ public class CharityFragment extends Fragment {
         test.add("Two");
         test.add("Three");
         test.add("Four");
+        test.add("One");
+        test.add("Two");
+        test.add("Three");
+        test.add("Four");
+        test.add("One");
+        test.add("Two");
+        test.add("Three");
+        test.add("Four");
         CharityAdapter charityAdapter = new CharityAdapter(mContext, test);
         rv.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rv.setAdapter(charityAdapter);

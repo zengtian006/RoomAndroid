@@ -7,143 +7,88 @@
     android:layout_height="match_parent"
     tools:context="com.tim.room.MainActivity">
 
-    <com.tim.room.helper.ZoomScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        app:maxZoom="150dp"
-        app:zoomId="@+id/iv_zoom">
-
-        <RelativeLayout
-            android:id="@+id/RelativeLayout1"
+        android:layout_height="wrap_content">
+        <!--<com.tim.room.helper.ZoomScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@android:color/white"-->
+        <!--app:maxZoom="150dp"-->
+        <!--app:zoomId="@+id/iv_zoom">-->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_zoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bg_2" />
-
-            <ImageView
-                android:id="@+id/iv_user"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignBottom="@+id/iv_zoom"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="@null"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/rneck_shirt" />
-
-            <TableLayout
+            <RelativeLayout
+                android:id="@+id/RelativeLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/iv_zoom"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="20dp"
-                android:stretchColumns="0,1">
+                android:orientation="vertical">
 
-                <TableRow
+                <ImageView
+                    android:id="@+id/iv_zoom"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="200dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_2" />
 
-                    <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="Name"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="false"
+                    android:layout_centerVertical="false"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:padding="10dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/rneck_shirt" />
 
                     <TextView
                         android:id="@+id/tv_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
                         android:text="Tim"
                         android:textSize="18sp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Room Name"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/tv_room_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Tim"
-                        android:textSize="18sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="Gender"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/tv_gender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Man"
-                        android:textSize="18sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </TableLayout>
+                </LinearLayout>
 
 
-        </RelativeLayout>
-    </com.tim.room.helper.ZoomScrollView>
+            </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:padding="10dp">
+            <android.support.design.widget.TabLayout
+                android:id="@+id/userProfileTabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/iv_zoom"
+                android:background="@color/item_title"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/white"
+                app:tabIndicatorHeight="4dp"
+                app:tabMode="fixed" />
 
+            <FrameLayout
+                android:id="@+id/me_container_body"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/userProfileTabs">
 
-        <Button
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
-            android:background="@color/colorAccent"
-            android:text="Logout"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+        <!--</com.tim.room.helper.ZoomScrollView>-->
+    </ScrollView>
 
 </RelativeLayout>

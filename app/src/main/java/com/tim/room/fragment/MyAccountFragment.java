@@ -1,21 +1,22 @@
 package com.tim.room.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
+
+import static com.tim.room.MainActivity.fragmentManager;
 
 /**
  * Created by Zeng on 2017/1/3.
@@ -24,11 +25,11 @@ import com.tim.room.R;
 public class MyAccountFragment extends Fragment {
 
     private static final String TAG = MyAccountFragment.class.getSimpleName();
-    Button btn_logout;
     TextView tv_name, tv_gender, tv_room_name;
     RelativeLayout relativeLayout;
     Context mContext;
     ImageView iv_user;
+    TabLayout userProfileTabs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,52 +45,82 @@ public class MyAccountFragment extends Fragment {
         findView(rootView);
         setView();
         setListener();
+
+        init();
         return rootView;
     }
 
-    private void setListener() {
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.session.setLogin(false, null, null);
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
+    private void init() {
+        displayView(0);
+    }
 
+    private void setListener() {
         iv_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                imageutils.imagepicker(1);
             }
         });
+        userProfileTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Toast.makeText(mContext, tab.getTag().toString(), Toast.LENGTH_SHORT).show();
+                displayView(Integer.valueOf(tab.getTag().toString()));
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setView() {
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) relativeLayout.getLayoutParams();
-        params.height = dm.heightPixels;
-        relativeLayout.setLayoutParams(params);
-
         if (MainActivity.session.isLoggedIn()) {
             tv_name.setText(MainActivity.session.getUser().getName());
-            tv_room_name.setText(MainActivity.session.getUser().getRoomName());
-            if (MainActivity.session.getUser().getGender().equals("F")) {
-                tv_gender.setText("Female");
-            } else {
-                tv_gender.setText("Male");
-            }
         }
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("0"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("1"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("2"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("3"));
     }
 
     private void findView(View rootView) {
         tv_name = (TextView) rootView.findViewById(R.id.tv_name);
-        tv_room_name = (TextView) rootView.findViewById(R.id.tv_room_name);
-        tv_gender = (TextView) rootView.findViewById(R.id.tv_gender);
         relativeLayout = (RelativeLayout) rootView.findViewById(R.id.RelativeLayout1);
-        btn_logout = (Button) rootView.findViewById(R.id.btn_logout);
         iv_user = (ImageView) rootView.findViewById(R.id.iv_user);
+        userProfileTabs = (TabLayout) rootView.findViewById(R.id.userProfileTabs);
+    }
+
+    private void displayView(int position) {
+        Fragment fragment = null;
+        switch (position) {
+            case 0:
+                fragment = new AccountProfileSubFragment();
+                break;
+            case 1:
+                fragment = new GlobalFragment();
+                break;
+            case 2:
+                fragment = new AddFragment();
+                break;
+            case 3:
+                fragment = new CharityFragment();
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            fragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.me_container_body, fragment);
+            fragmentTransaction.commit();
+        }
     }
 }
