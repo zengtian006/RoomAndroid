@@ -61,7 +61,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     public static String testBucket;
 
 
-    EditText edt_brand, edt_title, edt_cate, edt_date;
+    EditText edt_brand, edt_title, edt_cate, edt_date, edt_exp_date;
     TextView tv_cate_id;
     Button btn_color1, btn_color2, btn_color3;
     private int mYear, mMonth, mDay;
@@ -118,6 +118,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         edt_cate.setClickable(true);
         edt_date.setFocusable(false);
         edt_date.setClickable(true);
+        edt_exp_date.setFocusable(false);
+        edt_exp_date.setClickable(true);
 
     }
 
@@ -131,6 +133,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         btn_color2 = (Button) findViewById(R.id.btn_color2);
         btn_color3 = (Button) findViewById(R.id.btn_color3);
         edt_date = (EditText) findViewById(R.id.edt_date);
+        edt_exp_date = (EditText) findViewById(R.id.edt_exp_date);
     }
 
     private void setListener() {
@@ -167,6 +170,23 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
             }
         });
 
+        edt_exp_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+                new DatePickerDialog(AddItemActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        Date date = setDateFormat(year, month, day);
+                        edt_exp_date.setText(date.toString());
+                    }
+
+                }, mYear, mMonth, mDay).show();
+            }
+        });
         btn_color1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

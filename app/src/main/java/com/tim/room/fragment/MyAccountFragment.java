@@ -85,8 +85,8 @@ public class MyAccountFragment extends Fragment {
         }
         userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("0"));
         userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("1"));
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("2"));
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("3"));
+//        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("2"));
+//        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("3"));
     }
 
     private void findView(View rootView) {
