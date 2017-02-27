@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class GlobalFragment extends Fragment {
     Context mContext;
     RecyclerView recyclerViewImages;
     public static GalleryAdapter mAdapter;
+    SearchView searchView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,5 +66,7 @@ public class GlobalFragment extends Fragment {
 
     private void findView(View rootView) {
         recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
+
+        searchView = (SearchView) rootView.findViewById(R.id.search_view);
     }
 }
