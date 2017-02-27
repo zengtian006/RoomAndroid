@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
@@ -64,7 +63,7 @@ public class MyAccountFragment extends Fragment {
         userProfileTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Toast.makeText(mContext, tab.getTag().toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, tab.getTag().toString(), Toast.LENGTH_SHORT).show();
                 displayView(Integer.valueOf(tab.getTag().toString()));
             }
 
@@ -84,10 +83,10 @@ public class MyAccountFragment extends Fragment {
         if (MainActivity.session.isLoggedIn()) {
             tv_name.setText(MainActivity.session.getUser().getName());
         }
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("0"));
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("1"));
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("2"));
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(android.R.drawable.ic_dialog_alert).setTag("3"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("0"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("1"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("2"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("3"));
     }
 
     private void findView(View rootView) {
