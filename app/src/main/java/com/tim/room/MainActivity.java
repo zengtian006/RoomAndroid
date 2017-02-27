@@ -18,7 +18,7 @@ import com.tim.room.app.SessionManager;
 import com.tim.room.fragment.AddFragment;
 import com.tim.room.fragment.HomeFragment;
 import com.tim.room.fragment.MyAccountFragment;
-import com.tim.room.fragment.SearchFragment;
+import com.tim.room.fragment.CharityFragment;
 import com.tim.room.fragment.GlobalFragment;
 
 ;
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new AddFragment();
                 break;
             case 3:
-                fragment = new SearchFragment();
+                fragment = new CharityFragment();
                 break;
             case 4:
                 fragment = new MyAccountFragment();
