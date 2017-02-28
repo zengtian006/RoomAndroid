@@ -1,6 +1,7 @@
 package com.tim.room.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -20,15 +21,20 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.tim.room.R;
 import com.tim.room.helper.ColorPicker;
 import com.tim.room.model.Items;
@@ -60,16 +66,19 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     public static String accessKeySecret;
     public static String testBucket;
 
-
+    Context mContext;
     EditText edt_brand, edt_title, edt_cate, edt_date, edt_exp_date;
+    Switch st_global;
     TextView tv_cate_id;
     Button btn_color1, btn_color2, btn_color3;
+    ScrollView scrollView;
     private int mYear, mMonth, mDay;
     SimpleDateFormat sdf;
     ImageUtils imageutils;
     public static ImageView imageAdd;
     private Bitmap bitmap;
     private String file_name;
+    UploadImage uploadImage;
 
     private void loadConfiguration() throws PackageManager.NameNotFoundException {
         ApplicationInfo appInfo = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
@@ -83,6 +92,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+        this.mContext = getApplicationContext();
         configurOSS();
         findView();
         setView();
@@ -120,7 +130,6 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         edt_date.setClickable(true);
         edt_exp_date.setFocusable(false);
         edt_exp_date.setClickable(true);
-
     }
 
     private void findView() {
@@ -134,6 +143,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         btn_color3 = (Button) findViewById(R.id.btn_color3);
         edt_date = (EditText) findViewById(R.id.edt_date);
         edt_exp_date = (EditText) findViewById(R.id.edt_exp_date);
+        st_global = (Switch) findViewById(R.id.st_global);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
     }
 
     private void setListener() {
@@ -231,12 +242,33 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     itemObject.setBrand(edt_brand.getText().toString());
                     itemObject.setTitle(edt_title.getText().toString());
                     itemObject.setDate(edt_date.getText().toString());
+                    itemObject.setExpDate(edt_exp_date.getText().toString());
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String nowDatetime = df.format(Calendar.getInstance().getTime());
                     itemObject.setCreated(nowDatetime);
-                    itemObject.setGlobal("0");
+                    if (st_global.isChecked()) {
+                        itemObject.setGlobal("1");
+                    } else {
+                        itemObject.setGlobal("0");
+                    }
                     itemObject.setImageName(uploadObject);
                     itemObject.setCateId(Integer.valueOf(tv_cate_id.getText().toString()));
+                    uploadImage = new UploadImage(oss, testBucket, uploadUrl + uploadObject, path);
+                    uploadImage.setOnUploadImageListener(new UploadImage.OnUploadImageListener() {
+                        @Override
+                        public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+//                            Log.d(TAG, "currentSize: " + currentSize + " totalSize: " + totalSize);
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+                        }
+                    });
                     addItemService.addItem(itemObject).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {
@@ -244,7 +276,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new UploadImage(oss, testBucket, uploadUrl + uploadObject, path).asyncPutObjectFromLocalFile();
+                                        uploadImage.asyncPutObjectFromLocalFile();
                                     }
                                 }).start();
                             } else {

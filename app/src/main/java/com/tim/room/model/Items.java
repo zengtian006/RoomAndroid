@@ -20,6 +20,15 @@ public class Items implements java.io.Serializable {
     private String date;
     private String global;
     private String created;
+    private String expDate;
+
+    public String getExpDate() {
+        return expDate;
+    }
+
+    public void setExpDate(String expDate) {
+        this.expDate = expDate;
+    }
 
     public Items() {
     }
