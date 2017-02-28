@@ -16,10 +16,21 @@ import com.tim.room.activity.AddItemActivity;
 import com.tim.room.activity.LoginAcitivity;
 import com.tim.room.app.SessionManager;
 import com.tim.room.fragment.AddFragment;
-import com.tim.room.fragment.HomeFragment;
-import com.tim.room.fragment.MyAccountFragment;
 import com.tim.room.fragment.CharityFragment;
 import com.tim.room.fragment.GlobalFragment;
+import com.tim.room.fragment.HomeFragment;
+import com.tim.room.fragment.MyAccountFragment;
+import com.tim.room.model.imageRequest;
+import com.tim.room.model.imageResultResponse;
+import com.tim.room.model.imageSendResponse;
+import com.tim.room.rest.RESTFulService;
+import com.tim.room.rest.RESTFulServiceImp;
+
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 ;
 
@@ -55,38 +66,30 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-
-//        jerseyService.getString()
+//        final RESTFulService jerseyService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
+//        imageRequest request = new imageRequest();
+//        request.setImage_request(new imageRequest.ImageRequestBean("en", "http://tim198789.oss-cn-shanghai.aliyuncs.com/0a00036a-5a26-1b79-815a-269d607e0000/15.jpg"));
+//        jerseyService.sendImage(request)
 //                .subscribeOn(Schedulers.io())//在IO线程请求执行
 //                .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
-//                .doOnNext(new Consumer<ResponseBody>() {
+//                .doOnNext(new Consumer<imageSendResponse>() {
 //                    @Override
-//                    public void accept(ResponseBody responseBody) throws Exception {
-//                        try {
-//                            Log.v("wxl", "response1: " + responseBody.string());
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
+//                    public void accept(imageSendResponse responseBody) throws Exception {
+//                        Log.v("wxl", "response1: " + responseBody.getToken());
 //                    }
 //                })
 //                .observeOn(Schedulers.io())//回到IO线程去发起第二次请求
-//                .flatMap(new Function<ResponseBody, ObservableSource<ResponseBody>>() {
+//                .flatMap(new Function<imageSendResponse, ObservableSource<imageResultResponse>>() {
 //                    @Override
-//                    public ObservableSource<ResponseBody> apply(ResponseBody responseBody) throws Exception {
-//                        return jerseyService.getString2();
+//                    public ObservableSource<imageResultResponse> apply(imageSendResponse imageSendResponse) throws Exception {
+//                        return jerseyService.imageResponse(imageSendResponse.getToken());
 //                    }
 //                })
 //                .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理第二次请求的结果
-//                .subscribe(new Consumer<ResponseBody>() {
+//                .subscribe(new Consumer<imageResultResponse>() {
 //                    @Override
-//                    public void accept(ResponseBody responseBody) throws Exception {
-//                        Log.v("wxl", "response2: " + responseBody.string());
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.v("wxl", "error: " + throwable.getMessage());
-//
+//                    public void accept(imageResultResponse responseBody) throws Exception {
+//                        Log.v("wxl", "response2: " + responseBody.getName());
 //                    }
 //                });
 

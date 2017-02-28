@@ -5,6 +5,9 @@ import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.model.User;
 import com.tim.room.model.UserResponse;
+import com.tim.room.model.imageRequest;
+import com.tim.room.model.imageResultResponse;
+import com.tim.room.model.imageSendResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,17 @@ import retrofit2.http.Path;
 
 
 public interface RESTFulService {
+    @Headers({"Authorization: CloudSight yadDzGB0XBbi8NyWs4PyVw",
+            "Content-Type: application/json"
+    })
+    @POST("image_requests")
+    Observable<imageSendResponse> sendImage(@Body imageRequest request);
+
+    @Headers("Authorization: CloudSight yadDzGB0XBbi8NyWs4PyVw")
+    @GET("image_responses/{token}")
+    Observable<imageResultResponse> imageResponse(@Path("token") String token);
+
+
     @GET("getString")
     Observable<ResponseBody> getString();
 

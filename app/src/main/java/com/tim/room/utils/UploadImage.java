@@ -77,6 +77,7 @@ public class UploadImage {
 
     // 从本地文件上传，使用非阻塞的异步接口
     public void asyncPutObjectFromLocalFile() {
+
         // 构造上传请求
         PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
 
@@ -88,7 +89,6 @@ public class UploadImage {
                 Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
             }
         });
-
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
