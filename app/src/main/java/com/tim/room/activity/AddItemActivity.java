@@ -346,6 +346,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String nowDatetime = df.format(Calendar.getInstance().getTime());
                     itemObject.setCreated(nowDatetime);
+                    itemObject.setTags(mTagContainerLayout.getTags());
                     if (st_global.isChecked()) {
                         itemObject.setGlobal("1");
                     } else {
@@ -397,7 +398,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 
     private Boolean checkUpload() {
         Boolean result = true;
-        if (imageAdd.getTag() == null || edt_brand.getText().toString().trim().isEmpty() || edt_title.getText().toString().trim().isEmpty() || tv_cate_id.getText().toString().trim().isEmpty() || edt_date.getText().toString().trim().isEmpty()) {
+        if (imageAdd.getTag() == null || edt_title.getText().toString().trim().isEmpty() || tv_cate_id.getText().toString().trim().isEmpty()) {
             result = false;
         }
         return result;

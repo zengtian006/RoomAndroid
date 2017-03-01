@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
         android:paddingTop="10dp">
 
         <RelativeLayout
@@ -55,15 +54,59 @@
 
         </com.tim.room.helper.SquareFrameLayout>
 
-        <ImageView
-            android:id="@+id/ivFeedBottom"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.tim.room.helper.TagContainerLayout
+                android:id="@+id/tagcontainerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                app:container_background_color="#00000000"
+                app:container_border_color="#bfbfbf"
+                app:container_border_radius="0dp"
+                app:container_border_width="0dp"
+                app:horizontal_interval="10dp"
+                app:tag_text_size="12sp"
+                app:tag_theme="random"
+                app:vertical_interval="8dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#bfbfbf" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
 

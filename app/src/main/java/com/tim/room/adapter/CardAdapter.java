@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
 import com.tim.room.helper.CardAdapterHelper;
+import com.tim.room.helper.TagContainerLayout;
 import com.tim.room.model.Items;
 
 import java.util.ArrayList;
@@ -136,6 +138,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 ToastUtils.show(holder.imageView.getContext(), "" + position);
             }
         });
+        holder.itemTitle.setText(item.getTitle());
+        holder.userName.setText(item.getUser().getName());
+        List<String> list = new ArrayList<>();
+        list.add("fashion");
+        list.add("man");
+        list.add("great");
+
+        holder.tagcontainerLayout.setTags(list);
     }
 
     @Override
@@ -150,6 +160,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         ImageButton btnMore;
         ImageView ivUserProfile;
         Switch stPublic;
+        TextView itemTitle, userName;
+        TagContainerLayout tagcontainerLayout;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -159,6 +171,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             btnMore = (ImageButton) itemView.findViewById(R.id.btnMore);
             ivUserProfile = (ImageView) itemView.findViewById(R.id.ivUserProfile);
             stPublic = (Switch) itemView.findViewById(R.id.switcher_public);
+            itemTitle = (TextView) itemView.findViewById(R.id.item_title);
+            userName = (TextView) itemView.findViewById(R.id.user_name);
+            tagcontainerLayout = (TagContainerLayout) itemView.findViewById(R.id.tagcontainerLayout);
         }
 
     }

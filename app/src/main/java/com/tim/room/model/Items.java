@@ -1,5 +1,6 @@
 package com.tim.room.model;
 
+import java.util.List;
 import java.util.UUID;
 
 // Generated 2017-2-10 15:27:36 by Hibernate Tools 4.3.1
@@ -21,14 +22,7 @@ public class Items implements java.io.Serializable {
     private String global;
     private String created;
     private String expDate;
-
-    public String getExpDate() {
-        return expDate;
-    }
-
-    public void setExpDate(String expDate) {
-        this.expDate = expDate;
-    }
+    private List<String> tags;
 
     public Items() {
     }
@@ -42,6 +36,22 @@ public class Items implements java.io.Serializable {
         this.imageName = imageName;
         this.remark = remark;
         this.status = status;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getExpDate() {
+        return expDate;
+    }
+
+    public void setExpDate(String expDate) {
+        this.expDate = expDate;
     }
 
     public String getCreated() {

@@ -13,7 +13,8 @@
         android:background="?android:attr/colorAccent"
         android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
+        android:id="@+id/toolbar"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/blurView"
