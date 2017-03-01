@@ -1,7 +1,9 @@
 package com.tim.room.activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Switch;
@@ -36,7 +39,8 @@ import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.tim.room.R;
-import com.tim.room.helper.ColorPicker;
+import com.tim.room.helper.TagContainerLayout;
+import com.tim.room.helper.TagView;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
@@ -67,10 +71,12 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     public static String testBucket;
 
     Context mContext;
-    EditText edt_brand, edt_title, edt_cate, edt_date, edt_exp_date;
+    EditText edt_brand, edt_title, edt_cate, edt_date, edt_exp_date, edt_tag;
     Switch st_global;
+    TagContainerLayout mTagContainerLayout;
     TextView tv_cate_id;
     Button btn_color1, btn_color2, btn_color3;
+    ImageButton btn_add_tag;
     ScrollView scrollView;
     private int mYear, mMonth, mDay;
     SimpleDateFormat sdf;
@@ -145,6 +151,9 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         edt_exp_date = (EditText) findViewById(R.id.edt_exp_date);
         st_global = (Switch) findViewById(R.id.st_global);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
+        mTagContainerLayout = (TagContainerLayout) findViewById(R.id.tagcontainerLayout);
+        btn_add_tag = (ImageButton) findViewById(R.id.btn_add_tag);
+        edt_tag = (EditText) findViewById(R.id.edt_tag);
     }
 
     private void setListener() {
@@ -162,25 +171,47 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 //                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             }
         });
-
-        edt_date.setOnClickListener(new View.OnClickListener() {
+        btn_add_tag.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
-                new DatePickerDialog(AddItemActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        Date date = setDateFormat(year, month, day);
-                        edt_date.setText(date.toString());
-                    }
-
-                }, mYear, mMonth, mDay).show();
+            public void onClick(View v) {
+                if (!edt_tag.getText().toString().trim().equals("")) {
+                    mTagContainerLayout.addTag(edt_tag.getText().toString());
+                    edt_tag.setText("");
+                }
             }
         });
+        mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
+            @Override
+            public void onTagClick(final int position, String text) {
+                AlertDialog dialog = new AlertDialog.Builder(AddItemActivity.this)
+                        .setTitle("long click")
+                        .setMessage("You will delete this tag!")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mTagContainerLayout.removeTag(position);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                dialog.show();
+            }
 
+            @Override
+            public void onTagLongClick(int position, String text) {
+
+            }
+
+            @Override
+            public void onTagCrossClick(int position) {
+
+            }
+        });
         edt_exp_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,24 +229,43 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                 }, mYear, mMonth, mDay).show();
             }
         });
-        btn_color1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final ColorPicker colorPicker = new ColorPicker(AddItemActivity.this);
-                colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
-                    @Override
-                    public void onChooseColor(int position, int color) {
-                        Log.v(TAG, "Color: " + color);
-                        btn_color1.setBackgroundColor(color);
-                    }
+//        edt_date.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final Calendar c = Calendar.getInstance();
+//                mYear = c.get(Calendar.YEAR);
+//                mMonth = c.get(Calendar.MONTH);
+//                mDay = c.get(Calendar.DAY_OF_MONTH);
+//                new DatePickerDialog(AddItemActivity.this, new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int month, int day) {
+//                        Date date = setDateFormat(year, month, day);
+//                        edt_date.setText(date.toString());
+//                    }
+//
+//                }, mYear, mMonth, mDay).show();
+//            }
+//        });
+//
 
-                    @Override
-                    public void onCancel() {
-
-                    }
-                }).show();
-            }
-        });
+//        btn_color1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final ColorPicker colorPicker = new ColorPicker(AddItemActivity.this);
+//                colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+//                    @Override
+//                    public void onChooseColor(int position, int color) {
+//                        Log.v(TAG, "Color: " + color);
+//                        btn_color1.setBackgroundColor(color);
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//                }).show();
+//            }
+//        });
     }
 
     @Override
@@ -273,6 +323,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {
                             if (aBoolean) {
+
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {

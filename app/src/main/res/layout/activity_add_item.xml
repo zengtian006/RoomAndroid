@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_add_item"
     android:layout_width="match_parent"
@@ -8,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tim.room.activity.AddItemActivity">
+    tools:context="com.tim.room.activity.AddItemActivity"
+    android:background="@color/white">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -29,7 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
                 <ImageView
                     android:id="@+id/add_item_img"
@@ -37,7 +40,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ph_add_image" />
+                    android:src="@drawable/ph_add_image"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
@@ -45,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView5"
@@ -73,17 +78,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="5dp">
 
-                <TextView
-                    android:id="@+id/textView6"
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="10dp"
-                    android:text="Title"
-                    android:textSize="18sp"
-                    android:textStyle="normal|bold" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:src="@drawable/item_desc" />
 
                 <EditText
                     android:id="@+id/edt_title"
@@ -91,8 +93,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Title"
-                    android:inputType="textPersonName" />
+                    android:hint="Title*"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textEnd" />
 
             </LinearLayout>
 
@@ -101,17 +104,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="5dp">
 
-                <TextView
-                    android:id="@+id/textView7"
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="10dp"
-                    android:text="Category"
-                    android:textSize="18sp"
-                    android:textStyle="normal|bold" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:src="@drawable/item_cate" />
 
                 <EditText
                     android:id="@+id/edt_cate"
@@ -119,8 +119,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Category"
-                    android:inputType="textPersonName" />
+                    android:hint="Category*"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textEnd" />
 
                 <TextView
                     android:id="@+id/cate_id"
@@ -134,47 +135,96 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp">
+                android:paddingLeft="10dp">
 
-                <TextView
-                    android:id="@+id/textView15"
+                <com.tim.room.helper.TagContainerLayout
+                    android:id="@+id/tagcontainerLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="10dp"
-                    android:text="Season"
-                    android:textSize="18sp"
-                    android:textStyle="normal|bold" />
+                    android:layout_margin="5dp"
+                    android:padding="10dp"
+                    app:container_background_color="#00000000"
+                    app:container_border_color="#bfbfbf"
+                    app:container_border_radius="0dp"
+                    app:container_border_width="4dp"
+                    app:container_enable_drag="true"
+                    app:horizontal_interval="10dp"
+                    app:tag_clickable="true"
+                    app:tag_theme="random"
+                    app:vertical_interval="10dp" />
+            </LinearLayout>
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp">
+
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:src="@drawable/item_tag" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edt_tag"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Add tags"
+                        android:singleLine="true"
+                        android:textAlignment="textEnd"
+                        android:paddingEnd="30dp" />
+
+                    <ImageButton
+                        android:id="@+id/btn_add_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignBottom="@+id/edt_tag"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@android:drawable/ic_input_add" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp">
+
+                <CheckBox
+                    android:id="@+id/checkBox4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:text="Spring/Fall" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="春/秋" />
+                <CheckBox
+                    android:id="@+id/checkBox3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Summer" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="夏" />
-
-                    <CheckBox
-                        android:id="@+id/checkBox2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="冬" />
-
-                </LinearLayout>
+                <CheckBox
+                    android:id="@+id/checkBox2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Winter" />
 
             </LinearLayout>
 
@@ -184,7 +234,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView8"
@@ -227,7 +278,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView9"
@@ -254,17 +306,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="5dp">
 
-                <TextView
-                    android:id="@+id/textView10"
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="10dp"
-                    android:text="Exp.date"
-                    android:textSize="18sp"
-                    android:textStyle="normal|bold" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:src="@drawable/item_exp_date" />
 
                 <EditText
                     android:id="@+id/edt_exp_date"
@@ -273,7 +322,8 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="Expiration Date"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:textAlignment="textEnd" />
             </LinearLayout>
 
             <LinearLayout
@@ -281,24 +331,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="5dp">
 
-                <TextView
-                    android:id="@+id/textView11"
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="10dp"
-                    android:text="Global"
-                    android:textSize="18sp"
-                    android:textStyle="normal|bold" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:src="@drawable/item_global" />
 
                 <Switch
                     android:id="@+id/st_global"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left" />
+                    android:ems="10"
+                    android:hint="Expiration Date"
+                    android:inputType="date"
+                    android:visibility="invisible" />
             </LinearLayout>
 
         </LinearLayout>
