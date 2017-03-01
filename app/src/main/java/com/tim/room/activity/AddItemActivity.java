@@ -71,7 +71,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     public static String testBucket;
 
     Context mContext;
-    EditText edt_brand, edt_title, edt_cate, edt_date, edt_exp_date, edt_tag;
+    EditText edt_brand, edt_title, edt_cate, edt_date, edt_exp_date, edt_tag, edt_season;
     Switch st_global;
     TagContainerLayout mTagContainerLayout;
     TextView tv_cate_id;
@@ -85,6 +85,9 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     private Bitmap bitmap;
     private String file_name;
     UploadImage uploadImage;
+
+    String[] seasonArray = {"Spring/Fall", "Summer", "Winter"};
+    boolean[] flags;
 
     private void loadConfiguration() throws PackageManager.NameNotFoundException {
         ApplicationInfo appInfo = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
@@ -136,6 +139,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         edt_date.setClickable(true);
         edt_exp_date.setFocusable(false);
         edt_exp_date.setClickable(true);
+        edt_season.setFocusable(false);
+        edt_season.setClickable(true);
     }
 
     private void findView() {
@@ -154,6 +159,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         mTagContainerLayout = (TagContainerLayout) findViewById(R.id.tagcontainerLayout);
         btn_add_tag = (ImageButton) findViewById(R.id.btn_add_tag);
         edt_tag = (EditText) findViewById(R.id.edt_tag);
+        edt_season = (EditText) findViewById(R.id.edt_season);
     }
 
     private void setListener() {
@@ -227,6 +233,50 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     }
 
                 }, mYear, mMonth, mDay).show();
+            }
+        });
+        edt_season.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String selectedSeason = edt_season.getText().toString().trim();
+                flags = new boolean[]{false, false, false};
+                if (!selectedSeason.isEmpty()) {
+                    String[] tempSeasonArray = selectedSeason.split(",");
+                    for (int i = 0; i < tempSeasonArray.length; i++) {
+                        for (int j = 0; j < seasonArray.length; j++) {
+                            if (tempSeasonArray[i].equals(seasonArray[j])) {
+                                flags[j] = true;
+                            }
+                        }
+                    }
+                }
+                new AlertDialog.Builder(AddItemActivity.this)
+                        .setTitle("Select season")
+                        .setIcon(R.drawable.item_season)
+                        .setMultiChoiceItems(seasonArray, flags, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which, boolean b) {
+                                flags[which] = b;
+                            }
+                        })
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int j) {
+                                String result = "";
+                                for (int i = 0; i < flags.length; i++) {
+                                    if (flags[i]) {
+                                        result = result + seasonArray[i] + ",";
+                                    }
+                                }
+                                if (!result.isEmpty()) {
+                                    edt_season.setText(result.substring(0, result.length() - 1));
+                                } else {
+                                    edt_season.setText(result);
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
             }
         });
 //        edt_date.setOnClickListener(new View.OnClickListener() {
