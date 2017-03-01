@@ -16,6 +16,7 @@ import com.tim.room.MainActivity;
 import com.tim.room.R;
 
 import static com.tim.room.MainActivity.fragmentManager;
+import static com.tim.room.utils.CommonUtil.containerHeight;
 
 /**
  * Created by Zeng on 2017/1/3.
@@ -27,7 +28,7 @@ public class MyAccountFragment extends Fragment {
     TextView tv_name, tv_gender, tv_room_name;
     RelativeLayout relativeLayout;
     Context mContext;
-    ImageView iv_user;
+    ImageView iv_user, iv_zoom;
     TabLayout userProfileTabs;
 
     @Override
@@ -83,6 +84,9 @@ public class MyAccountFragment extends Fragment {
         if (MainActivity.session.isLoggedIn()) {
             tv_name.setText(MainActivity.session.getUser().getName());
         }
+        ViewGroup.LayoutParams params = iv_zoom.getLayoutParams();
+        params.height = containerHeight(getActivity(), 2.5);
+        iv_zoom.setLayoutParams(params);
         userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("0"));
         userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("1"));
 //        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("2"));
@@ -94,6 +98,7 @@ public class MyAccountFragment extends Fragment {
         relativeLayout = (RelativeLayout) rootView.findViewById(R.id.RelativeLayout1);
         iv_user = (ImageView) rootView.findViewById(R.id.iv_user);
         userProfileTabs = (TabLayout) rootView.findViewById(R.id.userProfileTabs);
+        iv_zoom = (ImageView) rootView.findViewById(R.id.iv_zoom);
     }
 
     private void displayView(int position) {
