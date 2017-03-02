@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_header"
     android:layout_width="wrap_content"
-    android:layout_height="350dp"
+    android:layout_height="300dp"
     android:gravity="center_vertical|center_horizontal">
     <!--<ImageView-->
     <!--android:id="@+id/header_image_view"-->

@@ -2,6 +2,8 @@ package com.tim.room.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.tim.room.R;
@@ -36,6 +41,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     Context mContext;
     KenBurnsView ken_header_view;
+    int i = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +87,46 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
+//
+//        final Handler handler = new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {//接收消息，并处理
+//                super.handleMessage(msg);
+//                if (msg.what == 1)
+//                    ken_header_view.setImageResource(R.drawable.bg_1);//设置变换后的图片资源
+//                else if (msg.what == 2)
+//                    ken_header_view.setImageResource(R.drawable.bg_2);//设置变换后的图片资源
+//                else if (msg.what == 3)
+//                    ken_header_view.setImageResource(R.drawable.bg_3);//设置变换后的图片资源
+//                else
+//                    ken_header_view.setImageResource(R.drawable.bg_4);//设置变换后的图片资源
+//            }
+//        };
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        Thread.sleep(6000);//暂停 6 秒
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Message message = new Message();
+//                    message.what = i;
+//                    handler.sendMessage(message);//发送消息
+//                    //加上缩放动画
+//                    AnimationSet set = new AnimationSet(true);
+//                    ScaleAnimation scale = new ScaleAnimation(1.5f, 1.0f, 1.5f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                    scale.setDuration(1000);
+//                    set.addAnimation(scale);
+//                    ken_header_view.setAnimation(set);
+//                    if (i == 3)//3张图片播放完，重置
+//                        i = 0;
+//                    i++;
+//                }
+//            }
+//        }).start();
     }
 
     private void findView(final View rootView) {
