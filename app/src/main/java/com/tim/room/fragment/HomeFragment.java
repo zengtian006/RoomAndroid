@@ -15,16 +15,22 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.tim.room.R;
 import com.tim.room.adapter.ItemSeriesAdapter;
+import com.tim.room.helper.KenBurnsView;
+import com.tim.room.helper.LoopViewPager;
 import com.tim.room.helper.ProgressDialog;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -40,9 +46,12 @@ public class HomeFragment extends Fragment {
     private final static String TAG = HomeFragment.class.getSimpleName();
     RecyclerView recyclerView;
     Context mContext;
-    KenBurnsView ken_header_view;
-    int i = 1;
-
+    public static final Integer[] IMAGES_RESOURCE = new Integer[]{
+            R.drawable.bg_1,
+            R.drawable.bg_2,
+            R.drawable.bg_4,
+            R.drawable.bg_3
+    };
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +87,8 @@ public class HomeFragment extends Fragment {
                     recyclerView.setLayoutManager(mLayoutManager);
 
                     View header = LayoutInflater.from(mContext).inflate(R.layout.home_header, recyclerView, false);
-                    ken_header_view = (KenBurnsView) header.findViewById(R.id.header_image_view);
+//                    ken_header_view = (KenBurnsView) header.findViewById(R.id.header_image_view);
+                    initializeKenBurnsView(header);
                     ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSerieList);
                     adapter.setHeaderView(header);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -88,45 +98,50 @@ public class HomeFragment extends Fragment {
             }
         });
 //
-//        final Handler handler = new Handler() {
-//            @Override
-//            public void handleMessage(Message msg) {//接收消息，并处理
-//                super.handleMessage(msg);
-//                if (msg.what == 1)
-//                    ken_header_view.setImageResource(R.drawable.bg_1);//设置变换后的图片资源
-//                else if (msg.what == 2)
-//                    ken_header_view.setImageResource(R.drawable.bg_2);//设置变换后的图片资源
-//                else if (msg.what == 3)
-//                    ken_header_view.setImageResource(R.drawable.bg_3);//设置变换后的图片资源
-//                else
-//                    ken_header_view.setImageResource(R.drawable.bg_4);//设置变换后的图片资源
-//            }
-//        };
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true) {
-//                    try {
-//                        Thread.sleep(6000);//暂停 6 秒
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Message message = new Message();
-//                    message.what = i;
-//                    handler.sendMessage(message);//发送消息
-//                    //加上缩放动画
-//                    AnimationSet set = new AnimationSet(true);
-//                    ScaleAnimation scale = new ScaleAnimation(1.5f, 1.0f, 1.5f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//                    scale.setDuration(1000);
-//                    set.addAnimation(scale);
-//                    ken_header_view.setAnimation(set);
-//                    if (i == 3)//3张图片播放完，重置
-//                        i = 0;
-//                    i++;
-//                }
-//            }
-//        }).start();
+
+    }
+
+    private void initializeKenBurnsView(final View view) {
+        // KenBurnsView
+        final KenBurnsView kenBurnsView = (KenBurnsView) view.findViewById(R.id.ken_burns_view);
+        kenBurnsView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        kenBurnsView.setSwapMs(5750);
+        kenBurnsView.setFadeInOutMs(750);
+
+        // ResourceIDs
+        List<Integer> resourceIDs = Arrays.asList(IMAGES_RESOURCE);
+        kenBurnsView.loadResourceIDs(resourceIDs);
+
+        // LoopViewListener
+        LoopViewPager.LoopViewPagerListener listener = new LoopViewPager.LoopViewPagerListener() {
+            @Override
+            public View OnInstantiateItem(int page) {
+                TextView counterText = new TextView(view.getContext());
+                counterText.setText(String.valueOf(page));
+                return counterText;
+            }
+
+            @Override
+            public void onPageScroll(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                kenBurnsView.forceSelected(position);
+            }
+
+            @Override
+            public void onPageScrollChanged(int page) {
+            }
+        };
+
+        // LoopView
+        LoopViewPager loopViewPager = new LoopViewPager(view.getContext(), resourceIDs.size(), listener);
+
+        FrameLayout viewPagerFrame = (FrameLayout) view.findViewById(R.id.view_pager_frame);
+        viewPagerFrame.addView(loopViewPager);
+
+        kenBurnsView.setPager(loopViewPager);
     }
 
     private void findView(final View rootView) {
