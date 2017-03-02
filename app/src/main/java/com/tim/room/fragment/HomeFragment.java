@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.tim.room.R;
 import com.tim.room.adapter.ItemSeriesAdapter;
 import com.tim.room.helper.ProgressDialog;
@@ -34,6 +35,7 @@ public class HomeFragment extends Fragment {
     private final static String TAG = HomeFragment.class.getSimpleName();
     RecyclerView recyclerView;
     Context mContext;
+    KenBurnsView ken_header_view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class HomeFragment extends Fragment {
                     recyclerView.setLayoutManager(mLayoutManager);
 
                     View header = LayoutInflater.from(mContext).inflate(R.layout.home_header, recyclerView, false);
+                    ken_header_view = (KenBurnsView) header.findViewById(R.id.header_image_view);
                     ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSerieList);
                     adapter.setHeaderView(header);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -78,6 +81,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+
     }
 
     private void findView(final View rootView) {
