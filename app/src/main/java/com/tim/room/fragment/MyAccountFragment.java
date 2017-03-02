@@ -89,7 +89,7 @@ public class MyAccountFragment extends Fragment {
         iv_zoom.setLayoutParams(params);
         userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("0"));
         userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("1"));
-//        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile).setTag("2"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_trash).setTag("2"));
 //        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("3"));
     }
 
@@ -108,10 +108,10 @@ public class MyAccountFragment extends Fragment {
                 fragment = new AccountProfileSubFragment();
                 break;
             case 1:
-                fragment = new GlobalFragment();
+                fragment = AccountOverdueSubFragment.newInstance(1);
                 break;
             case 2:
-                fragment = new AddFragment();
+                fragment = AccountOverdueSubFragment.newInstance(0);
                 break;
             case 3:
                 fragment = new CharityFragment();

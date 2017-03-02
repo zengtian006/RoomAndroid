@@ -20,17 +20,6 @@ import com.tim.room.fragment.CharityFragment;
 import com.tim.room.fragment.GlobalFragment;
 import com.tim.room.fragment.HomeFragment;
 import com.tim.room.fragment.MyAccountFragment;
-import com.tim.room.model.imageRequest;
-import com.tim.room.model.imageResultResponse;
-import com.tim.room.model.imageSendResponse;
-import com.tim.room.rest.RESTFulService;
-import com.tim.room.rest.RESTFulServiceImp;
-
-import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 ;
 
@@ -120,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        BottomBarTab shoppingCartItemCount = bottomBar.getTabWithId(R.id.shopping_cart);
-//        shoppingCartItemCount.setBadgeCount(5);
+        BottomBarTab overdueItemCount = bottomBar.getTabWithId(R.id.my_account);
+        overdueItemCount.setBadgeCount(5);
 
     }
 

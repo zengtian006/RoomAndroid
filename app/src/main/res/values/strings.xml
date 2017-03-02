@@ -6,4 +6,13 @@
     <string name="colorpicker_dialog_title">Choose the color</string>
     <string name="colorpicker_dialog_cancel">CANCEL</string>
     <string name="colorpicker_dialog_ok">OK</string>
+
+
+    <string-array name="overdue_date_arrays">
+        <item>ONE Month</item>
+        <item>THREE Months</item>
+        <item>SIX Months</item>
+        <item>ONE Year</item>
+    </string-array>
+
 </resources>
