@@ -1,4 +1,4 @@
-package com.tim.room.helper;
+package com.tim.room.view;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

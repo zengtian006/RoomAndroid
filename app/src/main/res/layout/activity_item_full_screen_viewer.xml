@@ -24,7 +24,7 @@
         android:background="@drawable/blurbackground_man"
         android:scaleType="centerCrop" />
 
-    <com.tim.room.helper.SpeedRecyclerView
+    <com.tim.room.view.SpeedRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

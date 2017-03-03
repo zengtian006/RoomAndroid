@@ -1,4 +1,4 @@
-package com.tim.room.helper;
+package com.tim.room.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

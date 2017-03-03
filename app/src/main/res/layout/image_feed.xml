@@ -41,7 +41,7 @@
                 android:textOn="public" />
         </RelativeLayout>
 
-        <com.tim.room.helper.SquareFrameLayout
+        <com.tim.room.view.SquareFrameLayout
             android:id="@+id/vImageRoot"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
 
-        </com.tim.room.helper.SquareFrameLayout>
+        </com.tim.room.view.SquareFrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.tim.room.helper.TagContainerLayout
+            <com.tim.room.view.TagContainerLayout
                 android:id="@+id/tagcontainerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

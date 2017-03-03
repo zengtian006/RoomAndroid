@@ -10,7 +10,7 @@ import android.widget.ListView;
 import com.tim.room.MainActivity;
 import com.tim.room.R;
 import com.tim.room.adapter.CateAdapter;
-import com.tim.room.helper.ProgressDialog;
+import com.tim.room.view.ProgressDialog;
 import com.tim.room.model.Categories;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;

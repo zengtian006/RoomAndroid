@@ -1,4 +1,4 @@
-package com.tim.room.helper;
+package com.tim.room.view;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;

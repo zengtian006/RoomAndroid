@@ -15,13 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import com.tim.room.R;
 import com.tim.room.adapter.CateFilterAdapter;
 import com.tim.room.adapter.GalleryAdapter;
 import com.tim.room.helper.ColorPicker;
-import com.tim.room.helper.ProgressDialog;
+import com.tim.room.view.ProgressDialog;
 import com.tim.room.model.Categories;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;

@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
 import com.tim.room.helper.CardAdapterHelper;
-import com.tim.room.helper.TagContainerLayout;
+import com.tim.room.view.TagContainerLayout;
 import com.tim.room.model.Items;
 
 import java.util.ArrayList;

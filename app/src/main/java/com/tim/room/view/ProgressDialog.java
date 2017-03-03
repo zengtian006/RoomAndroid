@@ -1,4 +1,4 @@
-package com.tim.room.helper;
+package com.tim.room.view;
 
 import android.app.Dialog;
 import android.content.Context;
