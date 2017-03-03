@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tim.room.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--<com.tim.room.view.ZoomScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@android:color/white"-->
+        <!--app:maxZoom="150dp"-->
+        <!--app:zoomId="@+id/iv_zoom">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_zoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="false"
+                    android:layout_centerVertical="false"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@android:color/transparent"
+                        android:padding="10dp"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tim"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="normal|bold" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/userProfileTabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/iv_zoom"
+                android:background="#efefef"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="#7f7f7f"
+                app:tabMode="fixed" />
+
+            <FrameLayout
+                android:id="@+id/me_container_body"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/userProfileTabs" />
+
+        </LinearLayout>
+        <!--</com.tim.room.view.ZoomScrollView>-->
+    </ScrollView>
+
+</RelativeLayout>

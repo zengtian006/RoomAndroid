@@ -10,7 +10,7 @@ import jameson.io.library.util.ScreenUtil;
  * adapter中调用onCreateViewHolder, onBindViewHolder
  * Created by jameson on 9/1/16.
  */
-public class CardAdapterHelper {
+public class ItemFeedAdapterHelper {
     private int mPagePadding = 10;
     private int mShowLeftCardWidth = 15;
 

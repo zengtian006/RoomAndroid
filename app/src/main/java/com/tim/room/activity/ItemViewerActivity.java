@@ -19,13 +19,14 @@ import android.widget.FrameLayout;
 import com.tim.room.R;
 import com.tim.room.adapter.CateFilterAdapter;
 import com.tim.room.adapter.GalleryAdapter;
+import com.tim.room.adapter.ItemFeedAnimator;
 import com.tim.room.helper.ColorPicker;
-import com.tim.room.view.ProgressDialog;
 import com.tim.room.model.Categories;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.view.ProgressDialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class ItemViewerActivity extends AppCompatActivity {
         itemSeries = (ItemSeries) bundle.getSerializable("itemList");
         items = new ArrayList<Items>();
         for (Items item : itemSeries.getItems()) {
+            item.setLiked(false);
+            item.setLikesCount(10);
             items.add(item);
         }
         mAdapter = new GalleryAdapter(getApplicationContext(), items);

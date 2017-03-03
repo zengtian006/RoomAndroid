@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.tim.room.R;
 import com.tim.room.adapter.ItemSeriesAdapter;
-import com.tim.room.view.KenBurnsView;
-import com.tim.room.view.LoopViewPager;
-import com.tim.room.view.ProgressDialog;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.view.KenBurnsView;
+import com.tim.room.view.LoopViewPager;
+import com.tim.room.view.ProgressDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment {
             R.drawable.bg_4,
             R.drawable.bg_3
     };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +83,6 @@ public class HomeFragment extends Fragment {
                     recyclerView.setLayoutManager(mLayoutManager);
 
                     View header = LayoutInflater.from(mContext).inflate(R.layout.home_header, recyclerView, false);
-//                    ken_header_view = (KenBurnsView) header.findViewById(R.id.header_image_view);
                     initializeKenBurnsView(header);
                     ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSerieList);
                     adapter.setHeaderView(header);
@@ -92,8 +92,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-//
-
     }
 
     private void initializeKenBurnsView(final View view) {
@@ -129,7 +127,6 @@ public class HomeFragment extends Fragment {
             public void onPageScrollChanged(int page) {
             }
         };
-
         // LoopView
         LoopViewPager loopViewPager = new LoopViewPager(view.getContext(), resourceIDs.size(), listener);
 
@@ -142,6 +139,4 @@ public class HomeFragment extends Fragment {
     private void findView(final View rootView) {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
     }
-
-
 }

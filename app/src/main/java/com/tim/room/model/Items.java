@@ -23,6 +23,18 @@ public class Items implements java.io.Serializable {
     private String created;
     private String expDate;
     private List<String> tags;
+    private Integer likesCount;
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    private boolean isLiked;
+
 
     public Items() {
     }
@@ -36,6 +48,14 @@ public class Items implements java.io.Serializable {
         this.imageName = imageName;
         this.remark = remark;
         this.status = status;
+    }
+
+    public Integer getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
     }
 
     public List<String> getTags() {

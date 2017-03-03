@@ -4,20 +4,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
-import com.tim.room.helper.CardAdapterHelper;
-import com.tim.room.view.TagContainerLayout;
+import com.tim.room.helper.ItemFeedAdapterHelper;
 import com.tim.room.model.Items;
+import com.tim.room.view.TagContainerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +33,16 @@ import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 /**
  * Created by jameson on 8/30/16.
  */
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHolder> {
+    public static final String ACTION_LIKE_BUTTON_CLICKED = "action_like_button_button";
+    public static final String ACTION_LIKE_IMAGE_CLICKED = "action_like_image_button";
+
     private List<Items> mItems = new ArrayList<>();
-    private CardAdapterHelper mCardAdapterHelper = new CardAdapterHelper();
+    private ItemFeedAdapterHelper mCardAdapterHelper = new ItemFeedAdapterHelper();
     private OnFeedItemClickListener onFeedItemClickListener;
     Context mContext;
 
-    public CardAdapter(Context mContext, List<Items> mItems) {
+    public ItemFeedAdapter(Context mContext, List<Items> mItems) {
         this.mContext = mContext;
         this.mItems = mItems;
     }
@@ -70,6 +76,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         cellFeedViewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int adapterPosition = cellFeedViewHolder.getAdapterPosition();
+                Items item = mItems.get(adapterPosition);
+                if (item.isLiked()) {
+                    item.setLikesCount(mItems.get(adapterPosition).getLikesCount() - 1);
+                    item.setLiked(false);
+                } else {
+                    item.setLikesCount(mItems.get(adapterPosition).getLikesCount() + 1);
+                    item.setLiked(true);
+                }
+                notifyItemChanged(adapterPosition, ACTION_LIKE_BUTTON_CLICKED);
             }
         });
         cellFeedViewHolder.ivUserProfile.setOnClickListener(new View.OnClickListener() {
@@ -107,20 +123,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 builder.show();
             }
         });
-
-//        cellFeedViewHolder.stPublic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                onFeedItemClickListener.onPublicClick(itemView, cellFeedViewHolder.getAdapterPosition(), b);
-//
-//            }
-//        });
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
         Items item = mItems.get(position);
+
+        ((ViewHolder) holder).bindView(item);
+
         Glide.with(mContext).load(IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName())
                 .thumbnail(0.5f)
                 .fitCenter()
@@ -144,8 +155,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         list.add("fashion");
         list.add("man");
         list.add("great");
-
+        Log.v("CCCC", "COUNT: " + item.getLikesCount());
         holder.tagcontainerLayout.setTags(list);
+        holder.btnLike.setImageResource(item.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);
+        holder.tsLikesCounter.setCurrentText(holder.vImageRoot.getResources().getQuantityString(
+                R.plurals.likes_count, item.getLikesCount(), item.getLikesCount()
+        ));
     }
 
     @Override
@@ -162,6 +177,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         Switch stPublic;
         TextView itemTitle, userName;
         TagContainerLayout tagcontainerLayout;
+        TextSwitcher tsLikesCounter;
+        FrameLayout vImageRoot;
+        View vBgLike;
+        ImageView ivLike;
+
+        Items item;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -174,8 +195,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             itemTitle = (TextView) itemView.findViewById(R.id.item_title);
             userName = (TextView) itemView.findViewById(R.id.user_name);
             tagcontainerLayout = (TagContainerLayout) itemView.findViewById(R.id.tagcontainerLayout);
+            tsLikesCounter = (TextSwitcher) itemView.findViewById(R.id.tsLikesCounter);
+            vImageRoot = (FrameLayout) itemView.findViewById(R.id.vImageRoot);
+            vBgLike = itemView.findViewById(R.id.vBgLike);
+            ivLike = (ImageView) itemView.findViewById(R.id.ivLike);
         }
 
+        public void bindView(Items item) {
+            this.item = item;
+        }
+
+        public Items getFeedItem() {
+            return item;
+        }
     }
 
     public interface OnFeedItemClickListener {

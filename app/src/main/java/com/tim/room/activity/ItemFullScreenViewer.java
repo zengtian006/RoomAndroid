@@ -12,8 +12,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.tim.room.R;
-import com.tim.room.adapter.CardAdapter;
-import com.tim.room.helper.CardScaleHelper;
+import com.tim.room.adapter.ItemFeedAdapter;
+import com.tim.room.adapter.ItemFeedAnimator;
+import com.tim.room.helper.ItemFeedScaleHelper;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
@@ -24,15 +25,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class ItemFullScreenViewer extends AppCompatActivity implements CardAdapter.OnFeedItemClickListener {
+public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedAdapter.OnFeedItemClickListener {
     private static final String TAG = ItemFullScreenViewer.class.getSimpleName();
 
     List<Items> mItems;
     int position;
     private RecyclerView mRecyclerView;
-    private CardScaleHelper mCardScaleHelper = null;
+    private ItemFeedScaleHelper mCardScaleHelper = null;
     RESTFulService updateItemService;
-    CardAdapter cardAdapter;
+    ItemFeedAdapter cardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,12 @@ public class ItemFullScreenViewer extends AppCompatActivity implements CardAdapt
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        cardAdapter = new CardAdapter(this, mItems);
+        cardAdapter = new ItemFeedAdapter(this, mItems);
         cardAdapter.setOnFeedItemClickListener(this);
         mRecyclerView.setAdapter(cardAdapter);
+        mRecyclerView.setItemAnimator(new ItemFeedAnimator());
         // mRecyclerView绑定scale效果
-        mCardScaleHelper = new CardScaleHelper();
+        mCardScaleHelper = new ItemFeedScaleHelper();
         mCardScaleHelper.setCurrentItemPos(position);
         mCardScaleHelper.attachToRecyclerView(mRecyclerView);
     }

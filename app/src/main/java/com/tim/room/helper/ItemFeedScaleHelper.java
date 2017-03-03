@@ -10,7 +10,7 @@ import jameson.io.library.util.ScreenUtil;
 /**
  * Created by jameson on 8/30/16.
  */
-public class CardScaleHelper {
+public class ItemFeedScaleHelper {
     private RecyclerView mRecyclerView;
     private Context mContext;
 
@@ -25,7 +25,7 @@ public class CardScaleHelper {
     private int mCurrentItemPos;
     private int mCurrentItemOffset;
 
-    private CardLinearSnapHelper mLinearSnapHelper = new CardLinearSnapHelper();
+    private ItemFeedLinearSnapHelper mLinearSnapHelper = new ItemFeedLinearSnapHelper();
 
     public void attachToRecyclerView(final RecyclerView mRecyclerView) {
         // 开启log会影响滑动体验, 调试时才开启
