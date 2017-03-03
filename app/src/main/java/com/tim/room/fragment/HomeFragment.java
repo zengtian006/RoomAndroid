@@ -14,9 +14,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tim.room.MainActivity;
 import com.tim.room.R;
 import com.tim.room.adapter.ItemSeriesAdapter;
+import com.tim.room.model.ItemLikes;
 import com.tim.room.model.ItemSeries;
+import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.KenBurnsView;
@@ -75,21 +78,27 @@ public class HomeFragment extends Fragment {
             @Override
             public void accept(ArrayList<ItemSeries> itemSeries) throws Exception {
                 for (ItemSeries series : itemSeries) {
-                    Log.v(TAG, "Title: " + series.getTitle());
-                    Log.v(TAG, "Item size : " + series.getItems().size());
-                    ArrayList<ItemSeries> itemSerieList = new ArrayList<ItemSeries>();
-                    itemSerieList = itemSeries;
+                    for (Items item : series.getItems()) {
+                        item.setLiked(false);
+                        for (ItemLikes itemLike : item.getItemLikes()) {
+                            if(itemLike.getUserId().equals(MainActivity.session.getUser().getId())){
+                                item.setLiked(true);
+                                break;
+                            }
+                        }
+                    }
+                    }
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(mLayoutManager);
 
                     View header = LayoutInflater.from(mContext).inflate(R.layout.home_header, recyclerView, false);
                     initializeKenBurnsView(header);
-                    ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSerieList);
+                    ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSeries);
                     adapter.setHeaderView(header);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
                     dialog.dismiss();
-                }
+//                }
             }
         });
     }
