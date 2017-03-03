@@ -158,7 +158,9 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
 //        list.add("man");
 //        list.add("great");
 //        Log.v("CCCC", "COUNT: " + item.getLikesCount());
-        holder.tagcontainerLayout.setTags(item.getTags());
+        if (!item.getTags().isEmpty()) {
+            holder.tagcontainerLayout.setTags(item.getTags());
+        }
         holder.btnLike.setImageResource(item.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);
         holder.tsLikesCounter.setCurrentText(holder.vImageRoot.getResources().getQuantityString(
                 R.plurals.likes_count, item.getLikesCount(), item.getLikesCount()
