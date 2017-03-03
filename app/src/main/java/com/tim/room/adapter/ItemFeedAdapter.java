@@ -25,8 +25,6 @@ import com.tim.room.view.TagContainerLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import jameson.io.library.util.ToastUtils;
-
 import static com.tim.room.MainActivity.session;
 import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
@@ -88,6 +86,18 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
                 notifyItemChanged(adapterPosition, ACTION_LIKE_BUTTON_CLICKED);
             }
         });
+        cellFeedViewHolder.ivFeedCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int adapterPosition = cellFeedViewHolder.getAdapterPosition();
+                Items item = mItems.get(adapterPosition);
+                if (!item.isLiked()) {
+                    item.setLikesCount(item.getLikesCount() + 1);
+                    item.setLiked(true);
+                    notifyItemChanged(adapterPosition, ACTION_LIKE_IMAGE_CLICKED);
+                }
+            }
+        });
         cellFeedViewHolder.ivUserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,19 +146,12 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
                 .thumbnail(0.5f)
                 .fitCenter()
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.imageView);
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.ivFeedCenter);
         if (item.getGlobal().equals("1")) {//public item
             holder.stPublic.setChecked(true);
         } else {
             holder.stPublic.setChecked(false);
         }
-
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ToastUtils.show(holder.imageView.getContext(), "" + position);
-            }
-        });
         holder.itemTitle.setText(item.getTitle());
         holder.userName.setText(item.getUser().getName());
         List<String> list = new ArrayList<>();
@@ -169,7 +172,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView ivFeedCenter;
         ImageButton btnComments;
         ImageButton btnLike;
         ImageButton btnMore;
@@ -186,7 +189,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            ivFeedCenter = (ImageView) itemView.findViewById(R.id.ivFeedCenter);
             btnComments = (ImageButton) itemView.findViewById(R.id.btnComments);
             btnLike = (ImageButton) itemView.findViewById(R.id.btnLike);
             btnMore = (ImageButton) itemView.findViewById(R.id.btnMore);
