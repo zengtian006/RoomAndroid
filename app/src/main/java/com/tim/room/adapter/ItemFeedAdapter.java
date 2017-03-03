@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,12 +153,12 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
         }
         holder.itemTitle.setText(item.getTitle());
         holder.userName.setText(item.getUser().getName());
-        List<String> list = new ArrayList<>();
-        list.add("fashion");
-        list.add("man");
-        list.add("great");
-        Log.v("CCCC", "COUNT: " + item.getLikesCount());
-        holder.tagcontainerLayout.setTags(list);
+//        List<String> list = new ArrayList<>();
+//        list.add("fashion");
+//        list.add("man");
+//        list.add("great");
+//        Log.v("CCCC", "COUNT: " + item.getLikesCount());
+        holder.tagcontainerLayout.setTags(item.getTags());
         holder.btnLike.setImageResource(item.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);
         holder.tsLikesCounter.setCurrentText(holder.vImageRoot.getResources().getQuantityString(
                 R.plurals.likes_count, item.getLikesCount(), item.getLikesCount()
