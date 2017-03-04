@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +56,13 @@ public class ItemViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_viewer);
 //        overridePendingTransition(R.anim.push_down_in, R.anim.push_up_out);
         this.mContext = getApplicationContext();
+
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
+
         final ProgressDialog dialog = new ProgressDialog(ItemViewerActivity.this);
         dialog.show();
         recycler_view_cate_list = (RecyclerView) findViewById(R.id.recycler_view_cates);
@@ -197,14 +205,11 @@ public class ItemViewerActivity extends AppCompatActivity {
                 }
                 mAdapter.notifyDataSetChanged();
                 return true;
+            case android.R.id.home:
+                finish(); // close this activity and return to preview activity (if there is any)
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        overridePendingTransition(R.anim.push_down_in, R.anim.push_up_out);
     }
 }
