@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myapp="http://schemas.android.com/apk/res-auto">
     <!-- Search / will display always -->
-    <item
-        android:id="@+id/action_edit"
-        android:icon="@android:drawable/ic_menu_edit"
-        myapp:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/action_edit"-->
+        <!--android:icon="@android:drawable/ic_menu_edit"-->
+        <!--myapp:showAsAction="ifRoom" />-->
     <!-- Help -->
     <item
         android:id="@+id/action_filter"

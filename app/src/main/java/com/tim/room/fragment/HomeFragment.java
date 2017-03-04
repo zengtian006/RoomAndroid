@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment {
             @Override
             public View OnInstantiateItem(int page) {
                 TextView counterText = new TextView(view.getContext());
-                counterText.setText(String.valueOf(page));
+//                counterText.setText(String.valueOf(page));
                 return counterText;
             }
 

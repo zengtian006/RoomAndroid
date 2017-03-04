@@ -20,14 +20,11 @@
 
         <ImageView
             android:id="@+id/item_thumbnail"
-            android:layout_width="185dp"
+            android:layout_width="match_parent"
             android:layout_height="140dp"
             android:background="@android:color/white"
             android:clickable="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:scaleType="fitCenter" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/item_brand"
