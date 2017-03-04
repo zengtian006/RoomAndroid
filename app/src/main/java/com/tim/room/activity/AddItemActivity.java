@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -102,6 +103,12 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         this.mContext = getApplicationContext();
+
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
         configurOSS();
         findView();
         setView();
@@ -392,6 +399,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                         }
                     });
                 }
+            case android.R.id.home:
+                setResult(RESULT_OK); // close this activity and return to preview activity (if there is any)
         }
         return super.onOptionsItemSelected(item);
     }

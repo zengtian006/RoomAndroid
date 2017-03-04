@@ -5,14 +5,14 @@
 
     <ImageButton
         android:id="@+id/iv_cate_item"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
+        android:layout_margin="5dp"
         android:background="@android:color/white"
         android:clickable="false"
-        android:padding="8dp"
+        android:padding="5dp"
         android:src="@drawable/hoodie" />
 
 </RelativeLayout>
