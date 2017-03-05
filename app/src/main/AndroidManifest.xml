@@ -73,13 +73,11 @@
         </activity>
         <activity
             android:name=".activity.ItemViewerActivity"
-            android:theme="@style/NoActionBar">
-
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity android:name=".activity.ItemCateActivity" />
         <activity
             android:name=".activity.ItemFullScreenViewer"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
     </application>
 
 </manifest>

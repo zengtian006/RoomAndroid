@@ -14,14 +14,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
 import com.tim.room.adapter.CateFilterAdapter;
+import com.tim.room.adapter.ConstellationAdapter;
 import com.tim.room.adapter.GalleryAdapter;
+import com.tim.room.adapter.GirdDropDownAdapter;
 import com.tim.room.adapter.ItemFeedAnimator;
+import com.tim.room.adapter.ListDropDownAdapter;
 import com.tim.room.helper.ColorPicker;
 import com.tim.room.model.Categories;
 import com.tim.room.model.ItemLikes;
@@ -29,10 +37,12 @@ import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.view.DropDownMenu;
 import com.tim.room.view.ProgressDialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,7 +58,23 @@ public class ItemViewerActivity extends AppCompatActivity {
     Context mContext;
     ItemSeries itemSeries;
 
-    RecyclerView recycler_view_cate_list, recyclerViewImages;
+    RecyclerView recyclerViewImages;
+
+    DropDownMenu mDropDownMenu;
+    private String headers[] = {"城市", "年龄", "性别", "星座"};
+    private List<View> popupViews = new ArrayList<>();
+
+    private GirdDropDownAdapter cityAdapter;
+    private ListDropDownAdapter ageAdapter;
+    private ListDropDownAdapter sexAdapter;
+    private ConstellationAdapter constellationAdapter;
+
+    private String citys[] = {"不限", "武汉", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"};
+    private String ages[] = {"不限", "18岁以下", "18-22岁", "23-26岁", "27-35岁", "35岁以上"};
+    private String sexs[] = {"不限", "男", "女"};
+    private String constellations[] = {"不限", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"};
+
+    private int constellationPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +88,97 @@ public class ItemViewerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("");
+        mDropDownMenu = (DropDownMenu)findViewById(R.id.dropDownMenu);
+        initView();
 
-        final ProgressDialog dialog = new ProgressDialog(ItemViewerActivity.this);
-        dialog.show();
-        recycler_view_cate_list = (RecyclerView) findViewById(R.id.recycler_view_cates);
+        //Find Sub Category
+        RESTFulService itemCatesService = RESTFulServiceImp.createService(RESTFulService.class);
+        itemCatesService.findSubCategoriesById(itemSeries.getCate_id()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ArrayList<Categories>>() {
+                    @Override
+                    public void accept(ArrayList<Categories> categories) throws Exception {
+
+                    }
+                });
+    }
+
+    private void initView() {
+        //init city menu
+        final ListView cityView = new ListView(this);
+        cityAdapter = new GirdDropDownAdapter(this, Arrays.asList(citys));
+        cityView.setDividerHeight(0);
+        cityView.setAdapter(cityAdapter);
+
+        //init age menu
+        final ListView ageView = new ListView(this);
+        ageView.setDividerHeight(0);
+        ageAdapter = new ListDropDownAdapter(this, Arrays.asList(ages));
+        ageView.setAdapter(ageAdapter);
+
+        //init sex menu
+        final ListView sexView = new ListView(this);
+        sexView.setDividerHeight(0);
+        sexAdapter = new ListDropDownAdapter(this, Arrays.asList(sexs));
+        sexView.setAdapter(sexAdapter);
+
+        //init constellation
+        final View constellationView = getLayoutInflater().inflate(R.layout.custom_layout, null);
+        GridView constellation = (GridView) constellationView.findViewById(R.id.constellation);
+        constellationAdapter = new ConstellationAdapter(this, Arrays.asList(constellations));
+        constellation.setAdapter(constellationAdapter);
+        TextView ok = (TextView) constellationView.findViewById(R.id.ok);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDropDownMenu.setTabText(constellationPosition == 0 ? headers[3] : constellations[constellationPosition]);
+                mDropDownMenu.closeMenu();
+            }
+        });
+
+        //init popupViews
+        popupViews.add(cityView);
+        popupViews.add(ageView);
+        popupViews.add(sexView);
+        popupViews.add(constellationView);
+
+        //add item click event
+        cityView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cityAdapter.setCheckItem(position);
+                mDropDownMenu.setTabText(position == 0 ? headers[0] : citys[position]);
+                mDropDownMenu.closeMenu();
+            }
+        });
+
+        ageView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ageAdapter.setCheckItem(position);
+                mDropDownMenu.setTabText(position == 0 ? headers[1] : ages[position]);
+                mDropDownMenu.closeMenu();
+            }
+        });
+
+        sexView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                sexAdapter.setCheckItem(position);
+                mDropDownMenu.setTabText(position == 0 ? headers[2] : sexs[position]);
+                mDropDownMenu.closeMenu();
+            }
+        });
+
+        constellation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                constellationAdapter.setCheckItem(position);
+                constellationPosition = position;
+            }
+        });
+
+        //init context view
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         itemSeries = (ItemSeries) bundle.getSerializable("itemList");
@@ -73,8 +186,10 @@ public class ItemViewerActivity extends AppCompatActivity {
         for (Items item : itemSeries.getItems()) {
             items.add(item);
         }
-        mAdapter = new GalleryAdapter(getApplicationContext(), items);
-        recyclerViewImages = (RecyclerView) findViewById(R.id.recycler_view_images);
+        GalleryAdapter mAdapter = new GalleryAdapter(getApplicationContext(), items);
+        RecyclerView recyclerViewImages =new RecyclerView(this);
+        recyclerViewImages.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerViewImages.setLayoutManager(mLayoutManager);
         recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
@@ -83,15 +198,6 @@ public class ItemViewerActivity extends AppCompatActivity {
         recyclerViewImages.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(getApplicationContext(), recyclerViewImages, new GalleryAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("items", (Serializable) items);
-//                bundle.putInt("position", position);
-//
-//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
-//                newFragment.setArguments(bundle);
-//                newFragment.show(ft, "slideshow");
-
                 Intent intent = new Intent(ItemViewerActivity.this, ItemFullScreenViewer.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", (Serializable) items);
@@ -133,40 +239,8 @@ public class ItemViewerActivity extends AppCompatActivity {
             }
         }));
 
-        //Find Sub Category
-        RESTFulService itemCatesService = RESTFulServiceImp.createService(RESTFulService.class);
-        itemCatesService.findSubCategoriesById(itemSeries.getCate_id()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ArrayList<Categories>>() {
-                    @Override
-                    public void accept(ArrayList<Categories> categories) throws Exception {
-                        Categories topCate = new Categories(0, null, null);
-                        categories.add(0, topCate);
-                        CateFilterAdapter cateFilterAdapter = new CateFilterAdapter(mContext, categories, itemSeries.getItems());
-                        recycler_view_cate_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-                        recycler_view_cate_list.setAdapter(cateFilterAdapter);
-                        recycler_view_cate_list.setHasFixedSize(true);
-                        recycler_view_cate_list.setItemAnimator(new DefaultItemAnimator());
-                        cateFilterAdapter.setOnItemClickListener(new CateFilterAdapter.OnRecyclerViewItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, Categories data) {
-                                items.clear();
-                                if (data.getId() == 0) { //Show All
-                                    items.addAll(itemSeries.getItems());
-                                } else {
-                                    for (Items item : itemSeries.getItems()) {
-                                        if (item.getCateId().equals(data.getId())) {
-                                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
-                                            items.add(item);
-                                        }
-                                    }
-                                }
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        });
-                        dialog.dismiss();
-                    }
-                });
+        //init dropdownview
+        mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, recyclerViewImages);
     }
 
     @Override

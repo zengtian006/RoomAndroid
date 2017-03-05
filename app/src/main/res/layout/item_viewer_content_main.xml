@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--tools:showIn="@layout/activity_item_viewer">-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/recycler_view_cates"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal" />-->
+
+        <!--<View-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:background="?attr/colorButtonNormal" />-->
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/recycler_view_images"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@+id/linearLayout"-->
+            <!--android:scrollbars="vertical" />-->
+
+    <!--</LinearLayout>-->
+
+<!--</RelativeLayout>-->
+<com.tim.room.view.DropDownMenu
+    android:id="@+id/dropDownMenu"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_item_viewer">
+    app:ddmenuTextSize="13sp"
+    app:ddtextUnselectedColor="@color/drop_down_unselected"
+    app:ddtextSelectedColor="@color/drop_down_selected"
+    app:dddividerColor="@color/divider"
+    app:ddunderlineColor="@color/divider"
+    app:ddmenuSelectedIcon="@drawable/drop_down_selected_icon"
+    app:ddmaskColor="@color/mask_color"
+    app:ddmenuBackgroundColor="@color/white"
+    app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
+    />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_cates"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="10dp"
-            android:background="?attr/colorButtonNormal" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_images"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout"
-            android:scrollbars="vertical" />
-
-    </LinearLayout>
-
-</RelativeLayout>
