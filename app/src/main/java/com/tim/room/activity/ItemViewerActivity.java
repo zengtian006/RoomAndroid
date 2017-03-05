@@ -55,18 +55,18 @@ public class ItemViewerActivity extends AppCompatActivity {
     RecyclerView recyclerViewImages;
 
     DropDownMenu mDropDownMenu;
-    private String headers[] = {"Category", "年龄", "性别", "星座"};
+    private String headers[] = {"Category", "Season", "性别", "星座"};
     private List<View> popupViews = new ArrayList<>();
 
     private GirdDropDownAdapter categoryAdapter;
-    private ListDropDownAdapter ageAdapter;
+    private ListDropDownAdapter seasonAdapter;
     private ListDropDownAdapter sexAdapter;
     private ConstellationAdapter constellationAdapter;
 
     List<String> categoryNameList;
     ArrayList<Categories> categoriesArrayList;
     //    private String categories[] = {"不限", "武汉", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"};
-    private String ages[] = {"不限", "18岁以下", "18-22岁", "23-26岁", "27-35岁", "35岁以上"};
+    private String season[] = {"All", "Spring", "Fall", "Summer", "Winter"};
     private String sexs[] = {"不限", "男", "女"};
     private String constellations[] = {"不限", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"};
 
@@ -119,11 +119,11 @@ public class ItemViewerActivity extends AppCompatActivity {
                 });
 
 
-        //init age menu
-        final ListView ageView = new ListView(this);
-        ageView.setDividerHeight(0);
-        ageAdapter = new ListDropDownAdapter(this, Arrays.asList(ages));
-        ageView.setAdapter(ageAdapter);
+        //init season menu
+        final ListView seasonView = new ListView(this);
+        seasonView.setDividerHeight(0);
+        seasonAdapter = new ListDropDownAdapter(this, Arrays.asList(season));
+        seasonView.setAdapter(seasonAdapter);
 
         //init sex menu
         final ListView sexView = new ListView(this);
@@ -147,7 +147,7 @@ public class ItemViewerActivity extends AppCompatActivity {
 
         //init popupViews
         popupViews.add(categoryView);
-        popupViews.add(ageView);
+        popupViews.add(seasonView);
         popupViews.add(sexView);
         popupViews.add(constellationView);
 
@@ -174,11 +174,11 @@ public class ItemViewerActivity extends AppCompatActivity {
             }
         });
 
-        ageView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        seasonView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ageAdapter.setCheckItem(position);
-                mDropDownMenu.setTabText(position == 0 ? headers[1] : ages[position]);
+                seasonAdapter.setCheckItem(position);
+                mDropDownMenu.setTabText(position == 0 ? headers[1] : season[position]);
                 mDropDownMenu.closeMenu();
             }
         });
