@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,23 +21,18 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.tim.room.MainActivity;
 import com.tim.room.R;
-import com.tim.room.adapter.CateFilterAdapter;
 import com.tim.room.adapter.ConstellationAdapter;
 import com.tim.room.adapter.GalleryAdapter;
 import com.tim.room.adapter.GirdDropDownAdapter;
-import com.tim.room.adapter.ItemFeedAnimator;
 import com.tim.room.adapter.ListDropDownAdapter;
 import com.tim.room.helper.ColorPicker;
 import com.tim.room.model.Categories;
-import com.tim.room.model.ItemLikes;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.DropDownMenu;
-import com.tim.room.view.ProgressDialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -61,15 +55,17 @@ public class ItemViewerActivity extends AppCompatActivity {
     RecyclerView recyclerViewImages;
 
     DropDownMenu mDropDownMenu;
-    private String headers[] = {"城市", "年龄", "性别", "星座"};
+    private String headers[] = {"Category", "年龄", "性别", "星座"};
     private List<View> popupViews = new ArrayList<>();
 
-    private GirdDropDownAdapter cityAdapter;
+    private GirdDropDownAdapter categoryAdapter;
     private ListDropDownAdapter ageAdapter;
     private ListDropDownAdapter sexAdapter;
     private ConstellationAdapter constellationAdapter;
 
-    private String citys[] = {"不限", "武汉", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"};
+    List<String> categoryNameList;
+    ArrayList<Categories> categoriesArrayList;
+    //    private String categories[] = {"不限", "武汉", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"};
     private String ages[] = {"不限", "18岁以下", "18-22岁", "23-26岁", "27-35岁", "35岁以上"};
     private String sexs[] = {"不限", "男", "女"};
     private String constellations[] = {"不限", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"};
@@ -88,27 +84,40 @@ public class ItemViewerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("");
-        mDropDownMenu = (DropDownMenu)findViewById(R.id.dropDownMenu);
+        mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
         initView();
 
-        //Find Sub Category
+
+    }
+
+    private void initView() {
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        itemSeries = (ItemSeries) bundle.getSerializable("itemList");
+        items = new ArrayList<Items>();
+        for (Items item : itemSeries.getItems()) {
+            items.add(item);
+        }
+        //init category menu
+        final ListView categoryView = new ListView(this);
         RESTFulService itemCatesService = RESTFulServiceImp.createService(RESTFulService.class);
         itemCatesService.findSubCategoriesById(itemSeries.getCate_id()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ArrayList<Categories>>() {
                     @Override
                     public void accept(ArrayList<Categories> categories) throws Exception {
-
+                        categoriesArrayList = categories;
+                        categoryNameList = new ArrayList<String>();
+                        for (Categories cate : categories) {
+                            categoryNameList.add(cate.getCateName());
+                        }
+                        categoryNameList.add(0, "All");
+                        categoryAdapter = new GirdDropDownAdapter(ItemViewerActivity.this, categoryNameList);
+                        categoryView.setDividerHeight(0);
+                        categoryView.setAdapter(categoryAdapter);
                     }
                 });
-    }
 
-    private void initView() {
-        //init city menu
-        final ListView cityView = new ListView(this);
-        cityAdapter = new GirdDropDownAdapter(this, Arrays.asList(citys));
-        cityView.setDividerHeight(0);
-        cityView.setAdapter(cityAdapter);
 
         //init age menu
         final ListView ageView = new ListView(this);
@@ -137,18 +146,31 @@ public class ItemViewerActivity extends AppCompatActivity {
         });
 
         //init popupViews
-        popupViews.add(cityView);
+        popupViews.add(categoryView);
         popupViews.add(ageView);
         popupViews.add(sexView);
         popupViews.add(constellationView);
 
         //add item click event
-        cityView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        categoryView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                cityAdapter.setCheckItem(position);
-                mDropDownMenu.setTabText(position == 0 ? headers[0] : citys[position]);
+                categoryAdapter.setCheckItem(position);
+                mDropDownMenu.setTabText(position == 0 ? headers[0] : categoryNameList.get(position));
                 mDropDownMenu.closeMenu();
+
+                items.clear();
+                if (position == 0) { //Show All
+                    items.addAll(itemSeries.getItems());
+                } else {
+                    for (Items item : itemSeries.getItems()) {
+                        if (item.getCateId().equals(categoriesArrayList.get(position - 1).getId())) {
+                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+                            items.add(item);
+                        }
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -179,15 +201,9 @@ public class ItemViewerActivity extends AppCompatActivity {
         });
 
         //init context view
-        Intent intent = this.getIntent();
-        Bundle bundle = intent.getExtras();
-        itemSeries = (ItemSeries) bundle.getSerializable("itemList");
-        items = new ArrayList<Items>();
-        for (Items item : itemSeries.getItems()) {
-            items.add(item);
-        }
-        GalleryAdapter mAdapter = new GalleryAdapter(getApplicationContext(), items);
-        RecyclerView recyclerViewImages =new RecyclerView(this);
+
+        mAdapter = new GalleryAdapter(getApplicationContext(), items);
+        RecyclerView recyclerViewImages = new RecyclerView(this);
         recyclerViewImages.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
