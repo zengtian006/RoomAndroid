@@ -140,8 +140,8 @@ public class ItemViewerActivity extends AppCompatActivity {
         final View tagView = getLayoutInflater().inflate(R.layout.custom_layout, null);
         GridView tagGridView = (GridView) tagView.findViewById(R.id.tags);
         tagNameList = new ArrayList<>();
-        if (!itemSeries.getAllTagsMap().equals(null)) {
-            List<TagEntry> tagEntryList = itemSeries.getAllTagsMap().getEntry();
+        if (!itemSeries.getAllTagsMap().isEmpty()) {
+            List<TagEntry> tagEntryList = itemSeries.getAllTagsMap();
             for (TagEntry tagEntry : tagEntryList) {
 //                tagNameList.add(tagEntry.getKey() + "(" + tagEntry.getValue() + ")");
                 tagNameList.add(tagEntry.getKey());

@@ -11,13 +11,13 @@ public class ItemSeries implements Serializable {
     private String title;
     private List<Items> items;
     private Integer cate_id;
-    private TagMap allTagsMap;
+    private List<TagEntry> allTagsMap;
 
-    public TagMap getAllTagsMap() {
+    public List<TagEntry> getAllTagsMap() {
         return allTagsMap;
     }
 
-    public void setAllTagsMap(TagMap allTagsMap) {
+    public void setAllTagsMap(List<TagEntry> allTagsMap) {
         this.allTagsMap = allTagsMap;
     }
 
