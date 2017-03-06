@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                     displayView(3);
                 } else if (tabId == R.id.my_account) {
                     if (session.isLoggedIn()) {
-//                        displayView(4);
-                        startActivityForResult(new Intent(MainActivity.this, RegisterActivity.class), INTENT_REQUEST_LOGIN);
+                        displayView(4);
+//                        startActivityForResult(new Intent(MainActivity.this, RegisterActivity.class), INTENT_REQUEST_LOGIN);
                     } else {
                         startActivityForResult(new Intent(MainActivity.this, LoginAcitivity.class), INTENT_REQUEST_LOGIN);
                     }
