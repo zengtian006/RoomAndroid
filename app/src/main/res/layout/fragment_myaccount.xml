@@ -82,7 +82,7 @@
             android:id="@+id/userProfileTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#efefef"
+            android:background="#222222"
             app:tabGravity="fill"
             app:tabIndicatorColor="#7f7f7f"
             app:tabMode="fixed" />
