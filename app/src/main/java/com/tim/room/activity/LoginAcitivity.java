@@ -59,7 +59,7 @@ public class LoginAcitivity extends AppCompatActivity {
                                 Log.v(TAG, "User ID: " + userResponse.getUser().getId().toString());
                                 session.setLogin(true, null, userResponse.getUser());
                                 setResult(Activity.RESULT_OK);
-                                onBackPressed();
+                                finish();
                             }
                         });
 

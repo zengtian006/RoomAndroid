@@ -84,7 +84,8 @@
             android:layout_height="wrap_content"
             android:background="#222222"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#7f7f7f"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorColor="@color/colorAccent"
             app:tabMode="fixed" />
 
         <FrameLayout
