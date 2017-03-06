@@ -11,7 +11,7 @@ import com.tim.room.R;
 
 import java.util.List;
 
-public class ConstellationAdapter extends BaseAdapter {
+public class TagsAdapter extends BaseAdapter {
 
     private Context context;
     private List<String> list;
@@ -22,7 +22,7 @@ public class ConstellationAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public ConstellationAdapter(Context context, List<String> list) {
+    public TagsAdapter(Context context, List<String> list) {
         this.context = context;
         this.list = list;
     }

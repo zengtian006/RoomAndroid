@@ -40,18 +40,19 @@ import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.tim.room.R;
-import com.tim.room.view.TagContainerLayout;
-import com.tim.room.view.TagView;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.utils.ImageUtils;
 import com.tim.room.utils.UploadImage;
+import com.tim.room.view.TagContainerLayout;
+import com.tim.room.view.TagView;
 
 import java.io.File;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -354,6 +355,10 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     String nowDatetime = df.format(Calendar.getInstance().getTime());
                     itemObject.setCreated(nowDatetime);
                     itemObject.setTags(mTagContainerLayout.getTags());
+                    if (!edt_season.getText().toString().isEmpty()) {
+                        String[] tempSeasonArray = edt_season.getText().toString().split(",");
+                        itemObject.setSeasons(Arrays.asList(tempSeasonArray));
+                    }
                     if (st_global.isChecked()) {
                         itemObject.setGlobal("1");
                     } else {

@@ -11,6 +11,15 @@ public class ItemSeries implements Serializable {
     private String title;
     private List<Items> items;
     private Integer cate_id;
+    private TagMap allTagsMap;
+
+    public TagMap getAllTagsMap() {
+        return allTagsMap;
+    }
+
+    public void setAllTagsMap(TagMap allTagsMap) {
+        this.allTagsMap = allTagsMap;
+    }
 
     public Integer getCate_id() {
         return cate_id;

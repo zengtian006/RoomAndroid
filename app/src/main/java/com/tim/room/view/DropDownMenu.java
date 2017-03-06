@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -162,7 +163,8 @@ public class DropDownMenu extends LinearLayout {
         });
         tabMenuView.addView(tab);
         //添加分割线
-        if (i < tabTexts.size() - 1) {
+        if (i <= tabTexts.size() - 1) {
+            Log.v("TABTEXT", "TABTEXT: " + tabTexts.get(i));
             View view = new View(getContext());
             view.setLayoutParams(new LayoutParams(dpTpPx(0.5f), ViewGroup.LayoutParams.MATCH_PARENT));
             view.setBackgroundColor(dividerColor);

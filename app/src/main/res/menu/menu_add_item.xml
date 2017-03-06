@@ -4,5 +4,5 @@
     <item
         android:id="@+id/menu_btn_add_item"
         android:title="Add"
-        myapp:showAsAction="ifRoom" />
+        myapp:showAsAction="always" />
 </menu><!--android:icon="@android:drawable/ic_menu_add"-->
