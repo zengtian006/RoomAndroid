@@ -8,13 +8,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.tim.room.activity.AddItemActivity;
 import com.tim.room.activity.LoginAcitivity;
+import com.tim.room.activity.RegisterActivity;
 import com.tim.room.app.SessionManager;
 import com.tim.room.fragment.AddFragment;
 import com.tim.room.fragment.CharityFragment;
@@ -106,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
                     displayView(3);
                 } else if (tabId == R.id.my_account) {
                     if (session.isLoggedIn()) {
-                        displayView(4);
+//                        displayView(4);
+                        startActivityForResult(new Intent(MainActivity.this, RegisterActivity.class), INTENT_REQUEST_LOGIN);
                     } else {
                         startActivityForResult(new Intent(MainActivity.this, LoginAcitivity.class), INTENT_REQUEST_LOGIN);
                     }
