@@ -38,6 +38,7 @@ import com.tim.room.view.DropDownMenu;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -56,12 +57,12 @@ public class ItemViewerActivity extends AppCompatActivity {
     RecyclerView recyclerViewImages;
 
     DropDownMenu mDropDownMenu;
-    private String headers[] = {"Category", "Season", "Tags", "Sort"};
+    private String headers[] = {"Category", "Season", "Tags", "Newest"};
     private List<View> popupViews = new ArrayList<>();
 
     private ListDropDownAdapter categoryAdapter;
     private ListDropDownAdapter seasonAdapter;
-    private GirdDropDownAdapter sexAdapter;
+    private GirdDropDownAdapter sortAdapter;
     private TagsAdapter tagAdapter;
 
     private List<String> categoryNameList;
@@ -70,7 +71,7 @@ public class ItemViewerActivity extends AppCompatActivity {
     //    private String categories[] = {"不限", "武汉", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"};
     private String season[] = {"All", "Spring/Fall", "Summer", "Winter"};
     //    private String tagNameList[] = {"ALL", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"};
-    private String sexs[] = {"不限", "男", "女"};
+    private String sort[] = {"Newest", "Oldest"};
 
     private int tagPosition = 0;
 
@@ -88,8 +89,6 @@ public class ItemViewerActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
         initView();
-
-
     }
 
     private void initView() {
@@ -164,17 +163,17 @@ public class ItemViewerActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
             }
         });
-        //init sex menu
-        final ListView sexView = new ListView(this);
-        sexView.setDividerHeight(0);
-        sexAdapter = new GirdDropDownAdapter(this, Arrays.asList(sexs));
-        sexView.setAdapter(sexAdapter);
+        //init sort menu
+        final ListView sortView = new ListView(this);
+        sortView.setDividerHeight(0);
+        sortAdapter = new GirdDropDownAdapter(this, Arrays.asList(sort));
+        sortView.setAdapter(sortAdapter);
 
         //init popupViews
         popupViews.add(categoryView);
         popupViews.add(seasonView);
         popupViews.add(tagView);
-        popupViews.add(sexView);
+        popupViews.add(sortView);
 
         //add item click event
         categoryView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -221,15 +220,6 @@ public class ItemViewerActivity extends AppCompatActivity {
             }
         });
 
-        sexView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sexAdapter.setCheckItem(position);
-                mDropDownMenu.setTabText(position == 0 ? headers[3] : sexs[position]);
-                mDropDownMenu.closeMenu();
-            }
-        });
-
         tagGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -238,8 +228,23 @@ public class ItemViewerActivity extends AppCompatActivity {
             }
         });
 
-        //init context view
+        sortView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                sortAdapter.setCheckItem(position);
+                mDropDownMenu.setTabText(position == 0 ? headers[3] : sort[position]);
+                mDropDownMenu.closeMenu();
+                if (position == 0) {
+                    items.clear();
+                    items.addAll(itemSeries.getItems());
+                } else {
+                    Collections.reverse(items);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
+        //init context view
         mAdapter = new GalleryAdapter(getApplicationContext(), items);
         recyclerViewImages = new RecyclerView(this);
         recyclerViewImages.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
