@@ -68,12 +68,16 @@ public class ItemViewerActivity extends AppCompatActivity {
     private List<String> categoryNameList;
     private List<String> tagNameList;
     ArrayList<Categories> categoriesArrayList;
-    //    private String categories[] = {"不限", "武汉", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"};
     private String season[] = {"All", "Spring/Fall", "Summer", "Winter"};
-    //    private String tagNameList[] = {"ALL", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"};
     private String sort[] = {"Newest", "Oldest"};
 
     private int tagPosition = 0;
+
+    //Filter combination
+    private int filterCategory;
+    private String filterSeason;
+    private String filterTag;
+    private String filterSort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +96,11 @@ public class ItemViewerActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        filterCategory = 0;
+        filterSeason = "0";
+        filterTag = "0";
+        filterSort = "0";
+
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         itemSeries = (ItemSeries) bundle.getSerializable("itemList");
@@ -134,7 +143,8 @@ public class ItemViewerActivity extends AppCompatActivity {
         if (!itemSeries.getAllTagsMap().equals(null)) {
             List<TagEntry> tagEntryList = itemSeries.getAllTagsMap().getEntry();
             for (TagEntry tagEntry : tagEntryList) {
-                tagNameList.add(tagEntry.getKey() + "(" + tagEntry.getValue() + ")");
+//                tagNameList.add(tagEntry.getKey() + "(" + tagEntry.getValue() + ")");
+                tagNameList.add(tagEntry.getKey());
             }
         }
         tagNameList.add(0, "All");
@@ -147,20 +157,27 @@ public class ItemViewerActivity extends AppCompatActivity {
                 mDropDownMenu.setTabText(tagPosition == 0 ? headers[2] : tagNameList.get(tagPosition));
                 mDropDownMenu.closeMenu();
 
-                items.clear();
-                if (tagPosition == 0) { //Show All
-                    items.addAll(itemSeries.getItems());
+                if (tagPosition == 0) {
+                    filterTag = "0";
                 } else {
-                    String tagName = tagNameList.get(tagPosition).substring(0, tagNameList.get(tagPosition).indexOf("("));
-                    Log.v(TAG, "TAGNAME: " + tagName);
-                    for (Items item : itemSeries.getItems()) {
-                        if (item.getTags().contains(tagName)) {
-                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
-                            items.add(item);
-                        }
-                    }
+                    filterTag = tagNameList.get(tagPosition);
                 }
-                mAdapter.notifyDataSetChanged();
+                dateSetChanged(filterCategory, filterSeason, filterTag, filterSort);
+//                items.clear();
+//                if (tagPosition == 0) { //Show All
+//                    items.addAll(itemSeries.getItems());
+//                } else {
+////                    String tagName = tagNameList.get(tagPosition).substring(0, tagNameList.get(tagPosition).indexOf("("));
+//                    String tagName = tagNameList.get(tagPosition);
+//                    Log.v(TAG, "TAGNAME: " + tagName);
+//                    for (Items item : itemSeries.getItems()) {
+//                        if (item.getTags().contains(tagName)) {
+//                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+//                            items.add(item);
+//                        }
+//                    }
+//                }
+//                mAdapter.notifyDataSetChanged();
             }
         });
         //init sort menu
@@ -183,18 +200,24 @@ public class ItemViewerActivity extends AppCompatActivity {
                 mDropDownMenu.setTabText(position == 0 ? headers[0] : categoryNameList.get(position));
                 mDropDownMenu.closeMenu();
 
-                items.clear();
-                if (position == 0) { //Show All
-                    items.addAll(itemSeries.getItems());
+                if (position == 0) {
+                    filterCategory = 0;
                 } else {
-                    for (Items item : itemSeries.getItems()) {
-                        if (item.getCateId().equals(categoriesArrayList.get(position - 1).getId())) {
-                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
-                            items.add(item);
-                        }
-                    }
+                    filterCategory = categoriesArrayList.get(position - 1).getId();
                 }
-                mAdapter.notifyDataSetChanged();
+                dateSetChanged(filterCategory, filterSeason, filterTag, filterSort);
+//                items.clear();
+//                if (position == 0) { //Show All
+//                    items.addAll(itemSeries.getItems());
+//                } else {
+//                    for (Items item : itemSeries.getItems()) {
+//                        if (item.getCateId().equals(categoriesArrayList.get(position - 1).getId())) {
+//                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+//                            items.add(item);
+//                        }
+//                    }
+//                }
+//                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -204,19 +227,25 @@ public class ItemViewerActivity extends AppCompatActivity {
                 seasonAdapter.setCheckItem(position);
                 mDropDownMenu.setTabText(position == 0 ? headers[1] : season[position]);
                 mDropDownMenu.closeMenu();
-
-                items.clear();
                 if (position == 0) { //Show All
-                    items.addAll(itemSeries.getItems());
+                    filterSeason = "0";
                 } else {
-                    for (Items item : itemSeries.getItems()) {
-                        if (item.getSeasons().contains(season[position])) {
-                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
-                            items.add(item);
-                        }
-                    }
+                    filterSeason = season[position];
                 }
-                mAdapter.notifyDataSetChanged();
+                dateSetChanged(filterCategory, filterSeason, filterTag, filterSort);
+
+//                items.clear();
+//                if (position == 0) { //Show All
+//                    items.addAll(itemSeries.getItems());
+//                } else {
+//                    for (Items item : itemSeries.getItems()) {
+//                        if (item.getSeasons().contains(season[position])) {
+//                            Log.v("CATEITEMS", "Filtered Items: " + item.getImageName());
+//                            items.add(item);
+//                        }
+//                    }
+//                }
+//                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -234,13 +263,21 @@ public class ItemViewerActivity extends AppCompatActivity {
                 sortAdapter.setCheckItem(position);
                 mDropDownMenu.setTabText(position == 0 ? headers[3] : sort[position]);
                 mDropDownMenu.closeMenu();
+
                 if (position == 0) {
-                    items.clear();
-                    items.addAll(itemSeries.getItems());
+                    filterSort = "0";
                 } else {
-                    Collections.reverse(items);
+                    filterSort = "1";
                 }
-                mAdapter.notifyDataSetChanged();
+                dateSetChanged(filterCategory, filterSeason, filterTag, filterSort);
+
+//                if (position == 0) {
+//                    items.clear();
+//                    items.addAll(itemSeries.getItems());
+//                } else {
+//                    Collections.reverse(items);
+//                }
+//                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -300,6 +337,40 @@ public class ItemViewerActivity extends AppCompatActivity {
 
         //init dropdownview
         mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, recyclerViewImages);
+    }
+
+    private void dateSetChanged(int filterCategory, String filterSeason, String filterTag, String filterSort) {
+        Log.v(TAG, "FILTER: " + filterCategory);
+        Log.v(TAG, "FILTER: " + filterSeason);
+        Log.v(TAG, "FILTER: " + filterTag);
+        Log.v(TAG, "FILTER: " + filterSort);
+        items.clear();
+//        List<Items> tempItems = new ArrayList<>();
+        items.addAll(itemSeries.getItems());
+        for (int i = items.size() - 1; i > -1; i--) {
+            Items item = items.get(i);
+            if (filterCategory != 0) {
+                if (!item.getCateId().equals(filterCategory)) {
+                    items.remove(item);
+                }
+            }
+            if (!filterSeason.equals("0")) {
+                if (!item.getSeasons().contains(filterSeason)) {
+                    items.remove(item);
+                }
+            }
+            if (!filterTag.equals("0")) {
+                if (!item.getTags().contains(filterTag)) {
+                    items.remove(item);
+                }
+            }
+        }
+        if (!filterSort.equals("0")) {
+            Collections.reverse(items);
+        }
+//        items = tempItems;
+        Log.v(TAG, "FILTERSIZE: " + items.size());
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
