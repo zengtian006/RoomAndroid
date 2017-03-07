@@ -14,7 +14,6 @@
             android:id="@+id/linearLayout_spinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -38,7 +37,8 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="10dp"
-            android:background="?attr/colorButtonNormal" />
+            android:background="?attr/colorButtonNormal"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_images"

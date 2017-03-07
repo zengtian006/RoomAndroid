@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,11 +43,17 @@ public class HomeFragment extends Fragment {
     private final static String TAG = HomeFragment.class.getSimpleName();
     RecyclerView recyclerView;
     Context mContext;
-    public static final Integer[] IMAGES_RESOURCE = new Integer[]{
-            R.drawable.bg_1,
-            R.drawable.bg_2,
-            R.drawable.bg_4,
-            R.drawable.bg_3
+    public static final Integer[] IMAGES_RESOURCE_MAN = new Integer[]{
+            R.drawable.bg_man_1,
+            R.drawable.bg_man_2,
+            R.drawable.bg_man_4,
+            R.drawable.bg_man_3
+    };
+    public static final Integer[] IMAGES_RESOURCE_WOMEN = new Integer[]{
+            R.drawable.bg_women_1,
+            R.drawable.bg_women_2,
+            R.drawable.bg_women_3,
+            R.drawable.bg_women_4
     };
 
     @Override
@@ -81,29 +86,32 @@ public class HomeFragment extends Fragment {
                     for (Items item : series.getItems()) {
                         item.setLiked(false);
                         for (ItemLikes itemLike : item.getItemLikes()) {
-                            if(itemLike.getUserId().equals(MainActivity.session.getUser().getId())){
+                            if (itemLike.getUserId().equals(MainActivity.session.getUser().getId())) {
                                 item.setLiked(true);
                                 break;
                             }
                         }
                     }
-                    }
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                    recyclerView.setLayoutManager(mLayoutManager);
+                }
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(mLayoutManager);
 
-                    View header = LayoutInflater.from(mContext).inflate(R.layout.home_header, recyclerView, false);
-                    initializeKenBurnsView(header);
-                    ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSeries);
-                    adapter.setHeaderView(header);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(adapter);
-                    dialog.dismiss();
+                View header = LayoutInflater.from(mContext).inflate(R.layout.home_header, recyclerView, false);
+                initializeKenBurnsView(header);
+                ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSeries);
+                adapter.setHeaderView(header);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setAdapter(adapter);
+                dialog.dismiss();
 //                }
             }
         });
     }
 
     private void initializeKenBurnsView(final View view) {
+        //Title
+        TextView title = (TextView) view.findViewById(R.id.header_title);
+        title.setText(session.getUser().getRoomName());
         // KenBurnsView
         final KenBurnsView kenBurnsView = (KenBurnsView) view.findViewById(R.id.ken_burns_view);
         kenBurnsView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -111,9 +119,13 @@ public class HomeFragment extends Fragment {
         kenBurnsView.setFadeInOutMs(750);
 
         // ResourceIDs
-        List<Integer> resourceIDs = Arrays.asList(IMAGES_RESOURCE);
+        List<Integer> resourceIDs = new ArrayList<>();
+        if (session.getUser().getGender().equals("M")) {
+            resourceIDs = Arrays.asList(IMAGES_RESOURCE_MAN);
+        } else {
+            resourceIDs = Arrays.asList(IMAGES_RESOURCE_WOMEN);
+        }
         kenBurnsView.loadResourceIDs(resourceIDs);
-
         // LoopViewListener
         LoopViewPager.LoopViewPagerListener listener = new LoopViewPager.LoopViewPagerListener() {
             @Override

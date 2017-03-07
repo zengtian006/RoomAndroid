@@ -6,22 +6,22 @@
 
 
     <!--<com.flaviofaria.kenburnsview.KenBurnsView-->
-        <!--android:id="@+id/header_image_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--android:src="@drawable/bg_1" />-->
+    <!--android:id="@+id/header_image_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:scaleType="fitCenter"-->
+    <!--android:src="@drawable/bg_man_1" />-->
     <com.tim.room.view.KenBurnsView
         android:id="@+id/ken_burns_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/view_pager_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,12 +41,12 @@
             android:typeface="serif" />
 
         <TextView
+            android:id="@+id/sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TestSubTitle"
+            android:text=""
             android:textColor="@android:color/white"
-            android:textSize="18dp"
-            android:id="@+id/sub_title" />
+            android:textSize="18dp" />
 
     </LinearLayout>
 </RelativeLayout>

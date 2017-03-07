@@ -16,6 +16,7 @@ import com.tim.room.MainActivity;
 import com.tim.room.R;
 
 import static com.tim.room.MainActivity.fragmentManager;
+import static com.tim.room.MainActivity.session;
 import static com.tim.room.utils.CommonUtil.containerHeight;
 
 /**
@@ -84,12 +85,18 @@ public class MyAccountFragment extends Fragment {
         if (MainActivity.session.isLoggedIn()) {
             tv_name.setText(MainActivity.session.getUser().getName());
         }
+
         ViewGroup.LayoutParams params = iv_zoom.getLayoutParams();
         params.height = containerHeight(getActivity(), 2.5);
         iv_zoom.setLayoutParams(params);
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_setting_24dp).setTag("0"));
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_setting_24dp).setTag("1"));
-        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_setting_24dp).setTag("2"));
+        if (session.getUser().getGender().equals("M")) {
+            iv_zoom.setImageResource(R.drawable.bg_man_2);
+        } else {
+            iv_zoom.setImageResource(R.drawable.bg_women_1);
+        }
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile_24dp).setTag("0"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm_24dp).setTag("1"));
+        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_trash_24dp).setTag("2"));
 //        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_alarm).setTag("3"));
     }
 

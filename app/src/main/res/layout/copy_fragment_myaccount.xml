@@ -34,7 +34,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/bg_2" />
+                    android:src="@drawable/bg_man_2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -34,8 +34,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/bg_2" />
+                        android:scaleType="centerCrop" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -84,8 +83,8 @@
             android:layout_height="wrap_content"
             android:background="#222222"
             app:tabGravity="fill"
-            app:tabIndicatorHeight="3dp"
             app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="3dp"
             app:tabMode="fixed" />
 
         <FrameLayout
