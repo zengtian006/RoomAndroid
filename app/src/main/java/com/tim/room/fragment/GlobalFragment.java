@@ -2,6 +2,7 @@ package com.tim.room.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.tim.room.R;
 import com.tim.room.adapter.GalleryAdapter;
@@ -67,26 +69,6 @@ public class GlobalFragment extends Fragment {
     }
 
     private void setView() {
-        RESTFulService findGlobalItemService = RESTFulServiceImp.createService(RESTFulService.class);
-        findGlobalItemService.findAllGlobalItems().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Items>>() {
-            @Override
-            public void accept(List<Items> items) throws Exception {
-                mAdapter = new GalleryAdapter(mContext, items);
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
-                recyclerViewImages.setLayoutManager(mLayoutManager);
-                recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
-                recyclerViewImages.setAdapter(mAdapter);
-            }
-        });
-    }
-
-    private void findView(final View rootView) {
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-
-        recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
-        searchView = (MaterialSearchView) rootView.findViewById(R.id.search_view);
         searchView.setVoiceSearch(false);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
         searchView.setEllipsize(true);
@@ -94,7 +76,7 @@ public class GlobalFragment extends Fragment {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(rootView.findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
+                Toast.makeText(mContext, "Query: " + query, Toast.LENGTH_LONG)
                         .show();
                 return false;
             }
@@ -117,6 +99,29 @@ public class GlobalFragment extends Fragment {
                 //Do some magic
             }
         });
+
+        RESTFulService findGlobalItemService = RESTFulServiceImp.createService(RESTFulService.class);
+        findGlobalItemService.findAllGlobalItems().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Items>>() {
+            @Override
+            public void accept(List<Items> items) throws Exception {
+                mAdapter = new GalleryAdapter(mContext, items);
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
+                recyclerViewImages.setLayoutManager(mLayoutManager);
+                recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewImages.setAdapter(mAdapter);
+            }
+        });
+    }
+
+    private void findView(final View rootView) {
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Global");
+
+
+        recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
+        searchView = (MaterialSearchView) rootView.findViewById(R.id.search_view);
+
     }
 
     @Override

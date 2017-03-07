@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,7 +16,6 @@
             android:id="@+id/recycler_view_images"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
             android:background="@color/white"
             android:scrollbars="vertical" />
     </LinearLayout>
@@ -29,7 +29,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/toolbarColor" />
+            android:background="@color/toolbarColor"
+            android:titleTextColor="@color/white"
+            app:theme="@style/ToolbarStyle"
+            app:titleTextColor="@color/white" />
 
         <com.tim.room.view.MaterialSearchView
             android:id="@+id/search_view"
