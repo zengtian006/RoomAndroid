@@ -46,6 +46,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class GlobalFragment extends Fragment {
 
+    List<Items> itemList;
     Context mContext;
     RecyclerView recyclerViewImages;
     public static GalleryAdapter mAdapter;
@@ -61,7 +62,7 @@ public class GlobalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_global, container, false);
-
+        itemList = new ArrayList<>();
         findView(rootView);
         setView();
         this.mContext = getContext();
@@ -76,6 +77,8 @@ public class GlobalFragment extends Fragment {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                itemList.addAll(itemList);
+                mAdapter.notifyDataSetChanged();
                 Toast.makeText(mContext, "Query: " + query, Toast.LENGTH_LONG)
                         .show();
                 return false;
@@ -104,7 +107,8 @@ public class GlobalFragment extends Fragment {
         findGlobalItemService.findAllGlobalItems().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Items>>() {
             @Override
             public void accept(List<Items> items) throws Exception {
-                mAdapter = new GalleryAdapter(mContext, items);
+                itemList.addAll(items);
+                mAdapter = new GalleryAdapter(mContext, itemList);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
                 recyclerViewImages.setLayoutManager(mLayoutManager);
                 recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
@@ -117,7 +121,6 @@ public class GlobalFragment extends Fragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Global");
-
 
         recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
         searchView = (MaterialSearchView) rootView.findViewById(R.id.search_view);
