@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DropDownMenu">
-        <attr name="ddunderlineColor" format="color"/>
-        <attr name="dddividerColor" format="color"/>
-        <attr name="ddtextSelectedColor" format="color"/>
-        <attr name="ddtextUnselectedColor" format="color"/>
-        <attr name="ddmenuBackgroundColor" format="color"/>
-        <attr name="ddmaskColor" format="color"/>
-        <attr name="ddmenuTextSize" format="dimension"/>
-        <attr name="ddmenuSelectedIcon" format="reference"/>
-        <attr name="ddmenuUnselectedIcon" format="reference"/>
+        <attr name="ddunderlineColor" format="color" />
+        <attr name="dddividerColor" format="color" />
+        <attr name="ddtextSelectedColor" format="color" />
+        <attr name="ddtextUnselectedColor" format="color" />
+        <attr name="ddmenuBackgroundColor" format="color" />
+        <attr name="ddmaskColor" format="color" />
+        <attr name="ddmenuTextSize" format="dimension" />
+        <attr name="ddmenuSelectedIcon" format="reference" />
+        <attr name="ddmenuUnselectedIcon" format="reference" />
     </declare-styleable>
     <declare-styleable name="ObservableScrollView">
         <attr name="zoomId" format="reference|integer" />
@@ -64,5 +64,18 @@
         <attr name="tag_cross_color" format="color" />
         <attr name="tag_cross_line_width" format="dimension" />
         <attr name="tag_cross_area_padding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="MaterialSearchView">
+        <attr name="searchBackground" format="integer" />
+        <attr name="searchVoiceIcon" format="integer" />
+        <attr name="searchCloseIcon" format="integer" />
+        <attr name="searchBackIcon" format="integer" />
+        <attr name="searchSuggestionIcon" format="integer" />
+        <attr name="searchSuggestionBackground" format="integer" />
+        <attr name="android:hint" />
+        <attr name="android:textColor" />
+        <attr name="android:textColorHint" />
+        <attr name="android:inputType" />
     </declare-styleable>
 </resources>
