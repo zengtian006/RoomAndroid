@@ -14,7 +14,6 @@ import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.tim.room.activity.AddItemActivity;
 import com.tim.room.activity.LoginAcitivity;
-import com.tim.room.activity.RegisterActivity;
 import com.tim.room.app.SessionManager;
 import com.tim.room.fragment.AddFragment;
 import com.tim.room.fragment.CharityFragment;

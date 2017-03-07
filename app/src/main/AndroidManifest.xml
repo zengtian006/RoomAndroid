@@ -47,11 +47,11 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:label=" "
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/NoActionBar">
+            android:parentActivityName=".activity.LoginAcitivity"
+            android:theme="@style/TranActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activity.LoginAcitivity" />
         </activity>
         <activity
             android:name=".activity.LoginAcitivity"
@@ -73,10 +73,13 @@
         </activity>
         <activity
             android:name=".activity.ItemViewerActivity"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity android:name=".activity.ItemCateActivity" />
         <activity
             android:name=".activity.ItemFullScreenViewer"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activity.RegisterMoreActivity"
             android:theme="@style/NoActionBar" />
     </application>
 

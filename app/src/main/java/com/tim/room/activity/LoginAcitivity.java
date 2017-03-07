@@ -1,13 +1,13 @@
 package com.tim.room.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.tim.room.R;
 import com.tim.room.model.User;
@@ -24,8 +24,9 @@ import static com.tim.room.MainActivity.session;
 
 public class LoginAcitivity extends AppCompatActivity {
     private final static String TAG = LoginAcitivity.class.getSimpleName();
-    Button btn_linkto_reg, btn_login;
+    Button btn_check_email, btn_reg, btn_login;
     EditText edt_name, edt_password;
+    LinearLayout layout_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,21 @@ public class LoginAcitivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        btn_linkto_reg.setOnClickListener(new View.OnClickListener() {
+        btn_check_email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginAcitivity.this, RegisterActivity.class));
+                if (!edt_name.getText().toString().trim().isEmpty()) {
+                    layout_password.setVisibility(View.VISIBLE);
+                    btn_login.setVisibility(View.VISIBLE);
+                    btn_check_email.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        btn_reg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                startActivity(new Intent(LoginAcitivity.this, RegisterActivity.class));
             }
         });
 
@@ -68,10 +80,12 @@ public class LoginAcitivity extends AppCompatActivity {
     }
 
     private void findView() {
-        btn_linkto_reg = (Button) findViewById(R.id.btn_linkto_reg);
+        btn_check_email = (Button) findViewById(R.id.btn_check_email);
+        btn_reg = (Button) findViewById(R.id.btn_reg);
         btn_login = (Button) findViewById(R.id.btn_login);
         edt_name = (EditText) findViewById(R.id.edt_name);
         edt_password = (EditText) findViewById(R.id.edt_password);
+        layout_password = (LinearLayout) findViewById(R.id.layout_password);
     }
 
     @Override
