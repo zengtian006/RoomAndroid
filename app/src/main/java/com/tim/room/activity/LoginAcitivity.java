@@ -1,6 +1,7 @@
 package com.tim.room.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +25,9 @@ import static com.tim.room.MainActivity.session;
 
 public class LoginAcitivity extends AppCompatActivity {
     private final static String TAG = LoginAcitivity.class.getSimpleName();
+
+    private final static int INTENT_REQUEST_LOGIN = 0;
+
     Button btn_check_email, btn_reg, btn_login;
     EditText edt_name, edt_password;
     LinearLayout layout_password;
@@ -43,6 +47,7 @@ public class LoginAcitivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!edt_name.getText().toString().trim().isEmpty()) {
                     layout_password.setVisibility(View.VISIBLE);
+//                    btn_reg.setVisibility(View.VISIBLE);
                     btn_login.setVisibility(View.VISIBLE);
                     btn_check_email.setVisibility(View.GONE);
                 }
@@ -52,7 +57,10 @@ public class LoginAcitivity extends AppCompatActivity {
         btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(LoginAcitivity.this, RegisterActivity.class));
+                Intent intent = new Intent(LoginAcitivity.this, RegisterMoreActivity.class);
+                intent.putExtra("name", edt_name.getText().toString());
+                intent.putExtra("password", edt_password.getText().toString());
+                startActivityForResult(intent, INTENT_REQUEST_LOGIN);
             }
         });
 
@@ -92,5 +100,16 @@ public class LoginAcitivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == INTENT_REQUEST_LOGIN) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 }

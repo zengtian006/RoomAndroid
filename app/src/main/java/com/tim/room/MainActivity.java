@@ -14,6 +14,7 @@ import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.tim.room.activity.AddItemActivity;
 import com.tim.room.activity.LoginAcitivity;
+import com.tim.room.activity.RegisterMoreActivity;
 import com.tim.room.app.SessionManager;
 import com.tim.room.fragment.AddFragment;
 import com.tim.room.fragment.CharityFragment;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         session = new SessionManager(this);
         Log.v(TAG, "Login??: " + session.isLoggedIn());
         if (session.isLoggedIn()) {
+            Log.v(TAG, "Gender??: " + session.getUser().getGender());
+
             Log.v(TAG, "MemberID??: " + session.getUser().getId());
         }
 

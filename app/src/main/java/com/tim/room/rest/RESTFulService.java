@@ -49,6 +49,14 @@ public interface RESTFulService {
     Observable<UserResponse> login(@Body User user);
 
     @Headers("Content-Type: application/json")
+    @POST("updateUser")
+    Observable<Boolean> updateUser(@Body User user);
+
+    @Headers("Content-Type: application/json")
+    @POST("addUser")
+    Observable<User> addUser(@Body User user);
+
+    @Headers("Content-Type: application/json")
     @POST("addItem")
     Observable<Boolean> addItem(@Body Items item);
 

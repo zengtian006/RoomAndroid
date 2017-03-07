@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/edt_male"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -33,7 +33,7 @@
                 android:padding="10dp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_male"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/regconfirm"
@@ -56,7 +56,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/edt_female"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -67,7 +67,7 @@
                 android:padding="10dp" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btn_female"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_login"
