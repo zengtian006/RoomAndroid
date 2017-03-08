@@ -12,6 +12,32 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hot" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Men" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Women" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tag" />
+        </android.support.design.widget.TabLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_images"
             android:layout_width="match_parent"

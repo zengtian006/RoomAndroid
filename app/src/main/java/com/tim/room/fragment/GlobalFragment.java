@@ -2,19 +2,16 @@ package com.tim.room.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -109,8 +106,9 @@ public class GlobalFragment extends Fragment {
             public void accept(List<Items> items) throws Exception {
                 itemList.addAll(items);
                 mAdapter = new GalleryAdapter(mContext, itemList);
+                StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
-                recyclerViewImages.setLayoutManager(mLayoutManager);
+                recyclerViewImages.setLayoutManager(staggeredGridLayoutManager);
                 recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewImages.setAdapter(mAdapter);
             }
@@ -120,7 +118,7 @@ public class GlobalFragment extends Fragment {
     private void findView(final View rootView) {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Global");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Discover");
 
         recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
         searchView = (MaterialSearchView) rootView.findViewById(R.id.search_view);

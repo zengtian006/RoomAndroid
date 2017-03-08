@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -34,7 +35,6 @@ import com.tim.room.model.TagEntry;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.DropDownMenu;
-import com.tim.room.view.ProgressDialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,12 +86,15 @@ public class ItemViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_viewer);
 //        overridePendingTransition(R.anim.push_down_in, R.anim.push_up_out);
         this.mContext = getApplicationContext();
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        itemSeries = (ItemSeries) bundle.getSerializable("itemList");
 
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(itemSeries.getTitle());
         mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
         initView();
     }
@@ -102,9 +105,6 @@ public class ItemViewerActivity extends AppCompatActivity {
         filterTag = "0";
         filterSort = "0";
 
-        Intent intent = this.getIntent();
-        Bundle bundle = intent.getExtras();
-        itemSeries = (ItemSeries) bundle.getSerializable("itemList");
         items = new ArrayList<Items>();
         for (Items item : itemSeries.getItems()) {
             items.add(item);
@@ -287,7 +287,7 @@ public class ItemViewerActivity extends AppCompatActivity {
         recyclerViewImages = new RecyclerView(this);
         recyclerViewImages.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerViewImages.setLayoutManager(mLayoutManager);
         recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
         recyclerViewImages.setAdapter(mAdapter);
