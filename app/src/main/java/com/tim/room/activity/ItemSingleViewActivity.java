@@ -65,6 +65,9 @@ public class ItemSingleViewActivity extends AppCompatActivity {
         }
         itemTitle.setText(mItem.getTitle());
         userName.setText(mItem.getUser().getName());
+        if (!mItem.getTags().isEmpty()) {
+            tagcontainerLayout.setTags(mItem.getTags());
+        }
         btnLike.setImageResource(mItem.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);
         tsLikesCounter.setCurrentText(vImageRoot.getResources().getQuantityString(
                 R.plurals.likes_count, mItem.getLikesCount(), mItem.getLikesCount()
