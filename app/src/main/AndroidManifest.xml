@@ -81,6 +81,9 @@
         <activity
             android:name=".activity.RegisterMoreActivity"
             android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activity.ItemSingleViewActivity"
+            android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>

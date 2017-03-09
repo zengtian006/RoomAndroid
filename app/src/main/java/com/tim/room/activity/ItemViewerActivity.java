@@ -308,31 +308,36 @@ public class ItemViewerActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
-                FrameLayout rl = (FrameLayout) view.findViewById(R.id.imageSquareLayout);
-                final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox);
-                if (cb.isChecked()) {
-                    rl.animate()
-                            .scaleY(UNSELECTED_SCALE)
-                            .scaleX(UNSELECTED_SCALE)
-                            .setDuration(200).withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            cb.setChecked(false);
-                        }
-                    })
-                            .start();
-                } else {
-                    rl.animate()
-                            .scaleY(SELECTED_SCALE)
-                            .scaleX(SELECTED_SCALE).withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            cb.setChecked(true);
-                        }
-                    })
-                            .setDuration(200)
-                            .start();
-                }
+                Intent intent = new Intent(ItemViewerActivity.this, ItemSingleViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("items", items.get(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
+//                FrameLayout rl = (FrameLayout) view.findViewById(R.id.imageSquareLayout);
+//                final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox);
+//                if (cb.isChecked()) {
+//                    rl.animate()
+//                            .scaleY(UNSELECTED_SCALE)
+//                            .scaleX(UNSELECTED_SCALE)
+//                            .setDuration(200).withEndAction(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            cb.setChecked(false);
+//                        }
+//                    })
+//                            .start();
+//                } else {
+//                    rl.animate()
+//                            .scaleY(SELECTED_SCALE)
+//                            .scaleX(SELECTED_SCALE).withEndAction(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            cb.setChecked(true);
+//                        }
+//                    })
+//                            .setDuration(200)
+//                            .start();
+//                }
             }
         }));
 
