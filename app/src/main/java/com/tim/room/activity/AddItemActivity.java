@@ -375,7 +375,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 
                         @Override
                         public void onSuccess() {
-                            finish();
+//                            finish();
                         }
 
                         @Override
