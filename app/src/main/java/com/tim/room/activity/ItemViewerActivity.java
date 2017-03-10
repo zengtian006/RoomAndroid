@@ -316,6 +316,7 @@ public class ItemViewerActivity extends AppCompatActivity {
                 Intent intent = new Intent(ItemViewerActivity.this, ItemSingleViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", items.get(position));
+                bundle.putSerializable("current_user", currentUser);
                 intent.putExtras(bundle);
                 startActivity(intent);
 //                FrameLayout rl = (FrameLayout) view.findViewById(R.id.imageSquareLayout);

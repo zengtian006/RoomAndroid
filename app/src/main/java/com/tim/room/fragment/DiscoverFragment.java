@@ -231,6 +231,7 @@ public class DiscoverFragment extends Fragment {
                         Intent intent = new Intent(mContext, ItemSingleViewActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("items", varItemList.get(position));
+                        bundle.putSerializable("current_user", session.getUser());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }

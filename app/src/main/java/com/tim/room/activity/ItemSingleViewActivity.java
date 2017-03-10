@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
 import com.tim.room.model.Items;
+import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.TagContainerLayout;
@@ -59,6 +60,8 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     View vBgLike;
     ImageView ivLike;
     RESTFulService updateItemService;
+    User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class ItemSingleViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mItem = (Items) bundle.getSerializable("items");
+        currentUser = (User) bundle.getSerializable("current_user");
 
         updateItemService = RESTFulServiceImp.createService(RESTFulService.class);
 
@@ -78,6 +82,21 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     }
 
     private void setListener() {
+        ivUserProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = mItem.getUser();
+                Log.v(TAG, "CURRENTUSER: " + currentUser.getName());
+                Log.v(TAG, "NOWTUSER: " + user.getName());
+                if (!currentUser.getId().equals(user.getId())) {
+                    Intent intent = new Intent(ItemSingleViewActivity.this, HomeOthersActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
