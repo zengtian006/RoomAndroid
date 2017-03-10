@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.tim.room.activity.ItemFullScreenViewer;
 import com.tim.room.activity.ItemSingleViewActivity;
 import com.tim.room.activity.ItemViewerActivity;
 import com.tim.room.model.ItemSeries;
+import com.tim.room.model.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,13 +34,16 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
     private ArrayList<ItemSeries> dataList;
     private Context mContext;
     private View mHeaderView;
+    private User currentUser;
+
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_NORMAL = 1;  //说明是不带有header和footer的
 
-    public ItemSeriesAdapter(Context context, ArrayList<ItemSeries> dataList) {
+    public ItemSeriesAdapter(Context context, ArrayList<ItemSeries> dataList, User currentUser) {
 
         this.dataList = dataList;
         this.mContext = context;
+        this.currentUser = currentUser;
     }
 
     public void setHeaderView(View headerView) {
@@ -108,6 +113,7 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", (Serializable) itemsList);
                 bundle.putSerializable("position", position);
+                bundle.putSerializable("current_user", currentUser);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }
@@ -144,6 +150,7 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
             if (view == mHeaderView) {
                 return;
             }
+
             this.moreButton = (Button) view.findViewById(R.id.moreButton);
             this.tv_cate_title = (TextView) view.findViewById(R.id.tv_cate_title);
             this.tv_cate_id = (TextView) view.findViewById(R.id.tv_cate_id);
@@ -152,9 +159,16 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
             moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int position = 0;
+                    if (mHeaderView != null) {
+                        position = getAdapterPosition() - 1;
+                    } else {
+                        position = getAdapterPosition();
+                    }
                     Intent intent = new Intent(mContext, ItemViewerActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("itemList", dataList.get(getAdapterPosition() - 1));
+                    bundle.putSerializable("itemList", dataList.get(position));
+                    bundle.putSerializable("current_user", currentUser);
                     intent.putExtras(bundle);
                     mContext.startActivity(intent);
 //                    mContext.startActivity(new Intent(mContext, ItemViewerActivity.class));

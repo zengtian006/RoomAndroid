@@ -16,6 +16,7 @@ import com.tim.room.adapter.ItemFeedAdapter;
 import com.tim.room.adapter.ItemFeedAnimator;
 import com.tim.room.helper.ItemFeedScaleHelper;
 import com.tim.room.model.Items;
+import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 
@@ -35,6 +36,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
     private ItemFeedScaleHelper mCardScaleHelper = null;
     RESTFulService updateItemService;
     ItemFeedAdapter cardAdapter;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
         Bundle bundle = intent.getExtras();
         mItems = (List<Items>) bundle.getSerializable("items");
         position = (int) bundle.getSerializable("position");
+        currentUser = (User) bundle.getSerializable("current_user");
+
 
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
@@ -111,11 +115,17 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
 
     @Override
     public void onProfileClick(View v, int position) {
-        Intent intent = new Intent(ItemFullScreenViewer.this, HomeOthersActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("user", mItems.get(position).getUser());
-        intent.putExtras(bundle);
-        startActivity(intent);
+
+        User user = mItems.get(position).getUser();
+        Log.v(TAG, "CURRENTUSER: " + currentUser.getName());
+        Log.v(TAG, "NOWTUSER: " + user.getName());
+        if (!currentUser.getId().equals(user.getId())) {
+            Intent intent = new Intent(ItemFullScreenViewer.this, HomeOthersActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
     @Override

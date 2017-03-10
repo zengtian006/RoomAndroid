@@ -32,6 +32,7 @@ import com.tim.room.model.Categories;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.model.TagEntry;
+import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.DropDownMenu;
@@ -51,6 +52,7 @@ public class ItemViewerActivity extends AppCompatActivity {
 
     //    public static ArrayList<String> images;
     public static List<Items> items;
+    private User currentUser;
     public static GalleryAdapter mAdapter;
     Context mContext;
     ItemSeries itemSeries;
@@ -89,6 +91,7 @@ public class ItemViewerActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         itemSeries = (ItemSeries) bundle.getSerializable("itemList");
+        currentUser = (User) bundle.getSerializable("current_user");
 
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
@@ -299,6 +302,8 @@ public class ItemViewerActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", (Serializable) items);
                 bundle.putSerializable("position", position);
+                bundle.putSerializable("current_user", currentUser);
+
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

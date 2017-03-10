@@ -29,6 +29,7 @@ public class Items implements java.io.Serializable {
     private Integer likesCount;
     private boolean isLiked;
 
+
     public boolean isLiked() {
         return isLiked;
     }

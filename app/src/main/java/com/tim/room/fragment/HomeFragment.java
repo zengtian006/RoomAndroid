@@ -78,7 +78,6 @@ public class HomeFragment extends Fragment {
     private void setView() {
         final RESTFulService findAllItemsService = RESTFulServiceImp.createService(RESTFulService.class);
 
-
         dialog.show();
         findAllItemsService.findAllItems(session.getUser()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<ArrayList<ItemSeries>>() {
             @Override
@@ -99,7 +98,7 @@ public class HomeFragment extends Fragment {
 
                 View header = LayoutInflater.from(mContext).inflate(R.layout.home_header, recyclerView, false);
                 initializeKenBurnsView(header);
-                ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSeries);
+                ItemSeriesAdapter adapter = new ItemSeriesAdapter(getContext(), itemSeries, session.getUser());
                 adapter.setHeaderView(header);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(adapter);

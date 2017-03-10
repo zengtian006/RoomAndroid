@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.tim.room.MainActivity;
@@ -39,6 +41,13 @@ public class HomeOthersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_others);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -51,6 +60,7 @@ public class HomeOthersActivity extends AppCompatActivity {
 
     private void setView() {
         final RESTFulService findAllItemsService = RESTFulServiceImp.createService(RESTFulService.class);
+        user.setIsPublic("1");
 
         findAllItemsService.findAllItems(user).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<ArrayList<ItemSeries>>() {
             @Override
@@ -69,7 +79,7 @@ public class HomeOthersActivity extends AppCompatActivity {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(HomeOthersActivity.this, LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(mLayoutManager);
 
-                ItemSeriesAdapter adapter = new ItemSeriesAdapter(HomeOthersActivity.this, itemSeries);
+                ItemSeriesAdapter adapter = new ItemSeriesAdapter(HomeOthersActivity.this, itemSeries, user);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(adapter);
             }
@@ -78,5 +88,14 @@ public class HomeOthersActivity extends AppCompatActivity {
 
     private void findView() {
         recyclerView = (RecyclerView) findViewById(R.id.other_recycler_view);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

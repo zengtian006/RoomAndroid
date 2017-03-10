@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.tim.room.R;
@@ -39,6 +41,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tim.room.MainActivity.session;
 
 
 /**
@@ -48,10 +51,12 @@ import static android.app.Activity.RESULT_OK;
 public class DiscoverFragment extends Fragment {
 
     List<Items> itemList;
+    List<Items> varItemList;
     Context mContext;
     RecyclerView recyclerViewImages;
     public static GalleryAdapter mAdapter;
     private MaterialSearchView searchView;
+    TabLayout tabLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,10 +69,59 @@ public class DiscoverFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         itemList = new ArrayList<>();
+        varItemList = new ArrayList<>();
         findView(rootView);
         setView();
+        setListener();
         this.mContext = getContext();
         return rootView;
+    }
+
+    private void setListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getText().toString()) {
+                    case "Hot":
+                        varItemList.clear();
+                        varItemList.addAll(itemList);
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    case "Men":
+                        varItemList.clear();
+                        for (Items item : itemList) {
+                            if (item.getUser().getGender().equals("M")) {
+                                varItemList.add(item);
+                            }
+                        }
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    case "Women":
+                        varItemList.clear();
+                        for (Items item : itemList) {
+                            if (item.getUser().getGender().equals("F")) {
+                                varItemList.add(item);
+                            }
+                        }
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    case "Tag":
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setView() {
@@ -108,8 +162,11 @@ public class DiscoverFragment extends Fragment {
         findGlobalItemService.findAllGlobalItems().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Items>>() {
             @Override
             public void accept(List<Items> items) throws Exception {
-                itemList.addAll(items);
-                mAdapter = new GalleryAdapter(mContext, itemList);
+                for (Items item : items) {
+                    itemList.add(item);
+                    varItemList.add(item);
+                }
+                mAdapter = new GalleryAdapter(mContext, varItemList);
                 StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
                 recyclerViewImages.setLayoutManager(staggeredGridLayoutManager);
@@ -120,8 +177,9 @@ public class DiscoverFragment extends Fragment {
                     public void onClick(View view, int position) {
                         Intent intent = new Intent(mContext, ItemFullScreenViewer.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("items", (Serializable) itemList);
+                        bundle.putSerializable("items", (Serializable) varItemList);
                         bundle.putSerializable("position", position);
+                        bundle.putSerializable("current_user", session.getUser());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -130,7 +188,7 @@ public class DiscoverFragment extends Fragment {
                     public void onLongClick(View view, int position) {
                         Intent intent = new Intent(mContext, ItemSingleViewActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("items", itemList.get(position));
+                        bundle.putSerializable("items", varItemList.get(position));
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -146,6 +204,7 @@ public class DiscoverFragment extends Fragment {
 
         recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
         searchView = (MaterialSearchView) rootView.findViewById(R.id.search_view);
+        tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayout);
 
     }
 

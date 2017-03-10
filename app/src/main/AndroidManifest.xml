@@ -84,7 +84,9 @@
         <activity
             android:name=".activity.ItemSingleViewActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".activity.HomeOthersActivity"></activity>
+        <activity
+            android:name=".activity.HomeOthersActivity"
+            android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>
