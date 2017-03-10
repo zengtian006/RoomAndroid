@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -97,7 +98,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
                 }
             }
         });
-        cellFeedViewHolder.ivUserProfile.setOnClickListener(new View.OnClickListener() {
+        cellFeedViewHolder.layout_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFeedItemClickListener.onProfileClick(itemView, cellFeedViewHolder.getAdapterPosition());
@@ -156,6 +157,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
         } else {
             holder.stPublic.setVisibility(View.GONE);
         }
+        holder.profile_name.setText(item.getUser().getName());
 
         holder.itemTitle.setText(item.getTitle());
         holder.userName.setText(item.getUser().getName());
@@ -183,9 +185,9 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
         ImageButton btnComments;
         ImageButton btnLike;
         ImageButton btnMore;
-        ImageView ivUserProfile;
+        LinearLayout layout_profile;
         Switch stPublic;
-        TextView itemTitle, userName;
+        TextView itemTitle, userName, profile_name;
         TagContainerLayout tagcontainerLayout;
         TextSwitcher tsLikesCounter;
         FrameLayout vImageRoot;
@@ -200,7 +202,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
             btnComments = (ImageButton) itemView.findViewById(R.id.btnComments);
             btnLike = (ImageButton) itemView.findViewById(R.id.btnLike);
             btnMore = (ImageButton) itemView.findViewById(R.id.btnMore);
-            ivUserProfile = (ImageView) itemView.findViewById(R.id.ivUserProfile);
+            layout_profile = (LinearLayout) itemView.findViewById(R.id.layout_profile);
             stPublic = (Switch) itemView.findViewById(R.id.switcher_public);
             itemTitle = (TextView) itemView.findViewById(R.id.item_title);
             userName = (TextView) itemView.findViewById(R.id.user_name);
@@ -209,6 +211,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
             vImageRoot = (FrameLayout) itemView.findViewById(R.id.vImageRoot);
             vBgLike = itemView.findViewById(R.id.vBgLike);
             ivLike = (ImageView) itemView.findViewById(R.id.ivLike);
+            profile_name = (TextView) itemView.findViewById(R.id.profile_name);
         }
 
         public void bindView(Items item) {

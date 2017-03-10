@@ -18,6 +18,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -51,9 +52,9 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     ImageButton btnComments;
     ImageButton btnLike;
     ImageButton btnMore;
-    ImageView ivUserProfile;
+    LinearLayout layout_profile;
     Switch stPublic;
-    TextView itemTitle, userName;
+    TextView itemTitle, userName, profile_name;
     TagContainerLayout tagcontainerLayout;
     TextSwitcher tsLikesCounter;
     FrameLayout vImageRoot;
@@ -82,7 +83,7 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        ivUserProfile.setOnClickListener(new View.OnClickListener() {
+        layout_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 User user = mItem.getUser();
@@ -254,6 +255,7 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     }
 
     private void setView() {
+        profile_name.setText(mItem.getUser().getName());
         Glide.with(this).load(IMG_BASE_URL + mItem.getUser().getId().toString() + "/" + mItem.getImageName())
                 .thumbnail(0.5f)
                 .fitCenter()
@@ -285,7 +287,7 @@ public class ItemSingleViewActivity extends AppCompatActivity {
         btnComments = (ImageButton) findViewById(R.id.btnComments);
         btnLike = (ImageButton) findViewById(R.id.btnLike);
         btnMore = (ImageButton) findViewById(R.id.btnMore);
-        ivUserProfile = (ImageView) findViewById(R.id.ivUserProfile);
+        layout_profile = (LinearLayout) findViewById(R.id.layout_profile);
         stPublic = (Switch) findViewById(R.id.switcher_public);
         itemTitle = (TextView) findViewById(R.id.item_title);
         userName = (TextView) findViewById(R.id.user_name);
@@ -294,6 +296,7 @@ public class ItemSingleViewActivity extends AppCompatActivity {
         vImageRoot = (FrameLayout) findViewById(R.id.vImageRoot);
         vBgLike = findViewById(R.id.vBgLike);
         ivLike = (ImageView) findViewById(R.id.ivLike);
+        profile_name = (TextView) findViewById(R.id.profile_name);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
@@ -36,6 +37,7 @@ public class HomeOthersActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     User user;
+    TextView tv_profile_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class HomeOthersActivity extends AppCompatActivity {
     }
 
     private void setView() {
+        tv_profile_name.setText(user.getName());
+
         final RESTFulService findAllItemsService = RESTFulServiceImp.createService(RESTFulService.class);
         user.setIsPublic("1");
 
@@ -88,6 +92,7 @@ public class HomeOthersActivity extends AppCompatActivity {
 
     private void findView() {
         recyclerView = (RecyclerView) findViewById(R.id.other_recycler_view);
+        tv_profile_name = (TextView) findViewById(R.id.profile_name);
     }
 
     @Override
