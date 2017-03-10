@@ -78,7 +78,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         holder.brand.setText(item.getBrand());
 //        holder.id.setText(dealEventItem.getHexId());
 
-        Glide.with(mContext).load(IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName())
+        Glide.with(mContext).load(IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName())
                 .thumbnail(0.5f)
                 .fitCenter()
                 .crossFade()

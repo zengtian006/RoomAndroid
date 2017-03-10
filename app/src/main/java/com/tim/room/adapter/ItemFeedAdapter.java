@@ -100,7 +100,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
         cellFeedViewHolder.ivUserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFeedItemClickListener.onProfileClick(itemView);
+                onFeedItemClickListener.onProfileClick(itemView, cellFeedViewHolder.getAdapterPosition());
             }
         });
 
@@ -227,7 +227,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
 
         void onPublicClick(View v, int position, boolean b);
 
-        void onProfileClick(View v);
+        void onProfileClick(View v, int position);
     }
 
 }

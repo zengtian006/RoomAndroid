@@ -74,9 +74,15 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
         if (getItemViewType(i) == TYPE_HEADER) {
             return;
         }
-        final List itemsList = dataList.get(i - 1).getItems();
-        String cate_title = dataList.get(i - 1).getTitle();
-        String cate_id = String.valueOf(dataList.get(i - 1).getCate_id());
+        int position = 0;
+        if (mHeaderView != null) {
+            position = i - 1;
+        } else {
+            position = i;
+        }
+        final List itemsList = dataList.get(position).getItems();
+        String cate_title = dataList.get(position).getTitle();
+        String cate_id = String.valueOf(dataList.get(position).getCate_id());
 
         itemRowHolder.tv_cate_title.setText(cate_title);
         itemRowHolder.tv_cate_id.setText(cate_id);

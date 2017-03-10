@@ -58,10 +58,15 @@ public class ItemSingleViewActivity extends AppCompatActivity {
                 .fitCenter()
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(ivFeedCenter);
-        if (mItem.getGlobal().equals("1")) {//public item
-            stPublic.setChecked(true);
+        if (mItem.getUser().getId().equals(session.getUser().getId())) {//only set public to your own item
+            stPublic.setVisibility(View.VISIBLE);
+            if (mItem.getGlobal().equals("1")) {//public item
+                stPublic.setChecked(true);
+            } else {
+                stPublic.setChecked(false);
+            }
         } else {
-            stPublic.setChecked(false);
+            stPublic.setVisibility(View.GONE);
         }
         itemTitle.setText(mItem.getTitle());
         userName.setText(mItem.getUser().getName());

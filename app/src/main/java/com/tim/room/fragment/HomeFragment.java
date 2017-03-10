@@ -33,6 +33,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.tim.room.MainActivity.dialog;
 import static com.tim.room.MainActivity.session;
 
 /**
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment {
     private void setView() {
         final RESTFulService findAllItemsService = RESTFulServiceImp.createService(RESTFulService.class);
 
-        final ProgressDialog dialog = new ProgressDialog(mContext);
+
         dialog.show();
         findAllItemsService.findAllItems(session.getUser()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<ArrayList<ItemSeries>>() {
             @Override

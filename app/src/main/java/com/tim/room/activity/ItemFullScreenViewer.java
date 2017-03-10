@@ -19,6 +19,7 @@ import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 
+import java.io.Serializable;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,6 +40,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_full_screen_viewer);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         updateItemService = RESTFulServiceImp.createService(RESTFulService.class);
 
@@ -108,8 +110,12 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
     }
 
     @Override
-    public void onProfileClick(View v) {
-        Toast.makeText(ItemFullScreenViewer.this, "Profile click", Toast.LENGTH_SHORT).show();
+    public void onProfileClick(View v, int position) {
+        Intent intent = new Intent(ItemFullScreenViewer.this, HomeOthersActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", mItems.get(position).getUser());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

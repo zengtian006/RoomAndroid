@@ -83,7 +83,8 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".activity.ItemSingleViewActivity"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".activity.HomeOthersActivity"></activity>
     </application>
 
 </manifest>
