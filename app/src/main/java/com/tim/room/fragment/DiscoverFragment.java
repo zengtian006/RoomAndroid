@@ -45,6 +45,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tim.room.MainActivity.dialog;
 import static com.tim.room.MainActivity.session;
 
 
@@ -200,6 +201,7 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
+        dialog.show();
         RESTFulService findGlobalItemService = RESTFulServiceImp.createService(RESTFulService.class);
         findGlobalItemService.findAllGlobalItems().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Items>>() {
             @Override
@@ -214,6 +216,10 @@ public class DiscoverFragment extends Fragment {
                 recyclerViewImages.setLayoutManager(staggeredGridLayoutManager);
                 recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewImages.setAdapter(mAdapter);
+
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
                 recyclerViewImages.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(mContext, recyclerViewImages, new GalleryAdapter.ClickListener() {
                     @Override
                     public void onClick(View view, int position) {
