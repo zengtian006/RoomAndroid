@@ -85,7 +85,6 @@ public class DiscoverFragment extends Fragment {
                     case "Hot":
                         varItemList.clear();
                         varItemList.addAll(itemList);
-                        mAdapter.notifyDataSetChanged();
                         break;
                     case "Men":
                         varItemList.clear();
@@ -94,7 +93,6 @@ public class DiscoverFragment extends Fragment {
                                 varItemList.add(item);
                             }
                         }
-                        mAdapter.notifyDataSetChanged();
                         break;
                     case "Women":
                         varItemList.clear();
@@ -103,13 +101,13 @@ public class DiscoverFragment extends Fragment {
                                 varItemList.add(item);
                             }
                         }
-                        mAdapter.notifyDataSetChanged();
                         break;
                     case "Tag":
                         break;
                     default:
                         break;
                 }
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
