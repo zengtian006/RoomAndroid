@@ -21,12 +21,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.tim.room.R;
+import com.tim.room.activity.ItemFullScreenViewer;
+import com.tim.room.activity.ItemSingleViewActivity;
+import com.tim.room.activity.ItemViewerActivity;
 import com.tim.room.adapter.GalleryAdapter;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.MaterialSearchView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by Zeng on 2017/1/3.
  */
 
-public class GlobalFragment extends Fragment {
+public class DiscoverFragment extends Fragment {
 
     List<Items> itemList;
     Context mContext;
@@ -58,7 +62,7 @@ public class GlobalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_global, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         itemList = new ArrayList<>();
         findView(rootView);
         setView();
@@ -111,6 +115,26 @@ public class GlobalFragment extends Fragment {
                 recyclerViewImages.setLayoutManager(staggeredGridLayoutManager);
                 recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewImages.setAdapter(mAdapter);
+                recyclerViewImages.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(mContext, recyclerViewImages, new GalleryAdapter.ClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        Intent intent = new Intent(mContext, ItemFullScreenViewer.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("items", (Serializable) itemList);
+                        bundle.putSerializable("position", position);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        Intent intent = new Intent(mContext, ItemSingleViewActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("items", itemList.get(position));
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                }));
             }
         });
     }

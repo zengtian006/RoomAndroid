@@ -53,7 +53,7 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     }
 
     private void setView() {
-        Glide.with(this).load(IMG_BASE_URL + session.getUser().getId().toString() + "/" + mItem.getImageName())
+        Glide.with(this).load(IMG_BASE_URL + mItem.getUser().getId().toString() + "/" + mItem.getImageName())
                 .thumbnail(0.5f)
                 .fitCenter()
                 .crossFade()

@@ -141,16 +141,22 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
 
         ((ViewHolder) holder).bindView(item);
 
-        Glide.with(mContext).load(IMG_BASE_URL + session.getUser().getId().toString() + "/" + item.getImageName())
+        Glide.with(mContext).load(IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName())
                 .thumbnail(0.5f)
                 .fitCenter()
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.ivFeedCenter);
-        if (item.getGlobal().equals("1")) {//public item
-            holder.stPublic.setChecked(true);
+        if (item.getUser().getId().equals(session.getUser().getId())) {//only set public to your own item
+            holder.stPublic.setVisibility(View.VISIBLE);
+            if (item.getGlobal().equals("1")) {//public item
+                holder.stPublic.setChecked(true);
+            } else {
+                holder.stPublic.setChecked(false);
+            }
         } else {
-            holder.stPublic.setChecked(false);
+            holder.stPublic.setVisibility(View.GONE);
         }
+
         holder.itemTitle.setText(item.getTitle());
         holder.userName.setText(item.getUser().getName());
 //        List<String> list = new ArrayList<>();

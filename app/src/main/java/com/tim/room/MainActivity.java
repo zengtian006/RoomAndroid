@@ -14,11 +14,10 @@ import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.tim.room.activity.AddItemActivity;
 import com.tim.room.activity.LoginAcitivity;
-import com.tim.room.activity.RegisterMoreActivity;
 import com.tim.room.app.SessionManager;
 import com.tim.room.fragment.AddFragment;
 import com.tim.room.fragment.CharityFragment;
-import com.tim.room.fragment.GlobalFragment;
+import com.tim.room.fragment.DiscoverFragment;
 import com.tim.room.fragment.HomeFragment;
 import com.tim.room.fragment.MyAccountFragment;
 
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new HomeFragment();
                 break;
             case 1:
-                fragment = new GlobalFragment();
+                fragment = new DiscoverFragment();
                 break;
             case 2:
                 fragment = new AddFragment();
