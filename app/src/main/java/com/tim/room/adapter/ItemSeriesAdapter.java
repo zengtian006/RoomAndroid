@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tim.room.R;
 import com.tim.room.activity.ItemFullScreenViewer;
+import com.tim.room.activity.ItemSingleViewActivity;
 import com.tim.room.activity.ItemViewerActivity;
 import com.tim.room.model.ItemSeries;
 
@@ -107,6 +108,11 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
 
             @Override
             public void onLongClick(View view, int position) {
+                Intent intent = new Intent(mContext, ItemSingleViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("items", (Serializable) itemsList.get(position));
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         }));
     }
