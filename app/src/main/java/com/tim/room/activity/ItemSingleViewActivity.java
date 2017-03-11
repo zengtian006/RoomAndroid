@@ -1,5 +1,9 @@
 package com.tim.room.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -8,6 +12,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,7 +42,9 @@ import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
 public class ItemSingleViewActivity extends AppCompatActivity {
     private static final String TAG = ItemSingleViewActivity.class.getSimpleName();
-
+    private static final DecelerateInterpolator DECCELERATE_INTERPOLATOR = new DecelerateInterpolator();
+    private static final AccelerateInterpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
+    private static final OvershootInterpolator OVERSHOOT_INTERPOLATOR = new OvershootInterpolator(4);
     Items mItem;
     ImageView ivFeedCenter;
     ImageButton btnComments;
@@ -69,6 +78,32 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     }
 
     private void setListener() {
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItem.isLiked()) { //cancel Like
+                    updateLikesCounter(mItem.getLikesCount() - 1);
+                    btnLike.setImageResource(R.drawable.ic_heart_outline_grey);
+                    mItem.setLiked(false);
+                    //handel database
+
+                } else {// add like
+                    animateBtnLike();
+                    //handel database
+                }
+            }
+        });
+
+        ivFeedCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mItem.isLiked()) { //cancel Like
+                    animatePhotoLike();
+                    //handel database
+                }
+            }
+        });
+
         stPublic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +146,92 @@ public class ItemSingleViewActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    private void animatePhotoLike() {
+        vBgLike.setVisibility(View.VISIBLE);
+        ivLike.setVisibility(View.VISIBLE);
+
+        vBgLike.setScaleY(0.1f);
+        vBgLike.setScaleX(0.1f);
+        vBgLike.setAlpha(1f);
+        ivLike.setScaleY(0.1f);
+        ivLike.setScaleX(0.1f);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+
+        ObjectAnimator bgScaleYAnim = ObjectAnimator.ofFloat(vBgLike, "scaleY", 0.1f, 1f);
+        bgScaleYAnim.setDuration(200);
+        bgScaleYAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+        ObjectAnimator bgScaleXAnim = ObjectAnimator.ofFloat(vBgLike, "scaleX", 0.1f, 1f);
+        bgScaleXAnim.setDuration(200);
+        bgScaleXAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+        ObjectAnimator bgAlphaAnim = ObjectAnimator.ofFloat(vBgLike, "alpha", 1f, 0f);
+        bgAlphaAnim.setDuration(200);
+        bgAlphaAnim.setStartDelay(150);
+        bgAlphaAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+
+        ObjectAnimator imgScaleUpYAnim = ObjectAnimator.ofFloat(ivLike, "scaleY", 0.1f, 1f);
+        imgScaleUpYAnim.setDuration(300);
+        imgScaleUpYAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+        ObjectAnimator imgScaleUpXAnim = ObjectAnimator.ofFloat(ivLike, "scaleX", 0.1f, 1f);
+        imgScaleUpXAnim.setDuration(300);
+        imgScaleUpXAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+
+        ObjectAnimator imgScaleDownYAnim = ObjectAnimator.ofFloat(ivLike, "scaleY", 1f, 0f);
+        imgScaleDownYAnim.setDuration(300);
+        imgScaleDownYAnim.setInterpolator(ACCELERATE_INTERPOLATOR);
+        ObjectAnimator imgScaleDownXAnim = ObjectAnimator.ofFloat(ivLike, "scaleX", 1f, 0f);
+        imgScaleDownXAnim.setDuration(300);
+        imgScaleDownXAnim.setInterpolator(ACCELERATE_INTERPOLATOR);
+
+        animatorSet.playTogether(bgScaleYAnim, bgScaleXAnim, bgAlphaAnim, imgScaleUpYAnim, imgScaleUpXAnim);
+        animatorSet.play(imgScaleDownYAnim).with(imgScaleDownXAnim).after(imgScaleUpYAnim);
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                updateLikesCounter(mItem.getLikesCount() + 1);
+                btnLike.setImageResource(R.drawable.ic_heart_red);
+                mItem.setLiked(true);
+            }
+        });
+        animatorSet.start();
+    }
+
+    private void animateBtnLike() {
+        AnimatorSet animatorSet = new AnimatorSet();
+
+        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(btnLike, "rotation", 0f, 360f);
+        rotationAnim.setDuration(300);
+        rotationAnim.setInterpolator(ACCELERATE_INTERPOLATOR);
+
+        ObjectAnimator bounceAnimX = ObjectAnimator.ofFloat(btnLike, "scaleX", 0.2f, 1f);
+        bounceAnimX.setDuration(300);
+        bounceAnimX.setInterpolator(OVERSHOOT_INTERPOLATOR);
+
+        ObjectAnimator bounceAnimY = ObjectAnimator.ofFloat(btnLike, "scaleY", 0.2f, 1f);
+        bounceAnimY.setDuration(300);
+        bounceAnimY.setInterpolator(OVERSHOOT_INTERPOLATOR);
+        bounceAnimY.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                updateLikesCounter(mItem.getLikesCount() + 1);
+                btnLike.setImageResource(R.drawable.ic_heart_red);
+                mItem.setLiked(true);
+            }
+        });
+
+        animatorSet.play(bounceAnimX).with(bounceAnimY).after(rotationAnim);
+        animatorSet.start();
+    }
+
+    private void updateLikesCounter(Integer likesCount) {
+        String likesCountTextTo = tsLikesCounter.getResources().getQuantityString(
+                R.plurals.likes_count, likesCount, likesCount
+        );
+        tsLikesCounter.setText(likesCountTextTo);
+        mItem.setLikesCount(Integer.valueOf(likesCount));
     }
 
     private void setView() {
