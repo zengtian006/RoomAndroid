@@ -18,4 +18,7 @@
 
     <color name="search_layover_bg">#50000000</color>
 
+    <color name="facebook_color">#2e4588</color>
+    <color name="weixin_color">#317c00</color>
+
 </resources>
