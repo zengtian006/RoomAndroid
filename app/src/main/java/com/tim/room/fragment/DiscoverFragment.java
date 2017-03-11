@@ -2,6 +2,7 @@ package com.tim.room.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.TabLayout;
@@ -19,7 +20,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tim.room.R;
@@ -57,6 +61,9 @@ public class DiscoverFragment extends Fragment {
     public static GalleryAdapter mAdapter;
     private MaterialSearchView searchView;
     TabLayout tabLayout;
+    RelativeLayout layoutKeyword;
+    TextView tvKeyword;
+    ImageView ivHideKeywordLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,17 +85,42 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void setListener() {
+        ivHideKeywordLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutKeyword.setVisibility(View.GONE);
+                tvKeyword.setText("");
+                if (tabLayout.getTabAt(0).isSelected()) {
+                    varItemList.clear();
+                    varItemList.addAll(itemList);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    tabLayout.getTabAt(0).select();
+                }
+            }
+        });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                List<Items> tempItemList = new ArrayList<Items>();
+                if (tvKeyword.getText().toString().trim().isEmpty()) {
+                    tempItemList.addAll(itemList);
+                } else {
+                    for (Items item : itemList) {
+                        if (item.getTitle().contains(tvKeyword.getText().toString()) || item.getTags().contains(tvKeyword.getText().toString())) {
+                            tempItemList.add(item);
+                        }
+                    }
+                }
+
                 switch (tab.getText().toString()) {
                     case "Hot":
                         varItemList.clear();
-                        varItemList.addAll(itemList);
+                        varItemList.addAll(tempItemList);
                         break;
                     case "Men":
                         varItemList.clear();
-                        for (Items item : itemList) {
+                        for (Items item : tempItemList) {
                             if (item.getUser().getGender().equals("M")) {
                                 varItemList.add(item);
                             }
@@ -96,13 +128,19 @@ public class DiscoverFragment extends Fragment {
                         break;
                     case "Women":
                         varItemList.clear();
-                        for (Items item : itemList) {
+                        for (Items item : tempItemList) {
                             if (item.getUser().getGender().equals("F")) {
                                 varItemList.add(item);
                             }
                         }
                         break;
                     case "Tag":
+                        varItemList.clear();
+                        for (Items item : tempItemList) {
+                            if (item.getTags().contains(tvKeyword.getText().toString())) {
+                                varItemList.add(item);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -123,6 +161,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void setView() {
+        tvKeyword.setText("");
         searchView.setVoiceSearch(false);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
         searchView.setEllipsize(true);
@@ -130,10 +169,15 @@ public class DiscoverFragment extends Fragment {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                itemList.addAll(itemList);
+                layoutKeyword.setVisibility(View.VISIBLE);
+                tvKeyword.setText(query);
+                varItemList.clear();
+                for (Items item : itemList) {
+                    if (item.getTitle().contains(query) || item.getTags().contains(query)) {
+                        varItemList.add(item);
+                    }
+                }
                 mAdapter.notifyDataSetChanged();
-                Toast.makeText(mContext, "Query: " + query, Toast.LENGTH_LONG)
-                        .show();
                 return false;
             }
 
@@ -203,6 +247,9 @@ public class DiscoverFragment extends Fragment {
         recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
         searchView = (MaterialSearchView) rootView.findViewById(R.id.search_view);
         tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayout);
+        layoutKeyword = (RelativeLayout) rootView.findViewById(R.id.layout_keyword);
+        tvKeyword = (TextView) rootView.findViewById(R.id.tv_keyword);
+        ivHideKeywordLayout = (ImageView) rootView.findViewById(R.id.iv_hide_keyword_layout);
 
     }
 

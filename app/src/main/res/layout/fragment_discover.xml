@@ -9,8 +9,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
+        android:animateLayoutChanges="true"
         android:background="@color/white"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_keyword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_hide_keyword_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@android:drawable/ic_delete" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/editText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:inputType="textPersonName"
+                    android:text="Keyword: "
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/tv_keyword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:inputType="textPersonName"
+                    android:text="keyword"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
+
+            </LinearLayout>
+        </RelativeLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
