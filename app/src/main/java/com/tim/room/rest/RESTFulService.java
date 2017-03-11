@@ -83,6 +83,6 @@ public interface RESTFulService {
     @GET("findAllGlobalItems")
     Observable<List<Items>> findAllGlobalItems();
 
-    @GET("findAlmostOverdueItem/{date}")
-    Observable<List<Items>> findAlmostOverdueItem(@Path("date") Integer date);
+    @GET("findAlmostOverdueItem/{date}/{userId}")
+    Observable<List<Items>> findAlmostOverdueItem(@Path("date") Integer date, @Path("userId") String user_id);
 }

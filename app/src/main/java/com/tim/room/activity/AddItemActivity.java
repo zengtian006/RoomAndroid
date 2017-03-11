@@ -347,10 +347,16 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     RESTFulService addItemService = RESTFulServiceImp.createService(RESTFulService.class);
                     Items itemObject = new Items();
                     itemObject.setUser(session.getUser());
-                    itemObject.setBrand(edt_brand.getText().toString());
+//                    itemObject.setBrand(edt_brand.getText().toString());
                     itemObject.setTitle(edt_title.getText().toString());
-                    itemObject.setDate(edt_date.getText().toString());
-                    itemObject.setExpDate(edt_exp_date.getText().toString());
+//                    itemObject.setDate(edt_date.getText().toString());
+                    itemObject.setDate(null);
+                    if (edt_exp_date.getText().toString().isEmpty()) {
+                        itemObject.setExpDate(null);
+                    } else {
+                        itemObject.setExpDate(edt_exp_date.getText().toString());
+                    }
+
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String nowDatetime = df.format(Calendar.getInstance().getTime());
                     itemObject.setCreated(nowDatetime);

@@ -27,6 +27,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.tim.room.MainActivity.session;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AccountOverdueSubFragment#newInstance} factory method to
@@ -126,7 +128,7 @@ public class AccountOverdueSubFragment extends Fragment {
     private void iniData(int date) {
         itemsList = new ArrayList<>();
         itemService = RESTFulServiceImp.createService(RESTFulService.class);
-        itemService.findAlmostOverdueItem(date).subscribeOn(Schedulers.io())
+        itemService.findAlmostOverdueItem(date, session.getUser().getId().toString()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Items>>() {
                     @Override
@@ -143,7 +145,7 @@ public class AccountOverdueSubFragment extends Fragment {
     }
 
     private void updateData(int date) {
-        itemService.findAlmostOverdueItem(date).subscribeOn(Schedulers.io())
+        itemService.findAlmostOverdueItem(date, session.getUser().getId().toString()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Items>>() {
                     @Override
