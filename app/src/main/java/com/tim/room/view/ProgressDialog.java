@@ -28,29 +28,25 @@ public class ProgressDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        Log.v("ProgressDialog", "OnCreate");
     }
 
     public ProgressDialog(Context context) {
         super(context);
-        setContentView(R.layout.layout_progress_dialog);
         this.mContext = getContext();
         Log.v("ProgressDialog", "ProgressDialog");
-//
+        setContentView(R.layout.layout_progress_dialog);
+
         setCanceledOnTouchOutside(false);
         //set window params
-
         Window window = getWindow();
         DisplayMetrics dm = new DisplayMetrics();
         window.getWindowManager().getDefaultDisplay().getMetrics(dm);
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = (int) (dm.widthPixels * 0.3);
-        params.height = params.width;
+//        params.height = (int) (dm.widthPixels * 0.3);
         params.gravity = Gravity.CENTER;
 
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setAttributes(params);
 
 //        float density = getDensity(context);

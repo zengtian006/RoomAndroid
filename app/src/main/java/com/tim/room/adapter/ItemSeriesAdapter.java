@@ -120,12 +120,12 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
 
             @Override
             public void onLongClick(View view, int position) {
-                Intent intent = new Intent(mContext, ItemSingleViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("items", (Serializable) itemsList.get(position));
-                bundle.putSerializable("current_user", currentUser);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, ItemSingleViewActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("items", (Serializable) itemsList.get(position));
+//                bundle.putSerializable("current_user", currentUser);
+//                intent.putExtras(bundle);
+//                mContext.startActivity(intent);
             }
         }));
     }

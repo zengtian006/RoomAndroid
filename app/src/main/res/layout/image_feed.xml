@@ -25,9 +25,9 @@
                 android:id="@+id/layout_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:clickable="true"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -92,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp">
@@ -120,8 +121,7 @@
                 android:id="@+id/tagcontainerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 app:container_background_color="#00000000"
                 app:container_border_color="#fff"
                 app:container_border_radius="0dp"
