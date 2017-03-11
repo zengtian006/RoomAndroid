@@ -290,7 +290,7 @@ public class ItemViewerActivity extends AppCompatActivity {
         recyclerViewImages = new RecyclerView(this);
         recyclerViewImages.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerViewImages.setLayoutManager(mLayoutManager);
         recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
         recyclerViewImages.setAdapter(mAdapter);
