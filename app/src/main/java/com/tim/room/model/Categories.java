@@ -7,6 +7,7 @@ package com.tim.room.model;
 public class Categories {
     Integer id;
     String cateName;
+    String cateNameCn;
     Integer parentId;
 
     public Categories() {
@@ -17,6 +18,14 @@ public class Categories {
         this.id = id;
         this.cateName = cateName;
         this.parentId = parentId;
+    }
+
+    public String getCateNameCn() {
+        return cateNameCn;
+    }
+
+    public void setCateNameCn(String cateNameCn) {
+        this.cateNameCn = cateNameCn;
     }
 
     public Integer getId() {

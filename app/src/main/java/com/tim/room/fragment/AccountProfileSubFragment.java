@@ -1,6 +1,8 @@
 package com.tim.room.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,12 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
 
 public class AccountProfileSubFragment extends Fragment {
-    TextView tv_room_name, tv_gender;
+    TextView tv_room_name, tv_gender, tv_language;
     Button btn_logout;
     Context mContext;
 
@@ -39,6 +42,26 @@ public class AccountProfileSubFragment extends Fragment {
     }
 
     private void setListener() {
+        final String[] languageArray = {"英文", "中文"};
+
+        tv_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(mContext)
+                        .setTitle("Select language")
+                        .setSingleChoiceItems(languageArray, 0, null)
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int j) {
+                                dialogInterface.dismiss();
+                                int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+                                Toast.makeText(mContext, languageArray[selectedPosition], Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            }
+        });
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +86,7 @@ public class AccountProfileSubFragment extends Fragment {
         tv_room_name = (TextView) view.findViewById(R.id.tv_room_name);
         tv_gender = (TextView) view.findViewById(R.id.tv_gender);
         btn_logout = (Button) view.findViewById(R.id.btn_logout);
+        tv_language = (TextView) view.findViewById(R.id.tv_language);
 
     }
 }

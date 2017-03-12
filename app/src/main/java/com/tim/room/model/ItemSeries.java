@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ItemSeries implements Serializable {
     private String title;
+    private String title_cn;
     private List<Items> items;
     private Integer cate_id;
     private List<TagEntry> allTagsMap;
@@ -43,5 +44,13 @@ public class ItemSeries implements Serializable {
 
     public void setItems(List<Items> items) {
         this.items = items;
+    }
+
+    public String getTitle_cn() {
+        return title_cn;
+    }
+
+    public void setTitle_cn(String title_cn) {
+        this.title_cn = title_cn;
     }
 }

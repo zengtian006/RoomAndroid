@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_header"
     android:layout_width="wrap_content"
     android:layout_height="300dp"
@@ -24,29 +25,45 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TestTitle"
-            android:textColor="@android:color/white"
-            android:textSize="30dp"
-            android:typeface="serif" />
+        <ImageView
+            app:srcCompat="@drawable/fake_profile"
+            android:id="@+id/imageView5"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
 
-        <TextView
-            android:id="@+id/sub_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@android:color/white"
-            android:textSize="18dp" />
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TestTitle"
+                android:textColor="@android:color/white"
+                android:typeface="serif"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="total: 110"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

@@ -2,10 +2,14 @@ package com.tim.room.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
+
+import java.util.Locale;
 
 /**
  * Created by Zeng on 13/1/2017.
@@ -67,5 +71,29 @@ public class CommonUtil {
         }
 
         return screenWidth;
+    }
+
+    public static void changeLocale(Resources res, String locale) {
+
+        Configuration config;
+        config = new Configuration(res.getConfiguration());
+
+
+        switch (locale) {
+            case "cn":
+                config.locale = new Locale("zh-rCN");
+                break;
+            case "fi":
+                config.locale = new Locale("fi");
+                break;
+            case "fr":
+                config.locale = Locale.FRENCH;
+                break;
+            default:
+                config.locale = Locale.ENGLISH;
+                break;
+        }
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        // reload files from assets directory
     }
 }
