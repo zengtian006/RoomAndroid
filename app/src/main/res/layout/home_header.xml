@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_header"
     android:layout_width="wrap_content"
-    android:layout_height="300dp"
+    android:layout_height="250dp"
     android:gravity="center_vertical|center_horizontal">
 
 
@@ -26,26 +26,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_centerHorizontal="false"
         android:layout_centerVertical="false"
+        android:background="#4f000000"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:padding="5dp">
 
         <ImageView
-            app:srcCompat="@drawable/fake_profile"
             android:id="@+id/imageView5"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:srcCompat="@drawable/fake_profile" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/header_title"
@@ -53,8 +54,9 @@
                 android:layout_height="wrap_content"
                 android:text="TestTitle"
                 android:textColor="@android:color/white"
-                android:typeface="serif"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
 
             <TextView
                 android:id="@+id/sub_title"

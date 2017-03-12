@@ -35,12 +35,18 @@ import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.tim.room.R;
 import com.tim.room.model.Items;
+import com.tim.room.model.imageRequest;
+import com.tim.room.model.imageResultResponse;
+import com.tim.room.model.imageSendResponse;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.utils.ImageUtils;
@@ -55,11 +61,14 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.tim.room.MainActivity.session;
+import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 import static com.tim.room.utils.CommonUtil.containerHeight;
 
 public class AddItemActivity extends AppCompatActivity implements ImageUtils.ImageAttachmentListener {
@@ -77,6 +86,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     Switch st_global;
     TagContainerLayout mTagContainerLayout;
     TextView tv_cate_id;
+    Button btn_try;
     Button btn_color1, btn_color2, btn_color3;
     ImageButton btn_add_tag;
     ScrollView scrollView;
@@ -168,9 +178,103 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         btn_add_tag = (ImageButton) findViewById(R.id.btn_add_tag);
         edt_tag = (EditText) findViewById(R.id.edt_tag);
         edt_season = (EditText) findViewById(R.id.edt_season);
+        btn_try = (Button) findViewById(R.id.btn_try);
     }
 
     private void setListener() {
+        btn_try.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (imageAdd.getTag() != null) {
+                    final String path = imageAdd.getTag().toString();
+                    final String uploadObject = path.substring(path.lastIndexOf("/") + 1, path.length());
+                    final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
+                    //test AI start
+                    PutObjectRequest put = new PutObjectRequest(testBucket, uploadUrl + uploadObject, path);
+                    OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+
+                        @Override
+                        public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
+                            final RESTFulService jerseyService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
+                            imageRequest request = new imageRequest();
+                            Log.v("wxl", "requestURL: " + IMG_BASE_URL + uploadUrl + uploadObject);
+                            request.setImage_request(new imageRequest.ImageRequestBean("en", IMG_BASE_URL + uploadUrl + uploadObject + "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"));
+                            jerseyService.sendImage(request)
+                                    .subscribeOn(Schedulers.io())//在IO线程请求执行
+                                    .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
+                                    .doOnNext(new Consumer<imageSendResponse>() {
+                                        @Override
+                                        public void accept(imageSendResponse responseBody) throws Exception {
+                                            Log.v("wxl", "response1: " + responseBody.getToken());
+                                        }
+                                    })
+                                    .observeOn(Schedulers.io())//回到IO线程去发起第二次请求
+                                    .flatMap(new Function<imageSendResponse, ObservableSource<imageResultResponse>>() {
+                                        @Override
+                                        public ObservableSource<imageResultResponse> apply(imageSendResponse imageSendResponse) throws Exception {
+                                            return jerseyService.imageResponse(imageSendResponse.getToken());
+                                        }
+                                    })
+                                    .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理第二次请求的结果
+                                    .subscribe(new Consumer<imageResultResponse>() {
+                                        @Override
+                                        public void accept(imageResultResponse responseBody) throws Exception {
+                                            Log.v("wxl", "response2: " + responseBody.getTtl());
+                                            Log.v("wxl", "response2: " + responseBody.getStatus());
+                                            Log.v("wxl", "response2: " + responseBody.getToken());
+                                            Log.v("wxl", "response2: " + responseBody.getUrl());
+                                            if (responseBody.getStatus().equals("completed")) {
+                                                edt_title.setText(responseBody.getName());
+
+                                            } else if (responseBody.getStatus().equals("not completed")) {
+                                                imageRequest request2 = new imageRequest();
+
+                                                request2.setImage_request(new imageRequest.ImageRequestBean("en", responseBody.getUrl()));
+
+                                                jerseyService.sendImage(request2)
+                                                        .subscribeOn(Schedulers.io())//在IO线程请求执行
+                                                        .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
+                                                        .doOnNext(new Consumer<imageSendResponse>() {
+                                                            @Override
+                                                            public void accept(imageSendResponse responseBody) throws Exception {
+                                                                Log.v("wxl", "response3: " + responseBody.getToken());
+                                                            }
+                                                        })
+                                                        .observeOn(Schedulers.io())//回到IO线程去发起第二次请求
+                                                        .flatMap(new Function<imageSendResponse, ObservableSource<imageResultResponse>>() {
+                                                            @Override
+                                                            public ObservableSource<imageResultResponse> apply(imageSendResponse imageSendResponse) throws Exception {
+                                                                return jerseyService.imageResponse(imageSendResponse.getToken());
+                                                            }
+                                                        })
+                                                        .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理第二次请求的结果
+                                                        .subscribe(new Consumer<imageResultResponse>() {
+                                                            @Override
+                                                            public void accept(imageResultResponse responseBody) throws Exception {
+                                                                Log.v("wxl", "response4: " + responseBody.getTtl());
+                                                                Log.v("wxl", "response4: " + responseBody.getStatus());
+                                                                Log.v("wxl", "response4: " + responseBody.getToken());
+                                                                Log.v("wxl", "response4: " + responseBody.getUrl());
+
+
+                                                                edt_title.setText(responseBody.getName());
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onFailure(PutObjectRequest putObjectRequest, ClientException e, ServiceException e1) {
+
+                        }
+                    });
+                    //test AI end
+                }
+
+            }
+        });
         imageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -373,21 +477,6 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     itemObject.setImageName(uploadObject);
                     itemObject.setCateId(Integer.valueOf(tv_cate_id.getText().toString()));
                     uploadImage = new UploadImage(oss, testBucket, uploadUrl + uploadObject, path);
-                    uploadImage.setOnUploadImageListener(new UploadImage.OnUploadImageListener() {
-                        @Override
-                        public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-//                            Log.d(TAG, "currentSize: " + currentSize + " totalSize: " + totalSize);
-                        }
-
-                        @Override
-                        public void onSuccess() {
-//                            finish();
-                        }
-
-                        @Override
-                        public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                        }
-                    });
                     addItemService.addItem(itemObject).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {

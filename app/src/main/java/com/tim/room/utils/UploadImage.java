@@ -30,25 +30,12 @@ public class UploadImage {
     private String testBucket;
     private String testObject;
     private String uploadFilePath;
-    private OnUploadImageListener mOnUploadImageListener = null;
 
     public UploadImage(OSS client, String testBucket, String testObject, String uploadFilePath) {
         this.oss = client;
         this.testBucket = testBucket;
         this.testObject = testObject;
         this.uploadFilePath = uploadFilePath;
-    }
-
-    public void setOnUploadImageListener(OnUploadImageListener listener) {
-        this.mOnUploadImageListener = listener;
-    }
-
-    public static interface OnUploadImageListener {
-        void onProgress(PutObjectRequest request, long currentSize, long totalSize);
-
-        void onSuccess();
-
-        void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException);
     }
 
     // 从本地文件上传，采用阻塞的同步接口
@@ -85,7 +72,6 @@ public class UploadImage {
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
             public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                mOnUploadImageListener.onProgress(request, currentSize, totalSize);
                 Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
             }
         });
@@ -93,7 +79,6 @@ public class UploadImage {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
 
-                mOnUploadImageListener.onSuccess();
                 Log.d("PutObjectNow", "UploadSuccess");
 
                 Log.d("ETag", result.getETag());
@@ -114,7 +99,6 @@ public class UploadImage {
                     Log.e("HostId", serviceException.getHostId());
                     Log.e("RawMessage", serviceException.getRawMessage());
                 }
-                mOnUploadImageListener.onFailure(request, clientExcepion, serviceException);
             }
         });
     }
