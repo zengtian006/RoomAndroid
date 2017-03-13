@@ -49,10 +49,10 @@ public class CharityFragment extends Fragment {
         test.add("旧衣回收");
 
         List<Integer> testimage = new ArrayList<>();
-        testimage.add(R.drawable.designer);
-        testimage.add(R.drawable.collocation);
-        testimage.add(R.drawable.question);
-        testimage.add(R.drawable.recycling);
+//        testimage.add(R.drawable.designer);
+//        testimage.add(R.drawable.collocation);
+//        testimage.add(R.drawable.question);
+//        testimage.add(R.drawable.recycling);
 
         CharityAdapter charityAdapter = new CharityAdapter(mContext, test,testimage);
         rv.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));

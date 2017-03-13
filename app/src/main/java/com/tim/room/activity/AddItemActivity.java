@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,7 @@ import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.utils.ImageUtils;
 import com.tim.room.utils.UploadImage;
+import com.tim.room.view.ProgressDialog;
 import com.tim.room.view.TagContainerLayout;
 import com.tim.room.view.TagView;
 
@@ -60,6 +62,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -98,6 +101,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     private String file_name;
     UploadImage uploadImage;
 
+    public static ProgressDialog dialog;
+
     String[] seasonArray = {"Spring/Fall", "Summer", "Winter"};
     boolean[] flags;
 
@@ -114,6 +119,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         this.mContext = getApplicationContext();
+
+        dialog = new ProgressDialog(this);
 
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
@@ -186,6 +193,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
             @Override
             public void onClick(View view) {
                 if (imageAdd.getTag() != null) {
+                    dialog.show();
+
                     final String path = imageAdd.getTag().toString();
                     final String uploadObject = path.substring(path.lastIndexOf("/") + 1, path.length());
                     final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
@@ -198,68 +207,44 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                             final RESTFulService jerseyService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
                             imageRequest request = new imageRequest();
                             Log.v("wxl", "requestURL: " + IMG_BASE_URL + uploadUrl + uploadObject);
+                            //+ "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"
                             request.setImage_request(new imageRequest.ImageRequestBean("en", IMG_BASE_URL + uploadUrl + uploadObject + "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"));
                             jerseyService.sendImage(request)
                                     .subscribeOn(Schedulers.io())//在IO线程请求执行
                                     .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
-                                    .doOnNext(new Consumer<imageSendResponse>() {
+                                    .subscribe(new Consumer<imageSendResponse>() {
                                         @Override
-                                        public void accept(imageSendResponse responseBody) throws Exception {
-                                            Log.v("wxl", "response1: " + responseBody.getToken());
-                                        }
-                                    })
-                                    .observeOn(Schedulers.io())//回到IO线程去发起第二次请求
-                                    .flatMap(new Function<imageSendResponse, ObservableSource<imageResultResponse>>() {
-                                        @Override
-                                        public ObservableSource<imageResultResponse> apply(imageSendResponse imageSendResponse) throws Exception {
-                                            return jerseyService.imageResponse(imageSendResponse.getToken());
-                                        }
-                                    })
-                                    .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理第二次请求的结果
-                                    .subscribe(new Consumer<imageResultResponse>() {
-                                        @Override
-                                        public void accept(imageResultResponse responseBody) throws Exception {
-                                            Log.v("wxl", "response2: " + responseBody.getTtl());
-                                            Log.v("wxl", "response2: " + responseBody.getStatus());
-                                            Log.v("wxl", "response2: " + responseBody.getToken());
-                                            Log.v("wxl", "response2: " + responseBody.getUrl());
-                                            if (responseBody.getStatus().equals("completed")) {
-                                                edt_title.setText(responseBody.getName());
+                                        public void accept(imageSendResponse imageSendResponse) throws Exception {
+                                            Log.v("wxl", "request1: " + imageSendResponse.getStatus());
+                                            Log.v("wxl", "request1: " + imageSendResponse.getUrl());
+                                            Log.v("wxl", "request1: " + imageSendResponse.getToken());
+                                            final String token = imageSendResponse.getToken();
+                                            if (!token.isEmpty()) {
+                                                new CountDownTimer(10 * 1000, 1000) {
+                                                    @Override
+                                                    public void onTick(long millisUntilFinished) {
+                                                    }
 
-                                            } else if (responseBody.getStatus().equals("not completed")) {
-                                                imageRequest request2 = new imageRequest();
-
-                                                request2.setImage_request(new imageRequest.ImageRequestBean("en", responseBody.getUrl()));
-
-                                                jerseyService.sendImage(request2)
-                                                        .subscribeOn(Schedulers.io())//在IO线程请求执行
-                                                        .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
-                                                        .doOnNext(new Consumer<imageSendResponse>() {
-                                                            @Override
-                                                            public void accept(imageSendResponse responseBody) throws Exception {
-                                                                Log.v("wxl", "response3: " + responseBody.getToken());
-                                                            }
-                                                        })
-                                                        .observeOn(Schedulers.io())//回到IO线程去发起第二次请求
-                                                        .flatMap(new Function<imageSendResponse, ObservableSource<imageResultResponse>>() {
-                                                            @Override
-                                                            public ObservableSource<imageResultResponse> apply(imageSendResponse imageSendResponse) throws Exception {
-                                                                return jerseyService.imageResponse(imageSendResponse.getToken());
-                                                            }
-                                                        })
-                                                        .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理第二次请求的结果
-                                                        .subscribe(new Consumer<imageResultResponse>() {
-                                                            @Override
-                                                            public void accept(imageResultResponse responseBody) throws Exception {
-                                                                Log.v("wxl", "response4: " + responseBody.getTtl());
-                                                                Log.v("wxl", "response4: " + responseBody.getStatus());
-                                                                Log.v("wxl", "response4: " + responseBody.getToken());
-                                                                Log.v("wxl", "response4: " + responseBody.getUrl());
-
-
-                                                                edt_title.setText(responseBody.getName());
-                                                            }
-                                                        });
+                                                    @Override
+                                                    public void onFinish() {
+                                                        jerseyService.imageResponse(token)
+                                                                .subscribeOn(Schedulers.io())
+                                                                .observeOn(AndroidSchedulers.mainThread())
+                                                                .subscribe(new Consumer<imageResultResponse>() {
+                                                                    @Override
+                                                                    public void accept(imageResultResponse imageResultResponse) throws Exception {
+                                                                        dialog.dismiss();
+                                                                        Log.v("wxl", "request2: " + imageResultResponse.getStatus());
+                                                                        Log.v("wxl", "request2: " + imageResultResponse.getUrl());
+                                                                        Log.v("wxl", "request2: " + imageResultResponse.getToken());
+                                                                        Log.v("wxl", "request2: " + imageResultResponse.getName());
+                                                                        if (imageResultResponse.getStatus().equals("completed")) {
+                                                                            edt_title.setText(imageResultResponse.getName());
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+                                                }.start();
                                             }
                                         }
                                     });
