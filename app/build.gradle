@@ -40,6 +40,7 @@ dependencies {
     }
     //    compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'com.android.support:appcompat-v7:25.2.0'
+
     compile 'com.android.support:design:25.2.0'
     compile 'com.roughike:bottom-bar:2.1.1'
     compile 'com.google.code.gson:gson:2.8.0'
