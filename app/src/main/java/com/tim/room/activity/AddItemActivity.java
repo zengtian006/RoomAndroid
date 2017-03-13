@@ -239,8 +239,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                                         Log.v("wxl", "request2: " + imageResultResponse.getName());
                                                                         if (imageResultResponse.getStatus().equals("completed")) {
                                                                             edt_title.setText(imageResultResponse.getName());
-                                                                            dialog.dismiss();
                                                                         }
+                                                                        dialog.dismiss();
                                                                     }
                                                                 });
                                                     }
