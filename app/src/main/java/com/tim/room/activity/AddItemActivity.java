@@ -220,7 +220,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                             Log.v("wxl", "request1: " + imageSendResponse.getToken());
                                             final String token = imageSendResponse.getToken();
                                             if (!token.isEmpty()) {
-                                                new CountDownTimer(10 * 1000, 1000) {
+                                                new CountDownTimer(10 * 1000, 1000) {//等待10秒
                                                     @Override
                                                     public void onTick(long millisUntilFinished) {
                                                     }
@@ -233,13 +233,13 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                                 .subscribe(new Consumer<imageResultResponse>() {
                                                                     @Override
                                                                     public void accept(imageResultResponse imageResultResponse) throws Exception {
-                                                                        dialog.dismiss();
                                                                         Log.v("wxl", "request2: " + imageResultResponse.getStatus());
                                                                         Log.v("wxl", "request2: " + imageResultResponse.getUrl());
                                                                         Log.v("wxl", "request2: " + imageResultResponse.getToken());
                                                                         Log.v("wxl", "request2: " + imageResultResponse.getName());
                                                                         if (imageResultResponse.getStatus().equals("completed")) {
                                                                             edt_title.setText(imageResultResponse.getName());
+                                                                            dialog.dismiss();
                                                                         }
                                                                     }
                                                                 });
@@ -254,10 +254,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                         public void onFailure(PutObjectRequest putObjectRequest, ClientException e, ServiceException e1) {
 
                         }
-                    });
-                    //test AI end
+                    });//test AI end
                 }
-
             }
         });
         imageAdd.setOnClickListener(new View.OnClickListener() {
