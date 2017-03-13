@@ -57,6 +57,6 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     compile 'com.android.support:gridlayout-v7:25.2.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.5'
-    compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
