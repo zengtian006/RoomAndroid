@@ -40,6 +40,26 @@
         <item>ONE Year</item>
     </string-array>
 
+    <!--Item viewer -->
+    <string-array name="filter_header">
+        <item>Category</item>
+        <item>Season</item>
+        <item>Tags</item>
+        <item>Newest</item>
+    </string-array>
+
+    <string-array name="filter_season">
+        <item>All</item>
+        <item>Spring/Fall</item>
+        <item>Summer</item>
+        <item>Winter</item>
+    </string-array>
+
+    <string-array name="filter_sort">
+        <item>Newest</item>
+        <item>Oldest</item>
+    </string-array>
+
     <plurals name="likes_count">
         <item quantity="one">%d like</item>
         <item quantity="other">%d likes</item>

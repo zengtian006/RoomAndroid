@@ -39,4 +39,22 @@
         <item>一年</item>
     </string-array>
 
+    <!--Item viewer -->
+    <string-array name="filter_header">
+        <item>类别</item>
+        <item>季节</item>
+        <item>标签</item>
+        <item>最新</item>
+    </string-array>
+    <string-array name="filter_season">
+        <item>All</item>
+        <item>Spring/Fall</item>
+        <item>Summer</item>
+        <item>Winter</item>
+    </string-array>
+    <string-array name="filter_sort">
+        <item>最新</item>
+        <item>最早</item>
+    </string-array>
+
 </resources>

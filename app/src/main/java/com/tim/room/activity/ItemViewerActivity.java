@@ -60,7 +60,7 @@ public class ItemViewerActivity extends AppCompatActivity {
     RecyclerView recyclerViewImages;
 
     DropDownMenu mDropDownMenu;
-    private String headers[] = {"Category", "Season", "Tags", "Newest"};
+    private String[] headers;
     private List<View> popupViews = new ArrayList<>();
 
     private ListDropDownAdapter categoryAdapter;
@@ -71,9 +71,8 @@ public class ItemViewerActivity extends AppCompatActivity {
     private List<String> categoryNameList;
     private List<String> tagNameList;
     ArrayList<Categories> categoriesArrayList;
-    private String season[] = {"All", "Spring/Fall", "Summer", "Winter"};
-    private String sort[] = {"Newest", "Oldest"};
-
+    private String[] season;
+    private String[] sort;
     private int tagPosition = 0;
 
     //Filter combination
@@ -92,6 +91,10 @@ public class ItemViewerActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         itemSeries = (ItemSeries) bundle.getSerializable("itemList");
         currentUser = (User) bundle.getSerializable("current_user");
+
+        headers = getResources().getStringArray(R.array.filter_header);
+        season = getResources().getStringArray(R.array.filter_season);
+        sort = getResources().getStringArray(R.array.filter_sort);
 
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
