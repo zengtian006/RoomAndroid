@@ -41,6 +41,8 @@
     </string-array>
 
     <!--Item viewer -->
+    <string name="filter_all">All</string>
+
     <string-array name="filter_header">
         <item>Category</item>
         <item>Season</item>

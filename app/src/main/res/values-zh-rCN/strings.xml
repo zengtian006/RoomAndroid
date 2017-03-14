@@ -40,6 +40,7 @@
     </string-array>
 
     <!--Item viewer -->
+    <string name="filter_all">不限</string>
     <string-array name="filter_header">
         <item>类别</item>
         <item>季节</item>

@@ -128,7 +128,7 @@ public class ItemViewerActivity extends AppCompatActivity {
                         for (Categories cate : categories) {
                             categoryNameList.add(cate.getCateName());
                         }
-                        categoryNameList.add(0, "All");
+                        categoryNameList.add(0, getResources().getString(R.string.filter_all));
                         categoryAdapter = new ListDropDownAdapter(ItemViewerActivity.this, categoryNameList);
                         categoryView.setDividerHeight(0);
                         categoryView.setAdapter(categoryAdapter);
@@ -154,7 +154,7 @@ public class ItemViewerActivity extends AppCompatActivity {
                 tagNameList.add(tagEntry.getKey());
             }
         }
-        tagNameList.add(0, "All");
+        tagNameList.add(0, getResources().getString(R.string.filter_all));
         tagAdapter = new TagsAdapter(this, tagNameList);
         tagGridView.setAdapter(tagAdapter);
         TextView ok = (TextView) tagView.findViewById(R.id.ok);
