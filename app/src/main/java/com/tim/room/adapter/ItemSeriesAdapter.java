@@ -87,10 +87,11 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
         }
         final List itemsList = dataList.get(position).getItems();
 //        String cate_title = dataList.get(position).getTitle();
+        Log.v(TAG, "LOCALE: " + LocaleUtil.getLocale(mContext.getApplicationContext()));
         String cate_title = "";
-        if (LocaleUtil.getLocale(mContext).equals(LocaleUtil.SIMP_CHINESE)) {
+        if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
             cate_title = dataList.get(position).getTitle_cn();
-        } else if (LocaleUtil.getLocale(mContext).equals(LocaleUtil.ENGLISH)) {
+        } else if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.ENGLISH)) {
             cate_title = dataList.get(position).getTitle();
         }
 

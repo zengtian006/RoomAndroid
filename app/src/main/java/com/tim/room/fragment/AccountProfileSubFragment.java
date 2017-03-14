@@ -42,23 +42,31 @@ public class AccountProfileSubFragment extends Fragment {
     }
 
     private void setListener() {
-        final String[] languageArray = {"英文", "中文"};
+        final String[] languageArray = {"English", "中文"};
+        int selected = 0;
+        if (tv_language.getText().equals(languageArray[1])) {
+            selected = 1;
+        }
 
+        final int finalSelected = selected;
         tv_language.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(mContext)
                         .setTitle("Select language")
-                        .setSingleChoiceItems(languageArray, 0, null)
+                        .setSingleChoiceItems(languageArray, finalSelected, null)
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int j) {
                                 int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+                                Intent intent = new Intent(mContext, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                                 if (selectedPosition == 0) {
-                                    LocaleUtil.setLocale(mContext, LocaleUtil.ENGLISH);
+                                    LocaleUtil.setLocale(mContext.getApplicationContext(), LocaleUtil.ENGLISH);
                                     tv_language.setText("English");
                                 } else if (selectedPosition == 1) {
-                                    LocaleUtil.setLocale(mContext, LocaleUtil.SIMP_CHINESE);
+                                    LocaleUtil.setLocale(mContext.getApplicationContext(), LocaleUtil.SIMP_CHINESE);
                                     tv_language.setText("中文");
                                 }
                                 dialogInterface.dismiss();
@@ -80,6 +88,11 @@ public class AccountProfileSubFragment extends Fragment {
     }
 
     private void setView() {
+        if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.ENGLISH)) {
+            tv_language.setText("English");
+        } else if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
+            tv_language.setText("中文");
+        }
         tv_room_name.setText(MainActivity.session.getUser().getRoomName());
         if (MainActivity.session.getUser().getGender().equals("F")) {
             tv_gender.setText("Female");

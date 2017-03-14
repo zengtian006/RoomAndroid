@@ -2,7 +2,6 @@ package com.tim.room.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.TabLayout;
@@ -14,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,18 +22,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tim.room.R;
 import com.tim.room.activity.ItemFullScreenViewer;
 import com.tim.room.activity.ItemSingleViewActivity;
-import com.tim.room.activity.ItemViewerActivity;
 import com.tim.room.adapter.GalleryAdapter;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.utils.LocaleUtil;
 import com.tim.room.view.MaterialSearchView;
 
 import java.io.Serializable;
@@ -54,6 +52,7 @@ import static com.tim.room.MainActivity.session;
  */
 
 public class DiscoverFragment extends Fragment {
+    private static final String TAG = DiscoverFragment.class.getSimpleName();
 
     List<Items> itemList;
     List<Items> varItemList;
@@ -82,6 +81,7 @@ public class DiscoverFragment extends Fragment {
         setView();
         setListener();
         this.mContext = getContext();
+        Log.v(TAG, "LOCALE: " + LocaleUtil.getLocale(mContext.getApplicationContext()));
         return rootView;
     }
 

@@ -45,7 +45,7 @@ public class LocaleUtil {
 //    }
 
     public static boolean setLocale(Context context, @LocaleDef String language) {
-Log.v("LocaleUtil", "set locale "+language);
+        Log.v("LocaleUtil", "set locale " + language);
         persist(context, language);
         return updateResources(context, language);
     }
@@ -72,7 +72,7 @@ Log.v("LocaleUtil", "set locale "+language);
     private static boolean updateResources(Context context, String language) {
         //Locale locale = new Locale(language);
         String strArray[] = language.split("-");
-        Locale locale = new Locale(strArray[0],strArray[1]);
+        Locale locale = new Locale(strArray[0], strArray[1]);
 
         Locale.setDefault(locale);
 
