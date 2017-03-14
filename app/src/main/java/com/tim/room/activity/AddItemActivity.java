@@ -27,7 +27,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -47,12 +46,14 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.tim.room.R;
 import com.tim.room.model.Items;
+import com.tim.room.model.YouDaoTrans;
 import com.tim.room.model.imageRequest;
 import com.tim.room.model.imageResultResponse;
 import com.tim.room.model.imageSendResponse;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.utils.ImageUtils;
+import com.tim.room.utils.LocaleUtil;
 import com.tim.room.utils.UploadImage;
 import com.tim.room.view.LoadingProgressDialog;
 import com.tim.room.view.TagContainerLayout;
@@ -103,7 +104,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     //避免重复上传
     boolean isUpload;
     String RecToken;
-    RESTFulService jerseyService;
+    RESTFulService imageAIService;
 
     public static LoadingProgressDialog dialog;
 
@@ -221,7 +222,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 
                             @Override
                             public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
-                                jerseyService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
+                                imageAIService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
                                 imageRequest request = new imageRequest();
                                 Log.v("wxl", "requestURL: " + IMG_BASE_URL + uploadUrl + uploadObject);
                                 progressBar.setProgress(20);
@@ -229,7 +230,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 //                            getSupportActionBar().setTitle("Recognition in progress...");
 
                                 request.setImage_request(new imageRequest.ImageRequestBean("en", IMG_BASE_URL + uploadUrl + uploadObject + "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"));
-                                jerseyService.sendImage(request)
+                                imageAIService.sendImage(request)
                                         .subscribeOn(Schedulers.io())//在IO线程请求执行
                                         .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
                                         .subscribe(new Consumer<imageSendResponse>() {
@@ -248,7 +249,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
 
                                                         @Override
                                                         public void onFinish() {
-                                                            jerseyService.imageResponse(token)
+                                                            imageAIService.imageResponse(token)
                                                                     .subscribeOn(Schedulers.io())
                                                                     .observeOn(AndroidSchedulers.mainThread())
                                                                     .subscribe(new Consumer<imageResultResponse>() {
@@ -259,10 +260,26 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                                             Log.v("wxl", "request2: " + imageResultResponse.getToken());
                                                                             Log.v("wxl", "request2: " + imageResultResponse.getName());
                                                                             if (imageResultResponse.getStatus().equals("completed")) {
-                                                                                edt_title.setText(imageResultResponse.getName());
-                                                                                getSupportActionBar().setTitle("");
-                                                                                RecToken = "";
-                                                                                isUpload = false;
+                                                                                if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
+                                                                                    RESTFulService transService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
+                                                                                    transService.transWord(imageResultResponse.getName())
+                                                                                            .subscribeOn(Schedulers.io())
+                                                                                            .observeOn(AndroidSchedulers.mainThread())
+                                                                                            .subscribe(new Consumer<YouDaoTrans>() {
+                                                                                                @Override
+                                                                                                public void accept(YouDaoTrans youDaoTrans) throws Exception {
+                                                                                                    edt_title.setText(youDaoTrans.getTranslation().get(0));
+                                                                                                    getSupportActionBar().setTitle("");
+                                                                                                    RecToken = "";
+                                                                                                    isUpload = false;
+                                                                                                }
+                                                                                            });
+                                                                                } else {
+                                                                                    edt_title.setText(imageResultResponse.getName());
+                                                                                    getSupportActionBar().setTitle("");
+                                                                                    RecToken = "";
+                                                                                    isUpload = false;
+                                                                                }
                                                                             } else {
                                                                                 isUpload = true;
                                                                                 RecToken = imageResultResponse.getToken();
@@ -286,7 +303,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                             }
                         });
                     } else {
-                        jerseyService.imageResponse(RecToken)
+                        imageAIService.imageResponse(RecToken)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Consumer<imageResultResponse>() {

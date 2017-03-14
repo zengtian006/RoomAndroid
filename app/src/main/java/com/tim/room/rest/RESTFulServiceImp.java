@@ -17,6 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RESTFulServiceImp {
     public static final String BASE_URL = AppConfig.WS_BASE_URL;
     public static final String CLOUD_SIGHT_URL = "https://api.cloudsightapi.com/";
+    public static final String TRANSLATE_URL = "http://fanyi.youdao.com/";
+
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(20, TimeUnit.SECONDS)
             .connectTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true);
@@ -33,6 +35,12 @@ public class RESTFulServiceImp {
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
+    private static Retrofit.Builder translate_builder =
+            new Retrofit.Builder()
+                    .baseUrl(TRANSLATE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
     public static <S> S createService(Class<S> serviceClass) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -46,6 +54,14 @@ public class RESTFulServiceImp {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         httpClient.addInterceptor(interceptor);
         Retrofit retrofit = cloud_sight_builder.client(httpClient.build()).build();
+        return retrofit.create(serviceClass);
+    }
+
+    public static <S> S createTranslateService(Class<S> serviceClass) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient.addInterceptor(interceptor);
+        Retrofit retrofit = translate_builder.client(httpClient.build()).build();
         return retrofit.create(serviceClass);
     }
 }

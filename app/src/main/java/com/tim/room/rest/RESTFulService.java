@@ -5,6 +5,7 @@ import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.model.User;
 import com.tim.room.model.UserResponse;
+import com.tim.room.model.YouDaoTrans;
 import com.tim.room.model.imageRequest;
 import com.tim.room.model.imageResultResponse;
 import com.tim.room.model.imageSendResponse;
@@ -85,4 +86,7 @@ public interface RESTFulService {
 
     @GET("findAlmostOverdueItem/{date}/{userId}")
     Observable<List<Items>> findAlmostOverdueItem(@Path("date") Integer date, @Path("userId") String user_id);
+
+    @GET("openapi.do?keyfrom=eeeeeeeeeeeeeee&key=573473787&type=data&doctype=json&only=translate&version=1.1&q={word}")
+    Observable<YouDaoTrans> transWord(@Path("word") String word);
 }
