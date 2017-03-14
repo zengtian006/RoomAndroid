@@ -101,6 +101,11 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     private String file_name;
     UploadImage uploadImage;
 
+    //避免重复上传
+    boolean isUpload;
+    String RecToken;
+    RESTFulService jerseyService;
+
     public static ProgressDialog dialog;
 
     String[] seasonArray = {"Spring/Fall", "Summer", "Winter"};
@@ -166,6 +171,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         edt_exp_date.setClickable(true);
         edt_season.setFocusable(false);
         edt_season.setClickable(true);
+        isUpload = false;
+        RecToken = "";
     }
 
     private void findView() {
@@ -193,68 +200,102 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
             @Override
             public void onClick(View view) {
                 if (imageAdd.getTag() != null) {
-                    dialog.show();
+//                    dialog.show();
 
                     final String path = imageAdd.getTag().toString();
                     final String uploadObject = path.substring(path.lastIndexOf("/") + 1, path.length());
                     final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
                     //test AI start
-                    PutObjectRequest put = new PutObjectRequest(testBucket, uploadUrl + uploadObject, path);
-                    OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+                    getSupportActionBar().setTitle("Recognition in progress...");
+                    if (!isUpload) {
+                        PutObjectRequest put = new PutObjectRequest(testBucket, uploadUrl + uploadObject, path);
+                        OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
 
-                        @Override
-                        public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
-                            final RESTFulService jerseyService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
-                            imageRequest request = new imageRequest();
-                            Log.v("wxl", "requestURL: " + IMG_BASE_URL + uploadUrl + uploadObject);
-                            //+ "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"
-                            request.setImage_request(new imageRequest.ImageRequestBean("en", IMG_BASE_URL + uploadUrl + uploadObject + "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"));
-                            jerseyService.sendImage(request)
-                                    .subscribeOn(Schedulers.io())//在IO线程请求执行
-                                    .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
-                                    .subscribe(new Consumer<imageSendResponse>() {
-                                        @Override
-                                        public void accept(imageSendResponse imageSendResponse) throws Exception {
-                                            Log.v("wxl", "request1: " + imageSendResponse.getStatus());
-                                            Log.v("wxl", "request1: " + imageSendResponse.getUrl());
-                                            Log.v("wxl", "request1: " + imageSendResponse.getToken());
-                                            final String token = imageSendResponse.getToken();
-                                            if (!token.isEmpty()) {
-                                                new CountDownTimer(10 * 1000, 1000) {//等待10秒
-                                                    @Override
-                                                    public void onTick(long millisUntilFinished) {
-                                                    }
+                            @Override
+                            public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
+                                jerseyService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
+                                imageRequest request = new imageRequest();
+                                Log.v("wxl", "requestURL: " + IMG_BASE_URL + uploadUrl + uploadObject);
+                                //+ "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"
+//                            getSupportActionBar().setTitle("Recognition in progress...");
 
-                                                    @Override
-                                                    public void onFinish() {
-                                                        jerseyService.imageResponse(token)
-                                                                .subscribeOn(Schedulers.io())
-                                                                .observeOn(AndroidSchedulers.mainThread())
-                                                                .subscribe(new Consumer<imageResultResponse>() {
-                                                                    @Override
-                                                                    public void accept(imageResultResponse imageResultResponse) throws Exception {
-                                                                        Log.v("wxl", "request2: " + imageResultResponse.getStatus());
-                                                                        Log.v("wxl", "request2: " + imageResultResponse.getUrl());
-                                                                        Log.v("wxl", "request2: " + imageResultResponse.getToken());
-                                                                        Log.v("wxl", "request2: " + imageResultResponse.getName());
-                                                                        if (imageResultResponse.getStatus().equals("completed")) {
-                                                                            edt_title.setText(imageResultResponse.getName());
+                                request.setImage_request(new imageRequest.ImageRequestBean("en", IMG_BASE_URL + uploadUrl + uploadObject + "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"));
+                                jerseyService.sendImage(request)
+                                        .subscribeOn(Schedulers.io())//在IO线程请求执行
+                                        .observeOn(AndroidSchedulers.mainThread())//回到主线程去处理请求结果
+                                        .subscribe(new Consumer<imageSendResponse>() {
+                                            @Override
+                                            public void accept(imageSendResponse imageSendResponse) throws Exception {
+                                                Log.v("wxl", "request1: " + imageSendResponse.getStatus());
+                                                Log.v("wxl", "request1: " + imageSendResponse.getUrl());
+                                                Log.v("wxl", "request1: " + imageSendResponse.getToken());
+                                                final String token = imageSendResponse.getToken();
+                                                if (!token.isEmpty()) {
+                                                    new CountDownTimer(10 * 1000, 1000) {//等待10秒
+                                                        @Override
+                                                        public void onTick(long millisUntilFinished) {
+                                                        }
+
+                                                        @Override
+                                                        public void onFinish() {
+                                                            jerseyService.imageResponse(token)
+                                                                    .subscribeOn(Schedulers.io())
+                                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                                    .subscribe(new Consumer<imageResultResponse>() {
+                                                                        @Override
+                                                                        public void accept(imageResultResponse imageResultResponse) throws Exception {
+                                                                            Log.v("wxl", "request2: " + imageResultResponse.getStatus());
+                                                                            Log.v("wxl", "request2: " + imageResultResponse.getUrl());
+                                                                            Log.v("wxl", "request2: " + imageResultResponse.getToken());
+                                                                            Log.v("wxl", "request2: " + imageResultResponse.getName());
+                                                                            if (imageResultResponse.getStatus().equals("completed")) {
+                                                                                edt_title.setText(imageResultResponse.getName());
+                                                                                getSupportActionBar().setTitle("");
+                                                                                RecToken = "";
+                                                                                isUpload = false;
+                                                                            } else {
+                                                                                isUpload = true;
+                                                                                RecToken = imageResultResponse.getToken();
+                                                                                getSupportActionBar().setTitle("System busy, Try again");
+                                                                            }
+//                                                                        dialog.dismiss();
                                                                         }
-                                                                        dialog.dismiss();
-                                                                    }
-                                                                });
-                                                    }
-                                                }.start();
+                                                                    });
+                                                        }
+                                                    }.start();
+                                                }
                                             }
+                                        });
+                            }
+
+                            @Override
+                            public void onFailure(PutObjectRequest putObjectRequest, ClientException e, ServiceException e1) {
+
+                            }
+                        });
+                    } else {
+                        jerseyService.imageResponse(RecToken)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Consumer<imageResultResponse>() {
+                                    @Override
+                                    public void accept(imageResultResponse imageResultResponse) throws Exception {
+                                        Log.v("wxl", "request2: " + imageResultResponse.getStatus());
+                                        Log.v("wxl", "request2: " + imageResultResponse.getUrl());
+                                        Log.v("wxl", "request2: " + imageResultResponse.getToken());
+                                        Log.v("wxl", "request2: " + imageResultResponse.getName());
+                                        if (imageResultResponse.getStatus().equals("completed")) {
+                                            edt_title.setText(imageResultResponse.getName());
+                                            getSupportActionBar().setTitle("");
+                                            RecToken = "";
+                                        } else {
+                                            RecToken = imageResultResponse.getToken();
+                                            getSupportActionBar().setTitle("System busy, Try again");
                                         }
-                                    });
-                        }
-
-                        @Override
-                        public void onFailure(PutObjectRequest putObjectRequest, ClientException e, ServiceException e1) {
-
-                        }
-                    });//test AI end
+//                                                                        dialog.dismiss();
+                                    }
+                                });
+                    } //test AI end
                 }
             }
         });
@@ -536,6 +577,9 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         String path = Environment.getExternalStorageDirectory() + File.separator + "RoomImages" + File.separator;
         String file_path = imageutils.createImage(file, filename, path, false);
         imageAdd.setTag(file_path);
+        //init upload var
+        isUpload = false;
+        RecToken = "";
     }
 
     private Date setDateFormat(int year, int monthOfYear, int dayOfMonth) {

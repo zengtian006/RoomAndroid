@@ -18,7 +18,7 @@
     <string name="search_hint">搜索</string>
 
     <!-- Add -->
-    <string name="menu_add">添加</string>
+    <string name="menu_add">保存</string>
     <string name="add_try">试试</string>
     <string name="add_title_hint">标题*</string>
     <string name="add_hint_cate">类别*</string>
