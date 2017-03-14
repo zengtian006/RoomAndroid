@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.tim.room.activity.ItemFullScreenViewer;
 import com.tim.room.activity.ItemViewerActivity;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.User;
+import com.tim.room.utils.LocaleUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -85,7 +87,13 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
         }
         final List itemsList = dataList.get(position).getItems();
 //        String cate_title = dataList.get(position).getTitle();
-        String cate_title = dataList.get(position).getTitle_cn();
+        String cate_title = "";
+        if (LocaleUtil.getLocale(mContext).equals(LocaleUtil.SIMP_CHINESE)) {
+            cate_title = dataList.get(position).getTitle_cn();
+        } else if (LocaleUtil.getLocale(mContext).equals(LocaleUtil.ENGLISH)) {
+            cate_title = dataList.get(position).getTitle();
+        }
+
         String cate_id = String.valueOf(dataList.get(position).getCate_id());
 
         itemRowHolder.tv_cate_title.setText(cate_title);

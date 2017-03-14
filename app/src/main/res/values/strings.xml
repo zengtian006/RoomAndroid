@@ -1,6 +1,45 @@
 <resources>
     <string name="app_name">Room</string>
 
+    <!-- Bottombar -->
+    <string name="bt_discover">Discover</string>
+    <string name="bt_add">Add</string>
+    <string name="bt_charity">Charity</string>
+    <string name="bt_me">Me</string>
+
+    <!-- Item Series-->
+    <string name="more"><![CDATA[more >]]></string>
+
+    <!-- Discover-->
+    <string name="label_discover">Discover</string>
+    <string name="tab_label_hot">Hot</string>
+    <string name="tab_label_men">Men</string>
+    <string name="tab_label_women">Women</string>
+    <string name="tab_label_tag">Tag</string>
+    <string name="search_hint">Search</string>
+
+    <!--Add-->
+    <string name="menu_add">Save</string>
+    <string name="add_try">Try</string>
+    <string name="add_title_hint">Title*</string>
+    <string name="add_hint_cate">Category*</string>
+    <string name="add_hint_tag">Add tags</string>
+    <string name="add_hint_season">Season*</string>
+    <string name="add_hint_expire">Expiration Date</string>
+
+    <!-- Me-->
+    <string name="me_room_name">Room Name</string>
+    <string name="me_gender">Gender</string>
+    <string name="me_lang">Language</string>
+    <string name="me_logout">Logout</string>
+    <string name="me_expire">Expire in</string>
+    <string-array name="overdue_date_arrays">
+        <item>ONE Month</item>
+        <item>THREE Months</item>
+        <item>SIX Months</item>
+        <item>ONE Year</item>
+    </string-array>
+
     <plurals name="likes_count">
         <item quantity="one">%d like</item>
         <item quantity="other">%d likes</item>
@@ -11,14 +50,5 @@
     <string name="colorpicker_dialog_cancel">CANCEL</string>
     <string name="colorpicker_dialog_ok">OK</string>
 
-
-    <string-array name="overdue_date_arrays">
-        <item>ONE Month</item>
-        <item>THREE Months</item>
-        <item>SIX Months</item>
-        <item>ONE Year</item>
-    </string-array>
-
-    <string name="search_hint">Search</string>
 
 </resources>

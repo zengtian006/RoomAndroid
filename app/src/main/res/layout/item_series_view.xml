@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:text="more >"
+            android:text="@string/more"
             android:background="?android:selectableItemBackground"
             android:textColor="@color/bb_inActiveBottomBarItemColor"
             android:textSize="12sp" />

@@ -249,7 +249,7 @@ public class DiscoverFragment extends Fragment {
     private void findView(final View rootView) {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Discover");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.label_discover);
 
         recyclerViewImages = (RecyclerView) rootView.findViewById(R.id.recycler_view_images);
         searchView = (MaterialSearchView) rootView.findViewById(R.id.search_view);

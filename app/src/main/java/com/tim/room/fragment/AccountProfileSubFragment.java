@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
+import com.tim.room.utils.LocaleUtil;
 
 public class AccountProfileSubFragment extends Fragment {
     TextView tv_room_name, tv_gender, tv_language;
@@ -53,9 +53,15 @@ public class AccountProfileSubFragment extends Fragment {
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int j) {
-                                dialogInterface.dismiss();
                                 int selectedPosition = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
-                                Toast.makeText(mContext, languageArray[selectedPosition], Toast.LENGTH_SHORT).show();
+                                if (selectedPosition == 0) {
+                                    LocaleUtil.setLocale(mContext, LocaleUtil.ENGLISH);
+                                    tv_language.setText("English");
+                                } else if (selectedPosition == 1) {
+                                    LocaleUtil.setLocale(mContext, LocaleUtil.SIMP_CHINESE);
+                                    tv_language.setText("中文");
+                                }
+                                dialogInterface.dismiss();
                             }
                         })
                         .setNegativeButton("Cancel", null)

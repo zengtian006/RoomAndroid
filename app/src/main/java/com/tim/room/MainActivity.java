@@ -20,6 +20,7 @@ import com.tim.room.fragment.CharityFragment;
 import com.tim.room.fragment.DiscoverFragment;
 import com.tim.room.fragment.HomeFragment;
 import com.tim.room.fragment.MyAccountFragment;
+import com.tim.room.utils.LocaleUtil;
 import com.tim.room.view.ProgressDialog;
 
 ;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LocaleUtil.setLocale(this, LocaleUtil.SIMP_CHINESE);
+
         //test
 //        View decorView = getWindow().getDecorView();
 //        // Hide the status bar.

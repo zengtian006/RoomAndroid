@@ -3,6 +3,6 @@
     xmlns:myapp="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_btn_add_item"
-        android:title="Add"
+        android:title="@string/menu_add"
         myapp:showAsAction="always" />
 </menu><!--android:icon="@android:drawable/ic_menu_add"-->

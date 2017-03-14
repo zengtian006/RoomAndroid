@@ -7,22 +7,22 @@
     <tab
         icon="@drawable/ic_home_24dp"
         id="@+id/home_page"
-        title="Room" />
+        title="@string/app_name" />
     <tab
         icon="@drawable/ic_share_24dp"
         id="@+id/shopping_cart"
-        title="Discover" />
+        title="@string/bt_discover" />
     <tab
         icon="@drawable/ic_add_24dp"
         id="@+id/add"
-        title="Add" />
+        title="@string/bt_add" />
     <tab
         icon="@drawable/ic_charity_24dp"
         id="@+id/search"
-        title="Charity" />
+        title="@string/bt_charity" />
     <tab
         icon="@drawable/ic_account_setting_24dp"
         id="@+id/my_account"
-        title="Me" />
+        title="@string/bt_me" />
 </tabs>
 

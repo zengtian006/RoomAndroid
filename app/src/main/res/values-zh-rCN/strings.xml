@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">房间</string>
+    <!-- Bottombar -->
+    <string name="bt_discover">探索</string>
+    <string name="bt_add">添加</string>
+    <string name="bt_charity">慈善</string>
+    <string name="bt_me">我</string>
+    <!-- Item Series-->
+    <string name="more"><![CDATA[更多 >]]></string>
+
+    <!-- Discover-->
+    <string name="label_discover">探索</string>
+    <string name="tab_label_hot">热门</string>
+    <string name="tab_label_men">男士</string>
+    <string name="tab_label_women">女士</string>
+    <string name="tab_label_tag">标签</string>
+    <string name="search_hint">搜索</string>
+
+    <!-- Add -->
+    <string name="menu_add">添加</string>
+    <string name="add_try">试试</string>
+    <string name="add_title_hint">标题*</string>
+    <string name="add_hint_cate">类别*</string>
+    <string name="add_hint_tag">标签</string>
+    <string name="add_hint_season">季节*</string>
+    <string name="add_hint_expire">过期时间</string>
+
+    <!-- Me-->
+    <string name="me_room_name">房间名</string>
+    <string name="me_gender">性别</string>
+    <string name="me_lang">语言</string>
+    <string name="me_logout">登出</string>
+    <string name="me_expire">即将过期</string>
+    <string-array name="overdue_date_arrays">
+        <item>一个月</item>
+        <item>三个月</item>
+        <item>半年</item>
+        <item>一年</item>
+    </string-array>
+
+</resources>

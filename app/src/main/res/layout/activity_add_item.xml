@@ -97,10 +97,10 @@
                     android:src="@drawable/item_desc" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/edt_title"
@@ -108,16 +108,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="Title*"
+                        android:hint="@string/add_title_hint"
                         android:inputType="textPersonName"
                         android:textAlignment="textEnd" />
 
                     <Button
-                        android:text="Try"
+                        android:id="@+id/btn_try"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/btn_try"
-                        android:layout_weight="3" />
+                        android:layout_weight="3"
+                        android:text="@string/add_try" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Category*"
+                    android:hint="@string/add_hint_cate"
                     android:inputType="textPersonName"
                     android:textAlignment="textEnd" />
 
@@ -201,7 +201,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Add tags"
+                        android:hint="@string/add_hint_tag"
                         android:paddingEnd="30dp"
                         android:singleLine="true"
                         android:textAlignment="textEnd" />
@@ -240,7 +240,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Season*"
+                    android:hint="@string/add_hint_season"
                     android:inputType="textPersonName"
                     android:textAlignment="textEnd" />
 
@@ -339,7 +339,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Expiration Date"
+                    android:hint="@string/add_hint_expire"
                     android:inputType="date"
                     android:textAlignment="textEnd" />
             </LinearLayout>

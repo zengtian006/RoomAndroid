@@ -22,7 +22,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Expire in"
+                android:text="@string/me_expire"
                 android:textSize="14sp" />
 
             <Spinner

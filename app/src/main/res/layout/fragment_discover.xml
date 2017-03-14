@@ -70,22 +70,22 @@
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hot" />
+                android:text="@string/tab_label_hot" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Men" />
+                android:text="@string/tab_label_men" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Women" />
+                android:text="@string/tab_label_women" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tag" />
+                android:text="@string/tab_label_tag" />
         </android.support.design.widget.TabLayout>
 
         <android.support.v7.widget.RecyclerView
