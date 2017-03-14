@@ -101,7 +101,11 @@ public class ItemViewerActivity extends AppCompatActivity {
         setSupportActionBar(topToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle(itemSeries.getTitle());
+        if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
+            getSupportActionBar().setTitle(itemSeries.getTitle_cn());
+        } else if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.ENGLISH)) {
+            getSupportActionBar().setTitle(itemSeries.getTitle());
+        }
         mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
         initView();
     }
