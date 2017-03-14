@@ -21,7 +21,7 @@ import com.tim.room.fragment.DiscoverFragment;
 import com.tim.room.fragment.HomeFragment;
 import com.tim.room.fragment.MyAccountFragment;
 import com.tim.room.utils.LocaleUtil;
-import com.tim.room.view.ProgressDialog;
+import com.tim.room.view.LoadingProgressDialog;
 
 ;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int INTENT_REQUEST_LOGIN = 0;
     private final static int INTENT_REQUEST_ADD_ITEM = 1;
 
-    public static ProgressDialog dialog;
+    public static LoadingProgressDialog dialog;
 
     public static FragmentManager fragmentManager;
     public static BottomBar bottomBar;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             Log.v(TAG, "MemberID??: " + session.getUser().getId());
         }
 
-        dialog = new ProgressDialog(this);
+        dialog = new LoadingProgressDialog(this);
 
 //        jerseyService.addEmployee(em)
 //                .subscribeOn(Schedulers.io())

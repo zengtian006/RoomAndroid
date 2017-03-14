@@ -2,6 +2,7 @@ package com.tim.room.activity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -52,7 +54,7 @@ import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.utils.ImageUtils;
 import com.tim.room.utils.UploadImage;
-import com.tim.room.view.ProgressDialog;
+import com.tim.room.view.LoadingProgressDialog;
 import com.tim.room.view.TagContainerLayout;
 import com.tim.room.view.TagView;
 
@@ -62,12 +64,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.tim.room.MainActivity.session;
@@ -106,7 +105,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
     String RecToken;
     RESTFulService jerseyService;
 
-    public static ProgressDialog dialog;
+    public static LoadingProgressDialog dialog;
 
     String[] seasonArray = {"Spring/Fall", "Summer", "Winter"};
     boolean[] flags;
@@ -125,7 +124,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
         setContentView(R.layout.activity_add_item);
         this.mContext = getApplicationContext();
 
-        dialog = new ProgressDialog(this);
+        dialog = new LoadingProgressDialog(this);
 
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
@@ -207,6 +206,15 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                     final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
                     //test AI start
                     getSupportActionBar().setTitle("Recognition in progress...");
+
+                    final ProgressDialog progressBar = new ProgressDialog(AddItemActivity.this);
+                    progressBar.setCancelable(false);
+                    progressBar.setMessage("Recognition in progress ...");
+                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressBar.setProgress(0);
+                    progressBar.setMax(100);
+                    progressBar.show();
+
                     if (!isUpload) {
                         PutObjectRequest put = new PutObjectRequest(testBucket, uploadUrl + uploadObject, path);
                         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
@@ -216,6 +224,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                 jerseyService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
                                 imageRequest request = new imageRequest();
                                 Log.v("wxl", "requestURL: " + IMG_BASE_URL + uploadUrl + uploadObject);
+                                progressBar.setProgress(20);
                                 //+ "?x-oss-process=image/resize,m_lfit,h_150,w_150/format,png"
 //                            getSupportActionBar().setTitle("Recognition in progress...");
 
@@ -234,6 +243,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                     new CountDownTimer(10 * 1000, 1000) {//等待10秒
                                                         @Override
                                                         public void onTick(long millisUntilFinished) {
+                                                            progressBar.setProgress(20 + (int) (10000 - millisUntilFinished) / 150);
                                                         }
 
                                                         @Override
@@ -258,6 +268,8 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                                                 RecToken = imageResultResponse.getToken();
                                                                                 getSupportActionBar().setTitle("System busy, Try again");
                                                                             }
+                                                                            progressBar.dismiss();
+
 //                                                                        dialog.dismiss();
                                                                         }
                                                                     });
@@ -284,6 +296,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                         Log.v("wxl", "request2: " + imageResultResponse.getUrl());
                                         Log.v("wxl", "request2: " + imageResultResponse.getToken());
                                         Log.v("wxl", "request2: " + imageResultResponse.getName());
+                                        progressBar.setProgress(100);
                                         if (imageResultResponse.getStatus().equals("completed")) {
                                             edt_title.setText(imageResultResponse.getName());
                                             getSupportActionBar().setTitle("");
@@ -292,6 +305,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                             RecToken = imageResultResponse.getToken();
                                             getSupportActionBar().setTitle("System busy, Try again");
                                         }
+                                        progressBar.dismiss();
 //                                                                        dialog.dismiss();
                                     }
                                 });

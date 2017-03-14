@@ -18,7 +18,7 @@ import com.tim.room.R;
  * Created by Tim on 18/2/17.
  */
 
-public class ProgressDialog extends Dialog {
+public class LoadingProgressDialog extends Dialog {
 
     Context mContext;
 
@@ -30,10 +30,10 @@ public class ProgressDialog extends Dialog {
         super.onCreate(savedInstanceState);
     }
 
-    public ProgressDialog(Context context) {
+    public LoadingProgressDialog(Context context) {
         super(context);
         this.mContext = getContext();
-        Log.v("ProgressDialog", "ProgressDialog");
+        Log.v("LoadingProgressDialog", "LoadingProgressDialog");
         setContentView(R.layout.layout_progress_dialog);
 
         setCanceledOnTouchOutside(false);
@@ -58,11 +58,11 @@ public class ProgressDialog extends Dialog {
 //        window.setAttributes(params);
     }
 
-    public ProgressDialog(Context context, int themeResId) {
+    public LoadingProgressDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
 
-    protected ProgressDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    protected LoadingProgressDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 

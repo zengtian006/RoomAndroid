@@ -19,7 +19,7 @@ public class RESTFulServiceImp {
     public static final String CLOUD_SIGHT_URL = "https://api.cloudsightapi.com/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS);
+            .connectTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true);
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

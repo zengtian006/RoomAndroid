@@ -26,7 +26,7 @@ import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
-import com.tim.room.view.ProgressDialog;
+import com.tim.room.view.LoadingProgressDialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class copy_ItemViewerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("");
 
-        final ProgressDialog dialog = new ProgressDialog(copy_ItemViewerActivity.this);
+        final LoadingProgressDialog dialog = new LoadingProgressDialog(copy_ItemViewerActivity.this);
         dialog.show();
 //        recycler_view_cate_list = (RecyclerView) findViewById(R.id.recycler_view_cates);
         Intent intent = this.getIntent();

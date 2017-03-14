@@ -23,7 +23,6 @@ import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.KenBurnsView;
 import com.tim.room.view.LoopViewPager;
-import com.tim.room.view.ProgressDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
