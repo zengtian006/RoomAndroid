@@ -261,7 +261,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                                             Log.v("wxl", "request2: " + imageResultResponse.getName());
                                                                             if (imageResultResponse.getStatus().equals("completed")) {
                                                                                 if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
-                                                                                    RESTFulService transService = RESTFulServiceImp.createCloudSightService(RESTFulService.class);
+                                                                                    RESTFulService transService = RESTFulServiceImp.createTranslateService(RESTFulService.class);
                                                                                     transService.transWord(imageResultResponse.getName())
                                                                                             .subscribeOn(Schedulers.io())
                                                                                             .observeOn(AndroidSchedulers.mainThread())
@@ -294,6 +294,14 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                     }.start();
                                                 }
                                             }
+                                        }, new Consumer<Throwable>() {
+                                            @Override
+                                            public void accept(Throwable throwable) throws Exception {
+                                                RecToken = "";
+                                                isUpload = false;
+                                                Toast.makeText(mContext, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                                progressBar.dismiss();
+                                            }
                                         });
                             }
 
@@ -315,9 +323,26 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                         Log.v("wxl", "request2: " + imageResultResponse.getName());
                                         progressBar.setProgress(100);
                                         if (imageResultResponse.getStatus().equals("completed")) {
-                                            edt_title.setText(imageResultResponse.getName());
-                                            getSupportActionBar().setTitle("");
-                                            RecToken = "";
+                                            if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
+                                                RESTFulService transService = RESTFulServiceImp.createTranslateService(RESTFulService.class);
+                                                transService.transWord(imageResultResponse.getName())
+                                                        .subscribeOn(Schedulers.io())
+                                                        .observeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe(new Consumer<YouDaoTrans>() {
+                                                            @Override
+                                                            public void accept(YouDaoTrans youDaoTrans) throws Exception {
+                                                                edt_title.setText(youDaoTrans.getTranslation().get(0));
+                                                                getSupportActionBar().setTitle("");
+                                                                RecToken = "";
+                                                                isUpload = false;
+                                                            }
+                                                        });
+                                            } else {
+                                                edt_title.setText(imageResultResponse.getName());
+                                                getSupportActionBar().setTitle("");
+                                                RecToken = "";
+                                                isUpload = false;
+                                            }
                                         } else {
                                             RecToken = imageResultResponse.getToken();
                                             getSupportActionBar().setTitle("System busy, Try again");

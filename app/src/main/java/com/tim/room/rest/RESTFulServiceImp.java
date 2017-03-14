@@ -20,8 +20,8 @@ public class RESTFulServiceImp {
     public static final String TRANSLATE_URL = "http://fanyi.youdao.com/";
 
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(20, TimeUnit.SECONDS)
-            .connectTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true);
+    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS).retryOnConnectionFailure(true).writeTimeout(30, TimeUnit.SECONDS);
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

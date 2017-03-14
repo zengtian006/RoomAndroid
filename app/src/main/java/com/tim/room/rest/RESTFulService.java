@@ -20,6 +20,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface RESTFulService {
@@ -87,6 +88,6 @@ public interface RESTFulService {
     @GET("findAlmostOverdueItem/{date}/{userId}")
     Observable<List<Items>> findAlmostOverdueItem(@Path("date") Integer date, @Path("userId") String user_id);
 
-    @GET("openapi.do?keyfrom=eeeeeeeeeeeeeee&key=573473787&type=data&doctype=json&only=translate&version=1.1&q={word}")
-    Observable<YouDaoTrans> transWord(@Path("word") String word);
+    @GET("/openapi.do?keyfrom=eeeeeeeeeeeeeee&key=573473787&type=data&doctype=json&only=translate&version=1.1")
+    Observable<YouDaoTrans> transWord(@Query("q") String word);
 }
