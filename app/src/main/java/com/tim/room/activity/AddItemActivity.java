@@ -201,13 +201,11 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
             public void onClick(View view) {
                 if (imageAdd.getTag() != null) {
 //                    dialog.show();
-
+                    edt_title.setText("");
                     final String path = imageAdd.getTag().toString();
                     final String uploadObject = path.substring(path.lastIndexOf("/") + 1, path.length());
                     final String uploadUrl = String.valueOf(session.getUser().getId()) + "/";
-                    //test AI start
-                    getSupportActionBar().setTitle("Recognition in progress...");
-
+                    //**************<Image AI start>*********************
                     final ProgressDialog progressBar = new ProgressDialog(AddItemActivity.this);
                     progressBar.setCancelable(false);
                     progressBar.setMessage("Recognition in progress ...");
@@ -269,25 +267,22 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                                                                 @Override
                                                                                                 public void accept(YouDaoTrans youDaoTrans) throws Exception {
                                                                                                     edt_title.setText(youDaoTrans.getTranslation().get(0));
-                                                                                                    getSupportActionBar().setTitle("");
                                                                                                     RecToken = "";
                                                                                                     isUpload = false;
                                                                                                 }
                                                                                             });
                                                                                 } else {
                                                                                     edt_title.setText(imageResultResponse.getName());
-                                                                                    getSupportActionBar().setTitle("");
                                                                                     RecToken = "";
                                                                                     isUpload = false;
                                                                                 }
                                                                             } else {
                                                                                 isUpload = true;
                                                                                 RecToken = imageResultResponse.getToken();
-                                                                                getSupportActionBar().setTitle("System busy, Try again");
+                                                                                Toast.makeText(mContext, "System busy, Try again", Toast.LENGTH_LONG).show();
+
                                                                             }
                                                                             progressBar.dismiss();
-
-//                                                                        dialog.dismiss();
                                                                         }
                                                                     });
                                                         }
@@ -299,7 +294,7 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                             public void accept(Throwable throwable) throws Exception {
                                                 RecToken = "";
                                                 isUpload = false;
-                                                Toast.makeText(mContext, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, throwable.getMessage(), Toast.LENGTH_LONG).show();
                                                 progressBar.dismiss();
                                             }
                                         });
@@ -332,26 +327,23 @@ public class AddItemActivity extends AppCompatActivity implements ImageUtils.Ima
                                                             @Override
                                                             public void accept(YouDaoTrans youDaoTrans) throws Exception {
                                                                 edt_title.setText(youDaoTrans.getTranslation().get(0));
-                                                                getSupportActionBar().setTitle("");
                                                                 RecToken = "";
                                                                 isUpload = false;
                                                             }
                                                         });
                                             } else {
                                                 edt_title.setText(imageResultResponse.getName());
-                                                getSupportActionBar().setTitle("");
                                                 RecToken = "";
                                                 isUpload = false;
                                             }
                                         } else {
                                             RecToken = imageResultResponse.getToken();
-                                            getSupportActionBar().setTitle("System busy, Try again");
+                                            Toast.makeText(mContext, "System busy, Try again", Toast.LENGTH_LONG).show();
                                         }
                                         progressBar.dismiss();
-//                                                                        dialog.dismiss();
                                     }
                                 });
-                    } //test AI end
+                    }//**************<Image AI end>*********************
                 }
             }
         });
