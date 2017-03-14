@@ -35,6 +35,7 @@ import com.tim.room.model.TagEntry;
 import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.utils.LocaleUtil;
 import com.tim.room.view.DropDownMenu;
 
 import java.io.Serializable;
@@ -126,7 +127,11 @@ public class ItemViewerActivity extends AppCompatActivity {
                         categoriesArrayList = categories;
                         categoryNameList = new ArrayList<String>();
                         for (Categories cate : categories) {
-                            categoryNameList.add(cate.getCateName());
+                            if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
+                                categoryNameList.add(cate.getCateNameCn());
+                            } else if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.ENGLISH)) {
+                                categoryNameList.add(cate.getCateName());
+                            }
                         }
                         categoryNameList.add(0, getResources().getString(R.string.filter_all));
                         categoryAdapter = new ListDropDownAdapter(ItemViewerActivity.this, categoryNameList);

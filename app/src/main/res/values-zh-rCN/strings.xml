@@ -48,7 +48,7 @@
         <item>最新</item>
     </string-array>
     <string-array name="filter_season">
-        <item>All</item>
+        <item>不限</item>
         <item>Spring/Fall</item>
         <item>Summer</item>
         <item>Winter</item>
