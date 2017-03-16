@@ -8,7 +8,8 @@
     <string name="bt_me">Me</string>
 
     <!-- Item Series-->
-    <string name="more"><![CDATA[more >]]></string>
+    <!--<string name="more"><![CDATA[more >]]></string>-->
+    <string name="more">more</string>
 
     <!-- Discover-->
     <string name="label_discover">Discover</string>
