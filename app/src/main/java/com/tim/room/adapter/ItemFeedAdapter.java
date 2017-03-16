@@ -19,11 +19,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.R;
 import com.tim.room.helper.ItemFeedAdapterHelper;
+import com.tim.room.model.ItemLikes;
 import com.tim.room.model.Items;
+import com.tim.room.rest.RESTFulService;
+import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.TagContainerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.tim.room.MainActivity.session;
 import static com.tim.room.app.AppConfig.IMG_BASE_URL;
@@ -74,16 +81,31 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
         cellFeedViewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int adapterPosition = cellFeedViewHolder.getAdapterPosition();
-                Items item = mItems.get(adapterPosition);
-                if (item.isLiked()) {
-                    item.setLikesCount(mItems.get(adapterPosition).getLikesCount() - 1);
-                    item.setLiked(false);
-                } else {
-                    item.setLikesCount(mItems.get(adapterPosition).getLikesCount() + 1);
-                    item.setLiked(true);
-                }
-                notifyItemChanged(adapterPosition, ACTION_LIKE_BUTTON_CLICKED);
+                RESTFulService updateItemLikesService = RESTFulServiceImp.createService(RESTFulService.class);
+
+                final int adapterPosition = cellFeedViewHolder.getAdapterPosition();
+                final Items item = mItems.get(adapterPosition);
+                ItemLikes newItemLike = new ItemLikes(item.getId(), session.getUser().getId());
+                updateItemLikesService.updateItemLike(newItemLike)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (aBoolean) {
+                                    if (item.isLiked()) {
+                                        item.setLikesCount(mItems.get(adapterPosition).getLikesCount() - 1);
+                                        item.setLiked(false);
+                                    } else {
+                                        item.setLikesCount(mItems.get(adapterPosition).getLikesCount() + 1);
+                                        item.setLiked(true);
+
+                                    }
+                                    notifyItemChanged(adapterPosition, ACTION_LIKE_BUTTON_CLICKED);
+                                }
+                            }
+                        });
+
             }
         });
         cellFeedViewHolder.ivFeedCenter.setOnClickListener(new View.OnClickListener() {

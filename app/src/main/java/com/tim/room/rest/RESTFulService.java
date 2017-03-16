@@ -1,6 +1,7 @@
 package com.tim.room.rest;
 
 import com.tim.room.model.Categories;
+import com.tim.room.model.ItemLikes;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.model.User;
@@ -90,4 +91,8 @@ public interface RESTFulService {
 
     @GET("/openapi.do?keyfrom=eeeeeeeeeeeeeee&key=573473787&type=data&doctype=json&only=translate&version=1.1")
     Observable<YouDaoTrans> transWord(@Query("q") String word);
+
+    @Headers("Content-Type: application/json")
+    @POST("updateItemLike")
+    Observable<Boolean> updateItemLike(@Body ItemLikes itemLike);
 }

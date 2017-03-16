@@ -22,6 +22,10 @@ public class ItemLikes implements Serializable {
 		this.itemId = itemId;
 		this.userId = userId;
 	}
+	public ItemLikes(UUID itemId, UUID userId) {
+		this.itemId = itemId;
+		this.userId = userId;
+	}
 	public Integer getId() {
 		return id;
 	}
