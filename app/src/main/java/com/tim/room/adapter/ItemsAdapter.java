@@ -77,13 +77,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         holder.title.setText(item.getTitle());
         holder.brand.setText(item.getBrand());
 //        holder.id.setText(dealEventItem.getHexId());
-
         Glide.with(mContext).load(IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName())
                 .thumbnail(0.5f)
                 .fitCenter()
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.thumbnail);
-        int proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 2.2);
+
+        int proportionalWidth = 0;
+        if (item.getCateId().equals(44) || item.getCateId().equals(45)) {
+            proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 1.1);
+        } else {
+            proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 2.2);
+
+        }
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(proportionalWidth, FrameLayout.LayoutParams.WRAP_CONTENT); // (width, height)
         holder.layout.setLayoutParams(params);
 

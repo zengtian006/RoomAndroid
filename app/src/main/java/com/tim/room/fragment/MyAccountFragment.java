@@ -121,7 +121,7 @@ public class MyAccountFragment extends Fragment {
                 fragment = AccountOverdueSubFragment.newInstance(0);
                 break;
             case 3:
-                fragment = new CharityFragment();
+                fragment = AccountOverdueSubFragment.newInstance(0);
                 break;
             default:
                 break;

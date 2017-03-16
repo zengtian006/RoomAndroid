@@ -31,10 +31,10 @@
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="false"
         android:layout_centerVertical="false"
-        android:background="#4f000000"
+        android:background="#0f000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/imageView5"
@@ -45,7 +45,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="TestTitle"
                 android:textColor="@android:color/white"
-                android:textSize="28sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 android:typeface="serif" />
 
@@ -62,9 +62,9 @@
                 android:id="@+id/sub_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="total: 110"
-                android:textColor="@android:color/white"
-                android:textSize="18dp" />
+                android:text="Items: 110"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp" />
         </LinearLayout>
 
     </LinearLayout>

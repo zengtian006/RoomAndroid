@@ -150,7 +150,7 @@
                         android:layout_marginTop="2dp"
                         android:background="@drawable/rounded_border_edittext"
                         android:ems="10"
-                        android:inputType="textPersonName"
+                        android:inputType="textPassword"
                         android:padding="10dp" />
                 </LinearLayout>
 
