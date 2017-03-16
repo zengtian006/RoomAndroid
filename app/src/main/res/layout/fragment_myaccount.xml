@@ -84,8 +84,7 @@
             android:background="#222222"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorAccent"
-            app:tabIndicatorHeight="3dp"
-            app:tabMode="fixed" />
+            app:tabIndicatorHeight="3dp" />
 
         <FrameLayout
             android:id="@+id/me_container_body"

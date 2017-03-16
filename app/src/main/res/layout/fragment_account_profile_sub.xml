@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/me_room_name"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_room_name"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:text="Tim"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow
@@ -53,7 +53,7 @@
                 android:elevation="2dp"
                 android:text="@string/me_gender"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_gender"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:text="Man"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow
@@ -77,7 +77,7 @@
                 android:elevation="2dp"
                 android:text="@string/me_lang"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_language"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:text=""
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </TableRow>
     </TableLayout>
 
