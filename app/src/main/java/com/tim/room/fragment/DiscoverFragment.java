@@ -24,10 +24,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tim.room.MainActivity;
 import com.tim.room.R;
 import com.tim.room.activity.ItemFullScreenViewer;
 import com.tim.room.activity.ItemSingleViewActivity;
 import com.tim.room.adapter.GalleryAdapter;
+import com.tim.room.model.ItemLikes;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
@@ -207,6 +209,13 @@ public class DiscoverFragment extends Fragment {
             @Override
             public void accept(List<Items> items) throws Exception {
                 for (Items item : items) {
+                    item.setLiked(false);
+                    for (ItemLikes itemLike : item.getItemLikes()) {
+                        if (itemLike.getUserId().equals(MainActivity.session.getUser().getId())) {
+                            item.setLiked(true);
+                            break;
+                        }
+                    }
                     itemList.add(item);
                     varItemList.add(item);
                 }
