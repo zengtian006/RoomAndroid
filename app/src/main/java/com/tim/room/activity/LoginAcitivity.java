@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.tim.room.R;
 import com.tim.room.model.User;
@@ -75,11 +76,16 @@ public class LoginAcitivity extends AppCompatActivity {
                         .subscribe(new Consumer<UserResponse>() {
                             @Override
                             public void accept(UserResponse userResponse) throws Exception {
-                                Log.v(TAG, "Status: " + userResponse.getStatus());
-                                Log.v(TAG, "User ID: " + userResponse.getUser().getId().toString());
-                                session.setLogin(true, null, userResponse.getUser());
-                                setResult(Activity.RESULT_OK);
-                                finish();
+                                if (userResponse.isSuccess()) {
+                                    Log.v(TAG, "Status: " + userResponse.getStatus());
+                                    Log.v(TAG, "User ID: " + userResponse.getUser().getId().toString());
+                                    session.setLogin(true, null, userResponse.getUser());
+                                    setResult(Activity.RESULT_OK);
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginAcitivity.this, userResponse.getStatus(), Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                         });
 

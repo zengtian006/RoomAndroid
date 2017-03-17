@@ -58,10 +58,10 @@
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@color/facebook_color"
-                    app:cardCornerRadius="8dp"
-                    android:layout_height="40dp">
+                    app:cardCornerRadius="8dp">
 
                     <ImageView
                         android:id="@+id/imageView"
@@ -73,11 +73,11 @@
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@color/weixin_color"
-                    app:cardCornerRadius="8dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="2dp">
+                    app:cardCornerRadius="8dp">
 
                     <ImageView
                         android:id="@+id/imageView2"
@@ -108,8 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView14"
@@ -158,11 +157,11 @@
             <!--android:background="@drawable/info"-->
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:animateLayoutChanges="true"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btn_check_email"
