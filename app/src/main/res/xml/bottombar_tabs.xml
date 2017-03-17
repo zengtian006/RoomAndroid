@@ -5,24 +5,25 @@
     <!--title="Favorites"-->
     <!--barColorWhenSelected="#5D4037" />-->
     <tab
-        icon="@drawable/ic_home_24dp"
+        icon="@drawable/ic_room_24dp"
         id="@+id/home_page"
         title="@string/app_name" />
     <tab
         icon="@drawable/ic_share_24dp"
-        id="@+id/shopping_cart"
+        id="@+id/discover"
         title="@string/bt_discover" />
     <tab
         icon="@drawable/ic_add_24dp"
         id="@+id/add"
         title="@string/bt_add" />
     <tab
-        icon="@drawable/ic_charity_24dp"
-        id="@+id/search"
-        title="@string/bt_charity" />
-    <tab
         icon="@drawable/ic_account_setting_24dp"
         id="@+id/my_account"
         title="@string/bt_me" />
+    <tab
+        icon="@drawable/ic_more_24dp"
+        id="@+id/more"
+        title="@string/bt_more" />
+
 </tabs>
 

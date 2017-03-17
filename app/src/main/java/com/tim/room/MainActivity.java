@@ -108,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         startActivityForResult(new Intent(MainActivity.this, LoginAcitivity.class), INTENT_REQUEST_LOGIN);
                     }
-                } else if (tabId == R.id.shopping_cart) {
+                } else if (tabId == R.id.discover) {
                     displayView(1);
                 } else if (tabId == R.id.add) {
                     startActivityForResult(new Intent(MainActivity.this, AddItemActivity.class), INTENT_REQUEST_ADD_ITEM);
-                } else if (tabId == R.id.search) {
+                } else if (tabId == R.id.more) {
                     displayView(3);
                 } else if (tabId == R.id.my_account) {
                     if (session.isLoggedIn()) {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         BottomBarTab overdueItemCount = bottomBar.getTabWithId(R.id.my_account);
-        overdueItemCount.setBadgeCount(5);
+//        overdueItemCount.setBadgeCount(5);
 
     }
 
