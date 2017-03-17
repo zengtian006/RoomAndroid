@@ -408,11 +408,11 @@ public class ItemViewerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_filter:
-                ColorPicker colorPicker = new ColorPicker(this);
-                colorPicker.setRoundColorButton(true).show();
+//            case R.id.action_filter:
+//                ColorPicker colorPicker = new ColorPicker(this);
+//                colorPicker.setRoundColorButton(true).show();
 //                startActivity(new Intent(ItemViewerActivity.this, ItemFilterActivity.class));
-                return true;
+//                return true;
             case R.id.action_public:
                 items.clear();
                 for (Items singleItem : itemSeries.getItems()) {

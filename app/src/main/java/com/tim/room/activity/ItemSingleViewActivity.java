@@ -6,11 +6,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -32,8 +33,6 @@ import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 import com.tim.room.view.TagContainerLayout;
-
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -74,6 +73,12 @@ public class ItemSingleViewActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         mItem = (Items) bundle.getSerializable("items");
         currentUser = (User) bundle.getSerializable("current_user");
+
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
 
         updateItemService = RESTFulServiceImp.createService(RESTFulService.class);
 
@@ -302,5 +307,16 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish(); // close this activity and return to preview activity (if there is any)
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

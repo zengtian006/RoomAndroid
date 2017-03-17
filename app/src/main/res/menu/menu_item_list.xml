@@ -7,11 +7,6 @@
         <!--android:icon="@android:drawable/ic_menu_edit"-->
         <!--myapp:showAsAction="ifRoom" />-->
     <!-- Help -->
-    <item
-        android:id="@+id/action_filter"
-        android:title="filter"
-        myapp:showAsAction="never" />
-
     <!-- Check updates -->
     <item
         android:id="@+id/action_public"
