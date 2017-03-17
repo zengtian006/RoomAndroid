@@ -52,7 +52,7 @@ public class MyAccountFragment extends Fragment {
     }
 
     private void init() {
-        displayView(0);
+        displayView(3);
     }
 
     private void setListener() {
@@ -94,18 +94,19 @@ public class MyAccountFragment extends Fragment {
         } else {
             iv_zoom.setImageResource(R.drawable.bg_women_1);
         }
-        View view1 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
-        view1.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_profile_24dp);
-        userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view1).setTag("0"));
+        View view4 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
+        view4.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_like_24dp);
+        userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view4).setTag("3"));
         View view2 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
         view2.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_alarm_24dp);
         userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view2).setTag("1"));
         View view3 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
         view3.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_trash_24dp);
         userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view3).setTag("2"));
-        View view4 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
-        view4.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_like_24dp);
-        userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view4).setTag("3"));
+        View view1 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
+        view1.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_profile_24dp);
+        userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view1).setTag("0"));
+
 
 
 //        userProfileTabs.addTab(userProfileTabs.newTab().setIcon(R.drawable.ic_account_profile_24dp).setTag("0"));
