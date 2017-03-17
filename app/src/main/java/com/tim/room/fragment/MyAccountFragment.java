@@ -87,7 +87,7 @@ public class MyAccountFragment extends Fragment {
         }
 
         ViewGroup.LayoutParams params = iv_zoom.getLayoutParams();
-        params.height = containerHeight(getActivity(), 2);
+        params.height = containerHeight(getActivity(), 3);
         iv_zoom.setLayoutParams(params);
         if (session.getUser().getGender().equals("M")) {
             iv_zoom.setImageResource(R.drawable.bg_man_2);
