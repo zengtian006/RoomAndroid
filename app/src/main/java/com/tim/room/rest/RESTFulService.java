@@ -4,6 +4,7 @@ import com.tim.room.model.Categories;
 import com.tim.room.model.ItemLikes;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
+import com.tim.room.model.ItemsResponse;
 import com.tim.room.model.User;
 import com.tim.room.model.UserResponse;
 import com.tim.room.model.YouDaoTrans;
@@ -98,5 +99,5 @@ public interface RESTFulService {
 
     @Headers("Content-Type: application/json")
     @POST("findAllLikedItems")
-    Observable<List<Items>> findAllLikedItems(@Body User user);
+    Observable<ItemsResponse> findAllLikedItems(@Body User user);
 }

@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import com.tim.room.R;
 import com.tim.room.adapter.GalleryAdapter;
 import com.tim.room.model.Items;
+import com.tim.room.model.ItemsResponse;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 
@@ -131,10 +132,13 @@ public class AccountOverdueSubFragment extends Fragment {
             itemService = RESTFulServiceImp.createService(RESTFulService.class);
             itemService.findAllLikedItems(session.getUser()).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<List<Items>>() {
+                    .subscribe(new Consumer<ItemsResponse>() {
                         @Override
-                        public void accept(List<Items> items) throws Exception {
-                            itemsList = items;
+                        public void accept(ItemsResponse itemsResponse) throws Exception {
+                            if (!itemsResponse.isSuccess()) {
+                                return;
+                            }
+                            itemsList = itemsResponse.getItems();
                             mAdapter = new GalleryAdapter(getContext(), itemsList);
                             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 3);
                             recyclerViewImages.setLayoutManager(mLayoutManager);
