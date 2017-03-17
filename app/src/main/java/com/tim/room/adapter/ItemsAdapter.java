@@ -19,7 +19,6 @@ import com.tim.room.utils.CommonUtil;
 
 import java.util.List;
 
-import static com.tim.room.MainActivity.session;
 import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
 
@@ -29,7 +28,7 @@ import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Items> dealEventItemList;
+    private List<Items> cateItemList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, brand, id;
@@ -58,9 +57,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     }
 
 
-    public ItemsAdapter(Context mContext, List<Items> dealEventItemList) {
+    public ItemsAdapter(Context mContext, List<Items> cateItemList) {
         this.mContext = mContext;
-        this.dealEventItemList = dealEventItemList;
+        this.cateItemList = cateItemList;
     }
 
     @Override
@@ -73,30 +72,49 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Items item = dealEventItemList.get(position);
-        holder.title.setText(item.getTitle());
-        holder.brand.setText(item.getBrand());
+        if (cateItemList.size() > 0) {
+            Items item = cateItemList.get(position);
+            holder.title.setText(item.getTitle());
+            holder.brand.setText(item.getBrand());
 //        holder.id.setText(dealEventItem.getHexId());
-        Glide.with(mContext).load(IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName())
-                .thumbnail(0.5f)
-                .fitCenter()
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.thumbnail);
+            Glide.with(mContext).load(IMG_BASE_URL + item.getUser().getId().toString() + "/" + item.getImageName())
+                    .thumbnail(0.5f)
+                    .fitCenter()
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.thumbnail);
 
-        int proportionalWidth = 0;
-        if (item.getCateId().equals(44) || item.getCateId().equals(45)) {
-            proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 1.1);
+            int proportionalWidth = 0;
+            if (item.getCateId().equals(44) || item.getCateId().equals(45)) { //搭配
+                proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 1.1);
+            } else {
+                proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 2.2);
+
+            }
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(proportionalWidth, FrameLayout.LayoutParams.WRAP_CONTENT); // (width, height)
+            holder.layout.setLayoutParams(params);
         } else {
-            proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 2.2);
+            holder.title.setVisibility(View.GONE);
+            holder.brand.setVisibility(View.GONE);
+            Glide.with(mContext).load(R.drawable.ph_add_image)
+                    .thumbnail(0.5f)
+                    .fitCenter()
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.thumbnail);
 
+            int proportionalWidth = CommonUtil.containerWidth((Activity) mContext, 2.2);
+
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(proportionalWidth, FrameLayout.LayoutParams.WRAP_CONTENT); // (width, height)
+            holder.layout.setLayoutParams(params);
         }
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(proportionalWidth, FrameLayout.LayoutParams.WRAP_CONTENT); // (width, height)
-        holder.layout.setLayoutParams(params);
 
     }
 
     @Override
     public int getItemCount() {
-        return dealEventItemList.size();
+        if (cateItemList.size() > 0) {
+            return cateItemList.size();
+        } else {
+            return 1;
+        }
     }
 }

@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.tim.room.MainActivity;
 import com.tim.room.R;
+import com.tim.room.activity.AddItemActivity;
 import com.tim.room.activity.ItemFullScreenViewer;
 import com.tim.room.activity.ItemViewerActivity;
 import com.tim.room.model.ItemSeries;
+import com.tim.room.model.Items;
 import com.tim.room.model.User;
 import com.tim.room.utils.LocaleUtil;
 
@@ -99,7 +102,9 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
 
         itemRowHolder.tv_cate_title.setText(cate_title);
         itemRowHolder.tv_cate_id.setText(cate_id);
-
+        if (itemsList.size() <= 0) {
+            itemRowHolder.moreButton.setVisibility(View.GONE);
+        }
         ItemsAdapter itemListDataAdapter = new ItemsAdapter(mContext, itemsList);
 
         itemRowHolder.recycler_view_list.setHasFixedSize(true);
@@ -117,6 +122,11 @@ public class ItemSeriesAdapter extends RecyclerView.Adapter<ItemSeriesAdapter.It
 //                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
 //                newFragment.setArguments(bundle);
 //                newFragment.show(ft, "slideshow");
+                if (itemsList.size() <= 0) {
+                    mContext.startActivity(new Intent(mContext, AddItemActivity.class));
+
+                    return;
+                }
                 Intent intent = new Intent(mContext, ItemFullScreenViewer.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", (Serializable) itemsList);
