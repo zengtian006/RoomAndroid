@@ -129,13 +129,13 @@ public class MyAccountFragment extends Fragment {
                 fragment = new AccountProfileSubFragment();
                 break;
             case 1:
-                fragment = AccountOverdueSubFragment.newInstance(1);
+                fragment = AccountOverdueSubFragment.newInstance(1);//almost overdue items
                 break;
             case 2:
-                fragment = AccountOverdueSubFragment.newInstance(0);
+                fragment = AccountOverdueSubFragment.newInstance(0); //overdue items
                 break;
             case 3:
-                fragment = AccountOverdueSubFragment.newInstance(0);
+                fragment = AccountOverdueSubFragment.newInstance(99); //liked items
                 break;
             default:
                 break;

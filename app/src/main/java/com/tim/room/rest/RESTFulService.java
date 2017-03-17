@@ -95,4 +95,8 @@ public interface RESTFulService {
     @Headers("Content-Type: application/json")
     @POST("updateItemLike")
     Observable<Boolean> updateItemLike(@Body ItemLikes itemLike);
+
+    @Headers("Content-Type: application/json")
+    @POST("findAllLikedItems")
+    Observable<List<Items>> findAllLikedItems(@Body User user);
 }

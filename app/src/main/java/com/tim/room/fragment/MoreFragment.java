@@ -19,8 +19,8 @@ import java.util.List;
  * Created by Zeng on 2017/1/3.
  */
 
-public class CharityFragment extends Fragment {
-    private static final String TAG = CharityFragment.class.getName();
+public class MoreFragment extends Fragment {
+    private static final String TAG = MoreFragment.class.getName();
 
     RecyclerView rv;
     Context mContext;
@@ -34,7 +34,7 @@ public class CharityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_charity, container, false);
+        View view = inflater.inflate(R.layout.fragment_more, container, false);
         this.mContext = getContext();
         findView(view);
         setView();

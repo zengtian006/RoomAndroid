@@ -111,7 +111,7 @@ public class AccountOverdueSubFragment extends Fragment {
 
     private void setView() {
         Log.v(TAG, "mparam: " + mParam1);
-        if (mParam1 == 0) {
+        if (mParam1 == 0 || mParam1 == 99) {
             linearLayout_spinner.setVisibility(View.GONE);
         } else {
             linearLayout_spinner.setVisibility(View.VISIBLE);
@@ -126,22 +126,41 @@ public class AccountOverdueSubFragment extends Fragment {
     }
 
     private void iniData(int date) {
-        itemsList = new ArrayList<>();
-        itemService = RESTFulServiceImp.createService(RESTFulService.class);
-        itemService.findAlmostOverdueItem(date, session.getUser().getId().toString()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Items>>() {
-                    @Override
-                    public void accept(List<Items> items) throws Exception {
-                        itemsList = items;
-                        mAdapter = new GalleryAdapter(getContext(), itemsList);
-                        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 3);
-                        recyclerViewImages.setLayoutManager(mLayoutManager);
-                        recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
-                        recyclerViewImages.setAdapter(mAdapter);
-                        recyclerViewImages.setHasFixedSize(true);
-                    }
-                });
+        if (date == 99) {
+            itemsList = new ArrayList<>();
+            itemService = RESTFulServiceImp.createService(RESTFulService.class);
+            itemService.findAllLikedItems(session.getUser()).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<Items>>() {
+                        @Override
+                        public void accept(List<Items> items) throws Exception {
+                            itemsList = items;
+                            mAdapter = new GalleryAdapter(getContext(), itemsList);
+                            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 3);
+                            recyclerViewImages.setLayoutManager(mLayoutManager);
+                            recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
+                            recyclerViewImages.setAdapter(mAdapter);
+                            recyclerViewImages.setHasFixedSize(true);
+                        }
+                    });
+        } else {
+            itemsList = new ArrayList<>();
+            itemService = RESTFulServiceImp.createService(RESTFulService.class);
+            itemService.findAlmostOverdueItem(date, session.getUser().getId().toString()).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<Items>>() {
+                        @Override
+                        public void accept(List<Items> items) throws Exception {
+                            itemsList = items;
+                            mAdapter = new GalleryAdapter(getContext(), itemsList);
+                            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 3);
+                            recyclerViewImages.setLayoutManager(mLayoutManager);
+                            recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
+                            recyclerViewImages.setAdapter(mAdapter);
+                            recyclerViewImages.setHasFixedSize(true);
+                        }
+                    });
+        }
     }
 
     private void updateData(int date) {
