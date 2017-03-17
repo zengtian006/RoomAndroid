@@ -20,6 +20,7 @@ import com.tim.room.rest.RESTFulServiceImp;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 import static com.tim.room.MainActivity.session;
 
@@ -47,10 +48,26 @@ public class LoginAcitivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!edt_name.getText().toString().trim().isEmpty()) {
-                    layout_password.setVisibility(View.VISIBLE);
-//                    btn_reg.setVisibility(View.VISIBLE);
-                    btn_login.setVisibility(View.VISIBLE);
-                    btn_check_email.setVisibility(View.GONE);
+                    RESTFulService checkNameService = RESTFulServiceImp.createService(RESTFulService.class);
+                    checkNameService.checkUsername(edt_name.getText().toString().trim())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<ResponseBody>() {
+                                @Override
+                                public void accept(ResponseBody s) throws Exception {
+//                                    Log.v(TAG, "Retrun String: " + s.string().toString());
+                                    String result = s.string().toString();
+                                    if (result.equals("Login")) {
+                                        layout_password.setVisibility(View.VISIBLE);
+                                        btn_login.setVisibility(View.VISIBLE);
+                                        btn_check_email.setVisibility(View.GONE);
+                                    } else if (result.equals("Register")) {
+                                        layout_password.setVisibility(View.VISIBLE);
+                                        btn_reg.setVisibility(View.VISIBLE);
+                                        btn_check_email.setVisibility(View.GONE);
+                                    }
+                                }
+                            });
                 }
             }
         });

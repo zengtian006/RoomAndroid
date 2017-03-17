@@ -100,4 +100,8 @@ public interface RESTFulService {
     @Headers("Content-Type: application/json")
     @POST("findAllLikedItems")
     Observable<ItemsResponse> findAllLikedItems(@Body User user);
+
+    @GET("checkUsername/{userName}")
+    Observable<ResponseBody> checkUsername(@Path("userName") String username);
+
 }
