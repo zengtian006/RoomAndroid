@@ -17,13 +17,12 @@
         id="@+id/add"
         title="@string/bt_add" />
     <tab
+        icon="@drawable/ic_charity_24dp"
+        id="@+id/more"
+        title="@string/bt_more" />
+    <tab
         icon="@drawable/ic_account_setting_24dp"
         id="@+id/my_account"
         title="@string/bt_me" />
-    <tab
-        icon="@drawable/ic_more_24dp"
-        id="@+id/more"
-        title="@string/bt_more" />
-
 </tabs>
 
