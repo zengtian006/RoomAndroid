@@ -116,37 +116,31 @@ public class DiscoverFragment extends Fragment {
                     }
                 }
 
-                switch (tab.getText().toString()) {
-                    case "Hot":
-                        varItemList.clear();
-                        varItemList.addAll(tempItemList);
-                        break;
-                    case "Men":
-                        varItemList.clear();
-                        for (Items item : tempItemList) {
-                            if (item.getUser().getGender().equals("M")) {
-                                varItemList.add(item);
-                            }
+                String tabTitle = tab.getText().toString();
+                if (tabTitle.equals(mContext.getResources().getString(R.string.tab_label_hot))) {
+                    varItemList.clear();
+                    varItemList.addAll(tempItemList);
+                } else if (tabTitle.equals(mContext.getResources().getString(R.string.tab_label_men))) {
+                    varItemList.clear();
+                    for (Items item : tempItemList) {
+                        if (item.getUser().getGender().equals("M")) {
+                            varItemList.add(item);
                         }
-                        break;
-                    case "Women":
-                        varItemList.clear();
-                        for (Items item : tempItemList) {
-                            if (item.getUser().getGender().equals("F")) {
-                                varItemList.add(item);
-                            }
+                    }
+                } else if (tabTitle.equals(mContext.getResources().getString(R.string.tab_label_women))) {
+                    varItemList.clear();
+                    for (Items item : tempItemList) {
+                        if (item.getUser().getGender().equals("F")) {
+                            varItemList.add(item);
                         }
-                        break;
-                    case "Tag":
-                        varItemList.clear();
-                        for (Items item : tempItemList) {
-                            if (item.getTags().contains(tvKeyword.getText().toString())) {
-                                varItemList.add(item);
-                            }
+                    }
+                } else if (tabTitle.equals(mContext.getResources().getString(R.string.tab_label_tag))) {
+                    varItemList.clear();
+                    for (Items item : tempItemList) {
+                        if (item.getTags().contains(tvKeyword.getText().toString())) {
+                            varItemList.add(item);
                         }
-                        break;
-                    default:
-                        break;
+                    }
                 }
                 mAdapter.notifyDataSetChanged();
             }
