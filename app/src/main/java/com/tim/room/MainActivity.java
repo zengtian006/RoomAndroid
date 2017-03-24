@@ -12,13 +12,12 @@ import android.util.Log;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.tim.room.activity.AddItemActivity;
 import com.tim.room.activity.LoginAcitivity;
 import com.tim.room.app.SessionManager;
-import com.tim.room.fragment.AddFragment;
-import com.tim.room.fragment.MoreFragment;
+import com.tim.room.fragment.FollowedFragment;
 import com.tim.room.fragment.DiscoverFragment;
 import com.tim.room.fragment.HomeFragment;
+import com.tim.room.fragment.MoreFragment;
 import com.tim.room.fragment.MyAccountFragment;
 import com.tim.room.utils.LocaleUtil;
 import com.tim.room.view.LoadingProgressDialog;
@@ -110,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (tabId == R.id.discover) {
                     displayView(1);
-                } else if (tabId == R.id.add) {
-                    startActivityForResult(new Intent(MainActivity.this, AddItemActivity.class), INTENT_REQUEST_ADD_ITEM);
+                } else if (tabId == R.id.followed) {
+                    displayView(2);
+//                    startActivityForResult(new Intent(MainActivity.this, AddItemActivity.class), INTENT_REQUEST_ADD_ITEM);
                 } else if (tabId == R.id.more) {
                     displayView(3);
                 } else if (tabId == R.id.my_account) {
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new DiscoverFragment();
                 break;
             case 2:
-                fragment = new AddFragment();
+                fragment = new FollowedFragment();
                 break;
             case 3:
                 fragment = new MoreFragment();

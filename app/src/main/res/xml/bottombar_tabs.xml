@@ -13,9 +13,9 @@
         id="@+id/discover"
         title="@string/bt_discover" />
     <tab
-        icon="@drawable/ic_add_24dp"
-        id="@+id/add"
-        title="@string/bt_add" />
+        icon="@drawable/ic_share_24dp"
+        id="@+id/followed"
+        title="@string/bt_followed" />
     <tab
         icon="@drawable/ic_charity_24dp"
         id="@+id/more"

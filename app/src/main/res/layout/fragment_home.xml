@@ -23,7 +23,7 @@
         android:layout_margin="10dp"
         android:clickable="true"
         android:src="@drawable/ic_add_24dp"
-        app:backgroundTint="#7f000000"
+        app:backgroundTint="#222222"
         app:elevation="6dp"
         app:fabSize="normal" />
 </RelativeLayout>
