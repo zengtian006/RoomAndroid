@@ -22,6 +22,8 @@
         android:layout_gravity="top|right"
         android:layout_margin="10dp"
         android:clickable="true"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_add_24dp" />
+        android:src="@drawable/ic_add_24dp"
+        app:backgroundTint="#7f000000"
+        app:elevation="6dp"
+        app:fabSize="normal" />
 </RelativeLayout>
