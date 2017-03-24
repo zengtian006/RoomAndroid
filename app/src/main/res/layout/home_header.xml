@@ -69,7 +69,8 @@
                     android:id="@+id/sub_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="21dp"
+                    android:drawableLeft="@drawable/user_icon_white"
+                    android:drawablePadding="5dp"
                     android:text="DESCRIPTION"
                     android:textColor="@color/light_white"
                     android:textSize="14sp" />
@@ -113,7 +114,6 @@
                 android:orientation="vertical"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
-
 
                 <ImageView
                     android:id="@+id/imageView6"
@@ -167,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Followers"
+
                     android:textColor="@color/light_white"
                     android:typeface="serif" />
 

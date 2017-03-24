@@ -112,7 +112,10 @@ public class HomeFragment extends Fragment {
     private void initializeKenBurnsView(final View view) {
         //Title
         TextView title = (TextView) view.findViewById(R.id.header_title);
+        TextView sub_title = (TextView) view.findViewById(R.id.sub_title);
+
         title.setText(session.getUser().getRoomName());
+        sub_title.setText(session.getUser().getName());
         // KenBurnsView
         final KenBurnsView kenBurnsView = (KenBurnsView) view.findViewById(R.id.ken_burns_view);
         kenBurnsView.setScaleType(ImageView.ScaleType.CENTER_CROP);
