@@ -11,6 +11,8 @@
     <!-- Item Series-->
     <!--<string name="more"><![CDATA[more >]]></string>-->
     <string name="more">more</string>
+    <string name="de">\'s</string>
+
 
     <!-- Discover-->
     <string name="label_discover">Discover</string>
@@ -73,6 +75,7 @@
     <string name="colorpicker_dialog_title">Choose the color</string>
     <string name="colorpicker_dialog_cancel">CANCEL</string>
     <string name="colorpicker_dialog_ok">OK</string>
+
 
 
 </resources>

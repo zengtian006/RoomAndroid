@@ -102,9 +102,9 @@ public class ItemViewerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.SIMP_CHINESE)) {
-            getSupportActionBar().setTitle(itemSeries.getTitle_cn());
+            getSupportActionBar().setTitle(currentUser.getName() + getResources().getString(R.string.de) + itemSeries.getTitle_cn());
         } else if (LocaleUtil.getLocale(mContext.getApplicationContext()).equals(LocaleUtil.ENGLISH)) {
-            getSupportActionBar().setTitle(itemSeries.getTitle());
+            getSupportActionBar().setTitle(currentUser.getName() + getResources().getString(R.string.de) + itemSeries.getTitle());
         }
         mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
         initView();

@@ -16,9 +16,9 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/toolbarColor"
             android:titleTextColor="@color/white"
-            app:theme="@style/ToolbarStyle"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/ToolbarStyle"
             app:titleTextColor="@color/white" />
     </android.support.design.widget.AppBarLayout>
 
@@ -33,18 +33,18 @@
             android:id="@+id/layout_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:clickable="true"
             android:orientation="horizontal"
             android:paddingBottom="15dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:background="@android:color/white">
+            android:paddingTop="10dp">
 
             <ImageView
                 android:id="@+id/ivUserProfile"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/fake_profile" />
 
             <LinearLayout
@@ -62,7 +62,7 @@
                     android:gravity="center_vertical"
                     android:text="TextView"
                     android:textColor="@android:color/black"
-                    android:textSize="28sp"
+                    android:textSize="24sp"
                     android:textStyle="normal|bold"
                     android:typeface="serif" />
 
@@ -74,6 +74,36 @@
                     android:text="software programmer in HK"
                     android:typeface="serif" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="10dp">
+
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_heart_red" />
+
+                <TextView
+                    android:id="@+id/followCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="3.4K"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
             </LinearLayout>
 
         </LinearLayout>

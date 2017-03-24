@@ -9,6 +9,9 @@
     <color name="divider">#BDBDBD</color>
     <color name="toolbarColor">#222222</color>
     <color name="gray">#cccccc</color>
+    <color name="dark_gray">#666666</color>
+
+
 
     <color name="drop_down_selected">#7B1FA2</color>
     <color name="drop_down_unselected">#111111</color>

@@ -10,6 +10,8 @@
     <!-- Item Series-->
     <!--<string name="more"><![CDATA[更多 >]]></string>-->
     <string name="more">更多</string>
+    <string name="de">的</string>
+
 
     <!-- Discover-->
     <string name="label_discover">探索</string>
