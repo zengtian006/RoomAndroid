@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/bg_man_4" />
+            app:srcCompat="@drawable/leaderboard" />
 
         <LinearLayout
             android:layout_width="match_parent"

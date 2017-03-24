@@ -43,12 +43,14 @@ public class MoreFragment extends Fragment {
 
     private void setView() {
         List<String> test = new ArrayList<>();
+        test.add("排行榜");
         test.add("设计师推荐搭配");
         test.add("每日最佳搭配");
 //        test.add("服装师问答");
         test.add("旧衣回收");
 
         List<Integer> testimage = new ArrayList<>();
+        testimage.add(R.drawable.leaderboard);
         testimage.add(R.drawable.designer);
         testimage.add(R.drawable.collocation);
 //        testimage.add(R.drawable.question);
