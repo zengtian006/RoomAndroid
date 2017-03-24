@@ -9,7 +9,7 @@
         id="@+id/home_page"
         title="@string/app_name" />
     <tab
-        icon="@drawable/ic_share_24dp"
+        icon="@drawable/ic_search_24dp"
         id="@+id/discover"
         title="@string/bt_discover" />
     <tab

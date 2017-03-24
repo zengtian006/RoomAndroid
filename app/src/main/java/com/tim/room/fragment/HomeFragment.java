@@ -1,7 +1,9 @@
 package com.tim.room.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.tim.room.MainActivity;
 import com.tim.room.R;
+import com.tim.room.activity.AddItemActivity;
 import com.tim.room.adapter.ItemSeriesAdapter;
 import com.tim.room.model.ItemLikes;
 import com.tim.room.model.ItemSeries;
@@ -41,8 +44,12 @@ import static com.tim.room.MainActivity.session;
 
 public class HomeFragment extends Fragment {
     private final static String TAG = HomeFragment.class.getSimpleName();
+
+    private final static int INTENT_REQUEST_ADD_ITEM = 1;
+
     RecyclerView recyclerView;
     Context mContext;
+    FloatingActionButton fab_add;
     public static final Integer[] IMAGES_RESOURCE_MAN = new Integer[]{
             R.drawable.bg_man_1,
             R.drawable.bg_man_2,
@@ -71,7 +78,17 @@ public class HomeFragment extends Fragment {
         this.mContext = getContext();
         findView(rootView);
         setView();
+        setListener();
         return rootView;
+    }
+
+    private void setListener() {
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(mContext, AddItemActivity.class), INTENT_REQUEST_ADD_ITEM);
+            }
+        });
     }
 
     private void setView() {
@@ -163,5 +180,6 @@ public class HomeFragment extends Fragment {
 
     private void findView(final View rootView) {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        fab_add = (FloatingActionButton) rootView.findViewById(R.id.fabAdd);
     }
 }

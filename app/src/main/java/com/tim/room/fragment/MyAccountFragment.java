@@ -98,9 +98,9 @@ public class MyAccountFragment extends Fragment {
         view1.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_like_24dp);
         userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view1).setTag("1"));
 
-        View view2 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
-        view2.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_follow_24dp);
-        userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view2).setTag("2"));
+//        View view2 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
+//        view2.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_follow_24dp);
+//        userProfileTabs.addTab(userProfileTabs.newTab().setCustomView(view2).setTag("2"));
 
         View view3 = getActivity().getLayoutInflater().inflate(R.layout.custom_tab, null);
         view3.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_account_alarm_24dp);

@@ -74,10 +74,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/dark_gray"
                         android:drawableLeft="@drawable/user_icon"
                         android:drawablePadding="5dp"
                         android:text="software programmer in HK"
+                        android:textColor="@color/dark_gray"
                         android:typeface="serif" />
 
                 </LinearLayout>
@@ -211,5 +211,4 @@
             android:scrollbars="horizontal" />
 
     </LinearLayout>
-
 </android.support.design.widget.CoordinatorLayout>
