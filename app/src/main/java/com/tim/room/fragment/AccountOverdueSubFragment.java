@@ -97,6 +97,9 @@ public class AccountOverdueSubFragment extends Fragment {
                         case 3:
                             updateData(12);
                             break;
+                        case 4:
+                            updateData(0);
+                            break;
                     }
                 } else {
                     isFirstCreate = false;

@@ -42,6 +42,7 @@
         <item>THREE Months</item>
         <item>SIX Months</item>
         <item>ONE Year</item>
+        <item>Expired</item>
     </string-array>
 
     <!--Item viewer -->

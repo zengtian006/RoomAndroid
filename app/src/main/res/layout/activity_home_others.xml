@@ -30,88 +30,175 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/layout_profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:clickable="true"
-            android:orientation="horizontal"
-            android:paddingBottom="15dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
-
-            <ImageView
-                android:id="@+id/ivUserProfile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/fake_profile" />
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layout_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingLeft="10dp">
-
-                <TextView
-                    android:id="@+id/profile_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textColor="@android:color/black"
-                    android:textSize="24sp"
-                    android:textStyle="normal|bold"
-                    android:typeface="serif" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="software programmer in HK"
-                    android:typeface="serif" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|center_horizontal"
-                android:orientation="vertical"
-                android:paddingBottom="5dp"
-                android:paddingTop="10dp">
-
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_heart_red" />
+                    android:id="@+id/ivUserProfile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/fake_profile" />
 
-                <TextView
-                    android:id="@+id/followCount"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/profile_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="TextView"
+                        android:textColor="@android:color/black"
+                        android:textSize="24sp"
+                        android:textStyle="normal|bold"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="software programmer in HK"
+                        android:typeface="serif" />
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="3.4K"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_room_color" />
+
+                    <TextView
+                        android:id="@+id/followCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="100"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="1.2K"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Followers"
+                        android:textColor="@color/dark_gray"
+                        android:typeface="serif" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="260"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Following"
+                        android:textColor="@color/dark_gray"
+                        android:typeface="serif" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_border_edittext"
+                android:text="follow"
+                android:typeface="serif" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:visibility="visible" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/other_recycler_view"

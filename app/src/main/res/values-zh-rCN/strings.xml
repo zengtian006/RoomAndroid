@@ -41,6 +41,7 @@
         <item>三个月</item>
         <item>半年</item>
         <item>一年</item>
+        <item>已过期</item>
     </string-array>
 
     <!--Item viewer -->
