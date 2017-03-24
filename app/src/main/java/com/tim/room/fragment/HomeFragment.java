@@ -8,11 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tim.room.MainActivity;
@@ -35,6 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.tim.room.MainActivity.bottomBar;
 import static com.tim.room.MainActivity.dialog;
 import static com.tim.room.MainActivity.session;
 
@@ -92,6 +95,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void setView() {
+
+
         final RESTFulService findAllItemsService = RESTFulServiceImp.createService(RESTFulService.class);
 
         dialog.show();
@@ -130,6 +135,24 @@ public class HomeFragment extends Fragment {
         //Title
         TextView title = (TextView) view.findViewById(R.id.header_title);
         TextView sub_title = (TextView) view.findViewById(R.id.sub_title);
+
+        LinearLayout layout_marked_items = (LinearLayout) view.findViewById(R.id.layoutMarkedItems);
+        layout_marked_items.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomBar.selectTabWithId(R.id.my_account);
+            }
+        });
+
+        LinearLayout layout_my_items = (LinearLayout) view.findViewById(R.id.layoutMyItems);
+        layout_my_items.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(TAG, "Header height:" + view.getHeight());
+                recyclerView.scrollToPosition(2);
+            }
+        });
+
 
         title.setText(session.getUser().getRoomName());
         sub_title.setText(session.getUser().getName());
