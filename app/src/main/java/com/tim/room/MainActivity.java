@@ -14,8 +14,8 @@ import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.tim.room.activity.LoginAcitivity;
 import com.tim.room.app.SessionManager;
-import com.tim.room.fragment.FollowedFragment;
 import com.tim.room.fragment.DiscoverFragment;
+import com.tim.room.fragment.FollowedFragment;
 import com.tim.room.fragment.HomeFragment;
 import com.tim.room.fragment.MoreFragment;
 import com.tim.room.fragment.MyAccountFragment;
@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        BottomBarTab overdueItemCount = bottomBar.getTabWithId(R.id.my_account);
-//        overdueItemCount.setBadgeCount(5);
+        BottomBarTab notReadItemCount = bottomBar.getTabWithId(R.id.followed);
+        notReadItemCount.setBadgeCount(55);
 
     }
 
