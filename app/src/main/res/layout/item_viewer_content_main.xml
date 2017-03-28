@@ -50,7 +50,6 @@
     app:ddmenuSelectedIcon="@drawable/drop_down_selected_icon"
     app:ddmaskColor="@color/mask_color"
     app:ddmenuBackgroundColor="@color/white"
-    app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
-    />
+    app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon" />
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,16 +47,25 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
     private ItemFeedAdapterHelper mCardAdapterHelper = new ItemFeedAdapterHelper();
     private OnFeedItemClickListener onFeedItemClickListener;
     Context mContext;
+    int type;
 
-    public ItemFeedAdapter(Context mContext, List<Items> mItems) {
+    public ItemFeedAdapter(Context mContext, List<Items> mItems, int type) {
         this.mContext = mContext;
         this.mItems = mItems;
+        this.type = type;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_feed, parent, false);
-        mCardAdapterHelper.onCreateViewHolder(parent, itemView);
+        View itemView = null;
+        if (type == 0) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_feed, parent, false);
+        } else if (type == 1) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_followed_feed, parent, false);
+        }
+        if (type == 0) {
+            mCardAdapterHelper.onCreateViewHolder(parent, itemView);
+        }
         ViewHolder cellFeedViewHolder = new ViewHolder(itemView);
         setupClickableViews(itemView, cellFeedViewHolder);
         return cellFeedViewHolder;
@@ -123,7 +133,8 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
         cellFeedViewHolder.layout_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFeedItemClickListener.onProfileClick(itemView, cellFeedViewHolder.getAdapterPosition());
+                Log.v("POSITION: ", "haha: " + cellFeedViewHolder.getAdapterPosition());
+                onFeedItemClickListener.onProfileClick(cellFeedViewHolder.getAdapterPosition());
             }
         });
 
@@ -149,6 +160,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         onFeedItemClickListener.onPublicClick(itemView, cellFeedViewHolder.getAdapterPosition(), cellFeedViewHolder.stPublic.isChecked());
                     }
                 });
@@ -159,7 +171,9 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
+        if (type == 0) {
+            mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
+        }
         Items item = mItems.get(position);
 
         ((ViewHolder) holder).bindView(item);
@@ -252,7 +266,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
 
         void onPublicClick(View v, int position, boolean b);
 
-        void onProfileClick(View v, int position);
+        void onProfileClick(int position);
     }
 
 }

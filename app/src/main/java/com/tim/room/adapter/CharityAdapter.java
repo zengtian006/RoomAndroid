@@ -41,7 +41,7 @@ public class CharityAdapter extends RecyclerView.Adapter<CharityAdapter.myViewHo
 
     @Override
     public myViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.charity_card, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.more_card, parent, false);
         return new myViewHolder(itemView);
     }
 

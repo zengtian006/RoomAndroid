@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,8 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +24,6 @@ import com.tim.room.adapter.GalleryAdapter;
 import com.tim.room.adapter.GirdDropDownAdapter;
 import com.tim.room.adapter.ListDropDownAdapter;
 import com.tim.room.adapter.TagsAdapter;
-import com.tim.room.helper.ColorPicker;
 import com.tim.room.model.Categories;
 import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
@@ -299,6 +295,7 @@ public class ItemViewerActivity extends AppCompatActivity {
 
         //init context view
         mAdapter = new GalleryAdapter(getApplicationContext(), items);
+        Log.v(TAG, "size: " + items.size());
         recyclerViewImages = new RecyclerView(this);
         recyclerViewImages.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 

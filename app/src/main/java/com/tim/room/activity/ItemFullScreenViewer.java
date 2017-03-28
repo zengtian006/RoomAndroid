@@ -20,7 +20,6 @@ import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
 
-import java.io.Serializable;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -66,7 +65,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        cardAdapter = new ItemFeedAdapter(this, mItems);
+        cardAdapter = new ItemFeedAdapter(this, mItems,0);
         cardAdapter.setOnFeedItemClickListener(this);
         mRecyclerView.setAdapter(cardAdapter);
         mRecyclerView.setItemAnimator(new ItemFeedAnimator());
@@ -114,7 +113,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
     }
 
     @Override
-    public void onProfileClick(View v, int position) {
+    public void onProfileClick(int position) {
 
         User user = mItems.get(position).getUser();
         Log.v(TAG, "CURRENTUSER: " + currentUser.getName());
