@@ -87,9 +87,6 @@ public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeed
                 cardAdapter.setOnFeedItemClickListener(FollowedFragment.this);
                 mRecyclerView.setAdapter(cardAdapter);
                 mRecyclerView.setItemAnimator(new ItemFeedAnimator());
-                // mRecyclerView绑定scale效果
-//                mCardScaleHelper = new ItemFeedScaleHelper();
-//                mCardScaleHelper.attachToRecyclerView(mRecyclerView);
             }
         });
 
