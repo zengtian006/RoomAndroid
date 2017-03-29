@@ -29,6 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.tim.room.MainActivity.dialog;
 import static com.tim.room.MainActivity.session;
 
 
@@ -68,6 +69,7 @@ public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeed
     }
 
     private void setView() {
+        dialog.show();
         followedItemService.findAllGlobalItems().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Items>>() {
             @Override
             public void accept(List<Items> items) throws Exception {
@@ -87,6 +89,9 @@ public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeed
                 cardAdapter.setOnFeedItemClickListener(FollowedFragment.this);
                 mRecyclerView.setAdapter(cardAdapter);
                 mRecyclerView.setItemAnimator(new ItemFeedAnimator());
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
             }
         });
 
