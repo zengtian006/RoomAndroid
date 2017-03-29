@@ -79,6 +79,7 @@
                         android:drawablePadding="5dp"
                         android:text="software programmer in HK"
                         android:textColor="@color/dark_gray"
+                        android:textSize="12sp"
                         android:typeface="serif" />
 
                 </LinearLayout>
@@ -109,7 +110,7 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:text="100"
                         android:textColor="@color/dark_gray"
-                        android:textSize="12sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="serif" />
                 </LinearLayout>
@@ -150,6 +151,7 @@
                         android:layout_weight="1"
                         android:text="Followers"
                         android:textColor="@color/dark_gray"
+                        android:textSize="12sp"
                         android:typeface="serif" />
 
                 </LinearLayout>
@@ -179,6 +181,7 @@
                         android:layout_weight="1"
                         android:text="Following"
                         android:textColor="@color/dark_gray"
+                        android:textSize="12sp"
                         android:typeface="serif" />
 
                 </LinearLayout>
