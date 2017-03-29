@@ -40,6 +40,9 @@ public class CommonUtil {
     }
 
     public static float dp2px(Context context, float dp) {
+        if (context == null) {
+            return (dp * Resources.getSystem().getDisplayMetrics().density);
+        }
         final float scale = context.getResources().getDisplayMetrics().density;
         return dp * scale + 0.5f;
     }

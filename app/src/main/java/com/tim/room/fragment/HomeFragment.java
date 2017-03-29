@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tim.room.MainActivity;
 import com.tim.room.R;
 import com.tim.room.activity.AddItemActivity;
@@ -26,6 +28,7 @@ import com.tim.room.model.ItemSeries;
 import com.tim.room.model.Items;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.utils.CircleTransformation;
 import com.tim.room.view.KenBurnsView;
 import com.tim.room.view.LoopViewPager;
 
@@ -135,6 +138,13 @@ public class HomeFragment extends Fragment {
         //Title
         TextView title = (TextView) view.findViewById(R.id.header_title);
         TextView sub_title = (TextView) view.findViewById(R.id.sub_title);
+        ImageView iv_user = (ImageView) view.findViewById(R.id.iv_user);
+        Glide.with(mContext).load(R.drawable.bg_man_1)
+                .thumbnail(0.5f)
+                .fitCenter()
+                .crossFade()
+                .bitmapTransform(new CircleTransformation(mContext))
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_user);
 
         LinearLayout layout_marked_items = (LinearLayout) view.findViewById(R.id.layoutMarkedItems);
         layout_marked_items.setOnClickListener(new View.OnClickListener() {

@@ -85,7 +85,7 @@ public class ItemFeedAdapter extends RecyclerView.Adapter<ItemFeedAdapter.ViewHo
         cellFeedViewHolder.btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFeedItemClickListener.onMoreClick(itemView, cellFeedViewHolder.getAdapterPosition());
+                onFeedItemClickListener.onMoreClick(v, cellFeedViewHolder.getAdapterPosition());
             }
         });
         cellFeedViewHolder.btnLike.setOnClickListener(new View.OnClickListener() {

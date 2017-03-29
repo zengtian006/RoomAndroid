@@ -21,6 +21,8 @@ import com.tim.room.model.Items;
 import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.view.FeedContextMenu;
+import com.tim.room.view.FeedContextMenuManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ import static com.tim.room.MainActivity.session;
  * Created by Zeng on 2017/1/3.
  */
 
-public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeedItemClickListener {
+public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeedItemClickListener, FeedContextMenu.OnFeedContextMenuItemClickListener {
     private final static String TAG = FollowedFragment.class.getSimpleName();
 
     Context mContext;
@@ -83,10 +85,17 @@ public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeed
                     }
                 }
                 mItems.addAll(items);
-                final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+//                final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
                 mRecyclerView.setLayoutManager(linearLayoutManager);
                 cardAdapter = new ItemFeedAdapter(mContext, mItems, 1);
                 cardAdapter.setOnFeedItemClickListener(FollowedFragment.this);
+                mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
+                    }
+                });
                 mRecyclerView.setAdapter(cardAdapter);
                 mRecyclerView.setItemAnimator(new ItemFeedAnimator());
                 if (dialog.isShowing()) {
@@ -104,7 +113,8 @@ public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeed
 
     @Override
     public void onMoreClick(View v, int position) {
-
+        Log.v(TAG, "MoreClick");
+        FeedContextMenuManager.getInstance().toggleContextMenuFromView(v, position, this);
     }
 
     @Override
@@ -145,6 +155,26 @@ public class FollowedFragment extends Fragment implements ItemFeedAdapter.OnFeed
             intent.putExtras(bundle);
             startActivity(intent);
         }
+
+    }
+
+    @Override
+    public void onReportClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onSharePhotoClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onCopyShareUrlClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onCancelClick(int feedItem) {
 
     }
 }

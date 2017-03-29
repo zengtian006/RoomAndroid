@@ -19,6 +19,8 @@ import com.tim.room.model.Items;
 import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.view.FeedContextMenu;
+import com.tim.room.view.FeedContextMenuManager;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedAdapter.OnFeedItemClickListener {
+public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedAdapter.OnFeedItemClickListener, FeedContextMenu.OnFeedContextMenuItemClickListener {
     private static final String TAG = ItemFullScreenViewer.class.getSimpleName();
 
     List<Items> mItems;
@@ -65,7 +67,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        cardAdapter = new ItemFeedAdapter(this, mItems,0);
+        cardAdapter = new ItemFeedAdapter(this, mItems, 0);
         cardAdapter.setOnFeedItemClickListener(this);
         mRecyclerView.setAdapter(cardAdapter);
         mRecyclerView.setItemAnimator(new ItemFeedAnimator());
@@ -82,7 +84,7 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
 
     @Override
     public void onMoreClick(View v, int position) {
-        Toast.makeText(ItemFullScreenViewer.this, "More click", Toast.LENGTH_SHORT).show();
+        FeedContextMenuManager.getInstance().toggleContextMenuFromView(v, position, this);
     }
 
     @Override
@@ -134,5 +136,25 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
             finish(); // close this activity and return to preview activity (if there is any)
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onReportClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onSharePhotoClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onCopyShareUrlClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onCancelClick(int feedItem) {
+
     }
 }

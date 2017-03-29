@@ -85,7 +85,12 @@ public class MyAccountFragment extends Fragment {
         if (MainActivity.session.isLoggedIn()) {
             tv_name.setText(MainActivity.session.getUser().getName());
         }
-
+//        Glide.with(mContext).load(R.drawable.bg_man_1)
+//                .thumbnail(0.5f)
+//                .fitCenter()
+//                .crossFade()
+//                .bitmapTransform(new CircleTransformation(mContext))
+//                .diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_user);
         ViewGroup.LayoutParams params = iv_zoom.getLayoutParams();
         params.height = containerHeight(getActivity(), 3);
         iv_zoom.setLayoutParams(params);
