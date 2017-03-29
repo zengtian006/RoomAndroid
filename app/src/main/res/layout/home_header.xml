@@ -46,6 +46,7 @@
                 android:id="@+id/imageView5"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
+                android:padding="5dp"
                 app:srcCompat="@drawable/fake_profile" />
 
             <LinearLayout
@@ -61,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="TestTitle"
                     android:textColor="@android:color/white"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:typeface="serif" />
 
@@ -108,14 +109,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutMarkedItems"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="vertical"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:id="@+id/layoutMarkedItems">
+                android:paddingTop="5dp">
 
                 <ImageView
                     android:id="@+id/imageView6"
@@ -139,11 +140,17 @@
 
         </LinearLayout>
 
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:background="@android:color/white" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="5dp">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,7 +166,7 @@
                     android:gravity="center_horizontal"
                     android:text="1.2K"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:typeface="serif" />
 
@@ -178,8 +185,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"><![CDATA[
+
+                " />
+
+
+
+                ]]>
 
                 <TextView
                     android:id="@+id/textView3"
@@ -189,7 +203,7 @@
                     android:gravity="center_horizontal"
                     android:text="260"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:typeface="serif" />
 

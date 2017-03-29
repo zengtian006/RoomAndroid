@@ -48,6 +48,7 @@
                     android:id="@+id/ivUserProfile"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:padding="5dp"
                     android:src="@drawable/fake_profile" />
 
                 <LinearLayout
@@ -65,7 +66,7 @@
                         android:gravity="center_vertical"
                         android:text="TextView"
                         android:textColor="@android:color/black"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="normal|bold"
                         android:typeface="serif" />
 
@@ -138,7 +139,7 @@
                         android:gravity="center_horizontal"
                         android:text="1.2K"
                         android:textColor="@android:color/black"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="serif" />
 
@@ -167,7 +168,7 @@
                         android:gravity="center_horizontal"
                         android:text="260"
                         android:textColor="@android:color/black"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="serif" />
 
