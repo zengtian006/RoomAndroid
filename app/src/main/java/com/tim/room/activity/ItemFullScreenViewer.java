@@ -69,6 +69,12 @@ public class ItemFullScreenViewer extends AppCompatActivity implements ItemFeedA
         mRecyclerView.setLayoutManager(linearLayoutManager);
         cardAdapter = new ItemFeedAdapter(this, mItems, 0);
         cardAdapter.setOnFeedItemClickListener(this);
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                FeedContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
+            }
+        });
         mRecyclerView.setAdapter(cardAdapter);
         mRecyclerView.setItemAnimator(new ItemFeedAnimator());
         // mRecyclerView绑定scale效果

@@ -32,6 +32,8 @@ import com.tim.room.model.Items;
 import com.tim.room.model.User;
 import com.tim.room.rest.RESTFulService;
 import com.tim.room.rest.RESTFulServiceImp;
+import com.tim.room.view.FeedContextMenu;
+import com.tim.room.view.FeedContextMenuManager;
 import com.tim.room.view.TagContainerLayout;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -41,7 +43,7 @@ import io.reactivex.schedulers.Schedulers;
 import static com.tim.room.MainActivity.session;
 import static com.tim.room.app.AppConfig.IMG_BASE_URL;
 
-public class ItemSingleViewActivity extends AppCompatActivity {
+public class ItemSingleViewActivity extends AppCompatActivity implements FeedContextMenu.OnFeedContextMenuItemClickListener {
     private static final String TAG = ItemSingleViewActivity.class.getSimpleName();
     private static final DecelerateInterpolator DECCELERATE_INTERPOLATOR = new DecelerateInterpolator();
     private static final AccelerateInterpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
@@ -61,18 +63,19 @@ public class ItemSingleViewActivity extends AppCompatActivity {
     ImageView ivLike;
     RESTFulService updateItemService;
     User currentUser;
-
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_single_view);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mItem = (Items) bundle.getSerializable("items");
         currentUser = (User) bundle.getSerializable("current_user");
+        position = (int) bundle.getSerializable("position");
 
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
@@ -81,13 +84,19 @@ public class ItemSingleViewActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
 
         updateItemService = RESTFulServiceImp.createService(RESTFulService.class);
-
         findView();
         setView();
         setListener();
     }
 
     private void setListener() {
+        btnMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FeedContextMenuManager.getInstance().toggleContextMenuFromView(view, position, ItemSingleViewActivity.this);
+
+            }
+        });
         layout_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -318,5 +327,25 @@ public class ItemSingleViewActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onReportClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onSharePhotoClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onCopyShareUrlClick(int feedItem) {
+
+    }
+
+    @Override
+    public void onCancelClick(int feedItem) {
+
     }
 }
